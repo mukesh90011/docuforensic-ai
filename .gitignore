@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+package-lock.json.bak
+
+# Environment variables & secrets (CRITICAL: Do not commit Gmail passwords)
+.env
+.env.local
+.env.*.local
+
+# File Uploads & Cache
+uploads/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

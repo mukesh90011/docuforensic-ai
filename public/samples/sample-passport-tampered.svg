@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" width="1000" height="680">
+  <defs>
+    <linearGradient id="passBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141a29"/>
+      <stop offset="100%" stop-color="#0a0e17"/>
+    </linearGradient>
+    <filter id="alteredGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#ff0055" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="680" rx="20" fill="url(#passBg)" stroke="#303b54" stroke-width="4"/>
+
+  <!-- Guilloche Security Pattern simulation -->
+  <g stroke="#233554" stroke-width="1.2" fill="none" opacity="0.4">
+    <ellipse cx="500" cy="340" rx="420" ry="280"/>
+    <ellipse cx="500" cy="340" rx="380" ry="240"/>
+    <ellipse cx="500" cy="340" rx="340" ry="200"/>
+    <circle cx="500" cy="340" r="160"/>
+    <circle cx="500" cy="340" r="120"/>
+  </g>
+
+  <!-- Header -->
+  <text x="60" y="70" font-family="'Courier New', monospace" font-size="28" font-weight="bold" fill="#00f0ff" letter-spacing="4">UNITED FEDERATION PASSPORT</text>
+  <text x="60" y="100" font-family="'Segoe UI', sans-serif" font-size="14" fill="#8892b0">PASSEPORT / OFFICIAL TRAVEL DOCUMENT</text>
+  <line x1="60" y1="120" x2="940" y2="120" stroke="#00f0ff" stroke-width="2" opacity="0.4"/>
+
+  <!-- Photo Box (TAMPERED: Spliced photo boundary) -->
+  <g filter="url(#alteredGlow)">
+    <rect x="70" y="150" width="220" height="280" rx="8" fill="#1b253b" stroke="#ff0055" stroke-width="3" stroke-dasharray="6,3"/>
+    <!-- Photo Avatar -->
+    <circle cx="180" cy="240" r="50" fill="#2d3f66"/>
+    <path d="M120 370 C120 300 240 300 240 370 Z" fill="#2d3f66"/>
+    <!-- Stamp splice cut -->
+    <path d="M220 180 L290 250" stroke="#ff0055" stroke-width="2"/>
+    <text x="75" y="450" font-family="sans-serif" font-size="11" fill="#ff4d79" font-weight="bold">[TAMPERED PHOTO SPLICE DETECTED]</text>
+  </g>
+
+  <!-- Bio Fields -->
+  <g font-family="'Segoe UI', monospace" font-size="13" fill="#8892b0">
+    <text x="330" y="165">TYPE / TYPE</text>
+    <text x="330" y="190" font-size="18" fill="#ffffff" font-weight="bold">P</text>
+
+    <text x="450" y="165">CODE / CODE</text>
+    <text x="450" y="190" font-size="18" fill="#ffffff" font-weight="bold">UTO</text>
+
+    <text x="620" y="165">PASSPORT NO. / NO DU PASSEPORT</text>
+    <!-- TAMPERED NUMBER WITH DIFFERENT FONT & ARTIFACT -->
+    <text x="620" y="190" font-size="20" fill="#ffdd55" font-weight="bold" font-family="'Arial Black', sans-serif">A98442109</text>
+
+    <text x="330" y="235">SURNAME / NOM</text>
+    <text x="330" y="260" font-size="19" fill="#ffffff" font-weight="bold">VANCE</text>
+
+    <text x="330" y="305">GIVEN NAMES / PRENOMS</text>
+    <text x="330" y="330" font-size="19" fill="#ffffff" font-weight="bold">ELIZABETH CLARA</text>
+
+    <text x="330" y="375">NATIONALITY / NATIONALITE</text>
+    <text x="330" y="400" font-size="17" fill="#ffffff">UTOPIAN</text>
+
+    <text x="560" y="375">DATE OF BIRTH / DATE DE NAISSANCE</text>
+    <text x="560" y="400" font-size="17" fill="#ffffff">14 AUG / AOU 1989</text>
+
+    <text x="780" y="375">SEX / SEXE</text>
+    <text x="780" y="400" font-size="17" fill="#ffffff">F</text>
+  </g>
+
+  <!-- MRZ Zone (ICAO 9303) WITH INVALID CHECK DIGIT -->
+  <rect x="50" y="520" width="900" height="130" rx="8" fill="#060911" stroke="#233554" stroke-width="2"/>
+  <text x="75" y="565" font-family="'Courier New', monospace" font-size="23" fill="#00f0ff" letter-spacing="3.8">P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</text>
+  <!-- Line 2: Document number A98442109 followed by INVALID check digit '9' instead of '4', triggering MRZ failure! -->
+  <text x="75" y="615" font-family="'Courier New', monospace" font-size="23" fill="#ff0055" letter-spacing="3.8">A984421099UTO8908144F3112318&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;02</text>
+</svg>

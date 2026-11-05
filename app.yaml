@@ -1,0 +1,12 @@
+# Google App Engine (Node.js Standard Environment) Configuration
+runtime: nodejs20
+instance_class: F1
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 2
+
+env_variables:
+  NODE_ENV: 'production'
+  EMAIL_USER: 'mukesh24aiaryacollege.in@gmail.com'
+  # EMAIL_PASS can be set in Google Cloud Console > App Engine > Configuration or Secret Manager

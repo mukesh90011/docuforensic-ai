@@ -1,0 +1,38 @@
+{
+  "name": "DocuForensic AI - Fake Document Detector",
+  "short_name": "DocuForensic",
+  "description": "Professional forensic document inspection, tampering detection, and forgery analysis app.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#00f0ff",
+  "orientation": "any",
+  "categories": ["utilities", "productivity", "security"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Scan Document",
+      "url": "/#scan",
+      "description": "Quickly inspect a new document"
+    },
+    {
+      "name": "Verify ID / Passport",
+      "url": "/#mrz",
+      "description": "Run MRZ and biometric checksum verification"
+    }
+  ]
+}

@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>DocuForensic AI | Fake Document Detector & Tampering Forensics</title>
+  <meta name="description" content="State-of-the-art forensic document verification, Error Level Analysis (ELA), ICAO 9303 MRZ passport checksum validator, and tampering detector.">
+  <meta name="theme-color" content="#00f0ff">
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" href="./icons/logo.png">
+  <link rel="apple-touch-icon" href="./icons/logo.png">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="cyber-grid-overlay"></div>
+
+  <!-- Full-Screen Cyberpunk Authentication Gateway -->
+  <div id="cyberAuthOverlay" class="cyber-auth-overlay">
+    <!-- Animated Cyber Matrix Canvas Background -->
+    <canvas id="cyberCanvas"></canvas>
+    <div class="cyber-scanlines"></div>
+    <div class="cyber-vignette"></div>
+
+    <!-- Cyber Card -->
+    <div class="cyber-card">
+      <!-- Top Cyber Status Bar -->
+      <div class="cyber-badge-header">
+        <div class="cyber-status-pill">
+          <span class="pulse-dot"></span>
+          <span>CYBER GATEWAY // ENCRYPTED</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted);">
+          SHA-256 SECURED
+        </div>
+      </div>
+
+      <!-- Brand Hero -->
+      <div class="cyber-brand-hero">
+        <div class="cyber-logo-box">
+          <img src="./icons/logo.png" alt="DocuForensic AI Logo" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h1 class="cyber-brand-title">DocuForensic AI</h1>
+        <p class="cyber-brand-subtitle">Document Forgery, Checksum & Tampering Verification System</p>
+      </div>
+
+      <!-- Cyber Tabs: Login vs Register -->
+      <div class="cyber-tabs">
+        <button type="button" class="cyber-tab-btn active" id="tabBtnLogin">
+          <span>⚡</span>
+          <span>Access Login</span>
+        </button>
+        <button type="button" class="cyber-tab-btn" id="tabBtnRegister">
+          <span>🛡️</span>
+          <span>Register Agent</span>
+        </button>
+      </div>
+
+      <!-- ================= LOGIN PANEL ================= -->
+      <div id="panelLogin">
+        <div id="loginAlertBox" class="cyber-alert-box"></div>
+        <form id="cyberLoginForm">
+          <div class="cyber-form-group">
+            <label class="cyber-form-label">
+              <span>Verified Gmail</span>
+            </label>
+            <div class="cyber-input-wrapper">
+              <span class="cyber-input-icon">✉️</span>
+              <input type="email" id="loginEmail" class="cyber-input" placeholder="e.g. inspector@gmail.com" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="cyber-form-group">
+            <label class="cyber-form-label">
+              <span>Password</span>
+            </label>
+            <div class="cyber-input-wrapper">
+              <span class="cyber-input-icon">🔒</span>
+              <input type="password" id="loginPassword" class="cyber-input" placeholder="••••••••" required autocomplete="current-password" style="padding-right: 2.8rem;">
+              <button type="button" class="btn-toggle-eye" id="toggleLoginPasswordBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
+                👁️
+              </button>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 0.35rem;">
+              <button type="button" class="btn-show-pass-text" id="toggleLoginPassText">
+                👁️ Show Password
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="cyber-submit-btn" id="btnLoginSubmit">
+            <span>⚡ Authenticate & Enter System</span>
+          </button>
+        </form>
+
+        <!-- Quick 1-Click Demo Profiles (3 Distinct Portals) -->
+        <div class="cyber-demo-bar">
+          <div class="cyber-demo-title">Select Portal to Enter (1-Click Switch):</div>
+          <div class="cyber-demo-btns" style="grid-template-columns: 1fr; gap: 0.45rem;">
+            <button type="button" class="cyber-btn-secondary" id="quickIssuerBtnCyber" style="display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem;">
+              <span style="font-size: 1.1rem;">🏛️</span>
+              <div style="text-align: left; line-height: 1.2;">
+                <div style="color: #00ffcc; font-weight: 700; font-size: 0.8rem;">Issuing Authority / Govt Portal</div>
+                <div style="font-size: 0.68rem; color: #a0aec0;">Dr. Rajesh Sharma (UIDAI & Academic Board Registrar)</div>
+              </div>
+            </button>
+            <button type="button" class="cyber-btn-secondary" id="quickCitizenBtnCyber" style="display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem;">
+              <span style="font-size: 1.1rem;">👤</span>
+              <div style="text-align: left; line-height: 1.2;">
+                <div style="color: #00e5ff; font-weight: 700; font-size: 0.8rem;">Citizen / Document Holder Portal</div>
+                <div style="font-size: 0.68rem; color: #a0aec0;">Mukesh Gupta (Verify Personal Aadhaar / Certificate)</div>
+              </div>
+            </button>
+            <button type="button" class="cyber-btn-secondary" id="quickPoliceBtnCyber" style="display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem;">
+              <span style="font-size: 1.1rem;">👮</span>
+              <div style="text-align: left; line-height: 1.2;">
+                <div style="color: #ff6b8b; font-weight: 700; font-size: 0.8rem;">Police & Law Enforcement Verifier</div>
+                <div style="font-size: 0.68rem; color: #a0aec0;">Inspector Vikram Rathore (Crime Database & FIR Check)</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= REGISTER PANEL ================= -->
+      <div id="panelRegister" class="hidden">
+        <div id="regAlertBox" class="cyber-alert-box"></div>
+        <form id="cyberRegisterForm">
+          <!-- Name & Surname Row -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="cyber-form-group">
+              <label class="cyber-form-label">
+                <span>First Name <span style="color: #00f0ff;">*</span></span>
+              </label>
+              <div class="cyber-input-wrapper">
+                <span class="cyber-input-icon">👤</span>
+                <input type="text" id="regFirstName" class="cyber-input" placeholder="e.g. Alex" required>
+              </div>
+            </div>
+
+            <div class="cyber-form-group">
+              <label class="cyber-form-label">
+                <span>Surname <span style="color: #ff3366;">*</span></span>
+              </label>
+              <div class="cyber-input-wrapper">
+                <span class="cyber-input-icon">🏛️</span>
+                <input type="text" id="regSurname" class="cyber-input" placeholder="e.g. Miller" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verified Gmail Field -->
+          <div class="cyber-form-group">
+            <div class="cyber-form-label">
+              <span>Gmail Address <span style="color: #ff3366;">*</span></span>
+              <span id="gmailVerifiedTag" style="display: none;"></span>
+            </div>
+            <div class="cyber-input-wrapper">
+              <span class="cyber-input-icon">✉️</span>
+              <input type="email" id="regEmail" class="cyber-input" placeholder="e.g. yourname@gmail.com" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.45rem;">
+              <span style="font-size: 0.7rem; color: var(--text-muted);">Real @gmail.com required. OTP will be sent to your inbox.</span>
+              <button type="button" class="cyber-btn-secondary" id="btnSendOtp">
+                📧 Send Code to Gmail
+              </button>
+            </div>
+
+            <!-- Inline 6-Digit OTP Box (Appears after Send Code) -->
+            <div id="otpBox" class="cyber-otp-box hidden">
+              <div class="cyber-otp-info">
+                <span>Enter 6-digit code received in your Gmail inbox:</span>
+              </div>
+              <div class="cyber-otp-row">
+                <input type="text" id="regOtpInput" class="cyber-otp-input" maxlength="6" placeholder="______" autocomplete="off">
+                <button type="button" class="cyber-btn-secondary" id="btnVerifyOtp" style="padding: 0.65rem 1rem;">
+                  Confirm Code
+                </button>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.4rem;">
+                Check your Gmail Inbox (or Spam tab). Enter the 6 digits to verify.
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: Password & Account Setup (LOCKED until Gmail Code is Confirmed) -->
+          <div id="lockedStep2Banner" style="padding: 0.65rem 0.85rem; background: rgba(255, 0, 85, 0.1); border: 1px dashed rgba(255, 0, 85, 0.4); border-radius: 6px; font-size: 0.74rem; color: #ff6b8b; margin-bottom: 0.85rem; text-align: center; font-weight: 600;">
+            🔒 Enter & Confirm 6-Digit Gmail Code Above to Unlock Password & Registration
+          </div>
+
+          <div id="lockedRegisterStep2" style="opacity: 0.4; pointer-events: none; transition: all 0.3s ease;">
+            <!-- Strong / Hard Password Field -->
+            <div class="cyber-form-group">
+              <div class="cyber-form-label">
+                <span>Password (Must be Hard) <span style="color: #ff3366;">*</span></span>
+                <span id="passStrengthLabel" style="font-size: 0.72rem; font-weight: 700; color: #ff3366;">Weak</span>
+              </div>
+              <div class="cyber-input-wrapper">
+                <span class="cyber-input-icon">🔒</span>
+                <input type="password" id="regPassword" class="cyber-input" placeholder="Min 8 chars, uppercase, lowercase, number, symbol" required style="padding-right: 2.8rem;">
+                <button type="button" class="btn-toggle-eye" id="toggleRegPasswordBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
+                  👁️
+                </button>
+              </div>
+
+              <!-- Real-time Password Strength Meter Bar -->
+              <div style="height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-top: 6px; overflow: hidden;">
+                <div id="strengthMeterFill" style="height: 100%; width: 0%; background: #ff3366; transition: all 0.3s ease;"></div>
+              </div>
+
+              <!-- Password Requirement Checklist -->
+              <div class="pass-rules-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 0.5rem; margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-muted);">
+                <div id="ruleLength">✖ Min 8 Characters</div>
+                <div id="ruleUpper">✖ Uppercase Letter (A-Z)</div>
+                <div id="ruleLower">✖ Lowercase Letter (a-z)</div>
+                <div id="ruleNumber">✖ Number (0-9)</div>
+                <div id="ruleSpecial" style="grid-column: span 2;">✖ Special Symbol (!@#$%^&*...)</div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 0.35rem;">
+                <button type="button" class="btn-show-pass-text" id="toggleRegPassText">
+                  👁️ Show Password
+                </button>
+              </div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="cyber-form-group">
+              <label class="cyber-form-label">
+                <span>Confirm Password <span style="color: #ff3366;">*</span></span>
+              </label>
+              <div class="cyber-input-wrapper">
+                <span class="cyber-input-icon">🔑</span>
+                <input type="password" id="regPasswordConfirm" class="cyber-input" placeholder="Re-enter identical password" required style="padding-right: 2.8rem;">
+                <button type="button" class="btn-toggle-eye" id="toggleRegConfirmBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
+                  👁️
+                </button>
+              </div>
+              <div style="display: flex; justify-content: flex-end; margin-top: 0.35rem;">
+                <button type="button" class="btn-show-pass-text" id="toggleRegConfirmText">
+                  👁️ Show Password
+                </button>
+              </div>
+            </div>
+
+            <!-- Account Role Selection (3 Portals) -->
+            <div class="cyber-form-group">
+              <label class="cyber-form-label">
+                <span>Select Portal / Account Type <span style="color: #ff3366;">*</span></span>
+              </label>
+              <div style="display: grid; grid-template-columns: 1fr; gap: 0.5rem;">
+                <label style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.85rem; background: #060b17; border: 1px solid rgba(0,255,204,0.3); border-radius: 6px; font-size: 0.78rem; cursor: pointer;">
+                  <input type="radio" name="regRole" value="issuer" style="accent-color: #00ffcc; margin-top: 0.2rem;">
+                  <div>
+                    <div style="font-weight: 700; color: #00ffcc;">🏛️ Issuing Authority (Govt / Training Institute)</div>
+                    <div style="font-size: 0.68rem; color: #a0aec0;">Jahan se document banta hai (UIDAI, Passport Office, University, Institute) — Issue official records</div>
+                  </div>
+                </label>
+
+                <label style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.85rem; background: #060b17; border: 1px solid rgba(0,229,255,0.3); border-radius: 6px; font-size: 0.78rem; cursor: pointer;">
+                  <input type="radio" name="regRole" value="citizen" checked style="accent-color: #00e5ff; margin-top: 0.2rem;">
+                  <div>
+                    <div style="font-weight: 700; color: #00e5ff;">👤 Citizen / Document Holder</div>
+                    <div style="font-size: 0.68rem; color: #a0aec0;">Jiska document bana hai woh khud check kare — Verify your own personal document against registry</div>
+                  </div>
+                </label>
+
+                <label style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.85rem; background: #060b17; border: 1px solid rgba(255,0,85,0.3); border-radius: 6px; font-size: 0.78rem; cursor: pointer;">
+                  <input type="radio" name="regRole" value="police" style="accent-color: #ff3366; margin-top: 0.2rem;">
+                  <div>
+                    <div style="font-weight: 700; color: #ff6b8b;">👮 Police & Law Enforcement Verifier</div>
+                    <div style="font-size: 0.68rem; color: #a0aec0;">Jahan verify karna ho — Police investigation, crime record check, FIR cross-reference, blacklist forged IDs</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="cyber-submit-btn" id="btnRegisterSubmit">
+              <span>🛡️ Create Verified Account</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-logo-icon" style="overflow: hidden; padding: 0;">
+        <img src="./icons/logo.png" alt="DocuForensic AI Logo" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <div>
+        <h2 class="brand-title">DocuForensic AI</h2>
+        <div class="brand-subtitle">Document Forgery & Tampering Detector</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- App Mode Indicator (when running as installed PWA app) -->
+      <div id="appModeBadge" class="status-badge app-mode hidden" title="Running as a standalone native app">
+        <span class="pulse-dot"></span>
+        <span>App Mode</span>
+      </div>
+
+      <!-- Offline Indicator -->
+      <div id="offlineBadge" class="status-badge offline-mode hidden" title="Offline local engine active">
+        <span>⚡ Offline Mode</span>
+      </div>
+
+      <!-- Online Engine Indicator -->
+      <div id="onlineBadge" class="status-badge">
+        <span class="pulse-dot"></span>
+        <span>Engine Active</span>
+      </div>
+
+      <!-- Install App Button (prompts PWA installation for desktop / mobile) -->
+      <button id="installAppBtn" class="btn btn-install hidden" title="Install as Desktop or Mobile App">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>Install App</span>
+      </button>
+
+      <!-- Camera Scanner Button -->
+      <button id="openCameraBtn" class="btn btn-secondary" title="Scan document using device camera">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span>Camera</span>
+      </button>
+
+      <!-- Issue Official Document Button (Govt / Issuer Portal) -->
+      <button id="btnOpenIssueDocModal" class="btn btn-secondary" title="Issue & Register Official Government / Institute Credential" style="border-color: #00ffcc; color: #00ffcc;">
+        <span>🏛️ Issue Official Document</span>
+      </button>
+
+      <!-- Police Crime DB Button (Police / Law Enforcement) -->
+      <button id="btnOpenPoliceDbModal" class="btn btn-secondary" title="Search Police Crime & FIR Database" style="border-color: #ff3366; color: #ff6b8b;">
+        <span>👮 Crime Records DB</span>
+      </button>
+
+      <!-- Generate Official Audit Report -->
+      <button id="exportReportBtn" class="btn btn-primary" title="Export official PDF/print report">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span>Audit Report</span>
+      </button>
+
+      <!-- Host Anywhere & Multi-Browser Connect Button -->
+      <button id="openHostModalBtn" class="btn btn-secondary" title="Connect any browser, phone, or deploy online">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span>Host & Connect</span>
+      </button>
+
+      <!-- User Account & Role Badge Menu -->
+      <div class="user-profile-wrapper" id="userProfileWrapper" style="position: relative;">
+        <button id="userMenuBtn" class="btn btn-secondary" style="padding: 0.45rem 0.85rem; gap: 0.5rem;" title="Account & Roles">
+          <span id="userAvatarSpan" style="font-size: 1.1rem;">🛡️</span>
+          <div style="text-align: left; line-height: 1.2;">
+            <div id="userNameDisplay" style="font-weight: 700; font-size: 0.8rem; color: #fff;">Agent Marcus Vance</div>
+            <div id="userRoleBadge" style="font-size: 0.68rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase;">Forensic Auditor</div>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="userDropdownMenu" class="user-dropdown-card hidden" style="position: absolute; right: 0; top: 115%; width: 280px; background: #0c1426; border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 150;">
+          <div style="padding-bottom: 0.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Active Account & Portal:</div>
+            <div id="dropdownUserTitle" style="font-size: 0.8rem; font-weight: 700; color: #fff;">Senior Forensic Inspector</div>
+            <div id="dropdownUserDept" style="font-size: 0.72rem; color: var(--accent-cyan);">Cyber Forensics Division</div>
+          </div>
+
+          <div style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.4rem;">Switch Portal Mode:</div>
+          <button class="btn btn-secondary" id="switchIssuerBtn" style="width: 100%; justify-content: flex-start; padding: 0.4rem 0.6rem; font-size: 0.75rem; margin-bottom: 0.35rem; color: #00ffcc;">
+            🏛️ Govt / Issuing Authority Mode
+          </button>
+          <button class="btn btn-secondary" id="switchCitizenBtn" style="width: 100%; justify-content: flex-start; padding: 0.4rem 0.6rem; font-size: 0.75rem; margin-bottom: 0.35rem; color: #00e5ff;">
+            👤 Citizen / Document Holder Mode
+          </button>
+          <button class="btn btn-secondary" id="switchPoliceBtn" style="width: 100%; justify-content: flex-start; padding: 0.4rem 0.6rem; font-size: 0.75rem; margin-bottom: 0.6rem; color: #ff6b8b;">
+            👮 Police Crime Verifier Mode
+          </button>
+
+          <div style="display: flex; gap: 0.4rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.5rem;">
+            <button class="btn btn-primary" id="openLoginModalBtn" style="flex: 1; padding: 0.35rem; font-size: 0.74rem;">
+              Sign In Other
+            </button>
+            <button class="btn btn-danger" id="logoutBtn" style="flex: 1; padding: 0.35rem; font-size: 0.74rem;">
+              Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Header Log Out Button -->
+      <button id="headerLogoutBtn" class="btn-header-logout" title="Exit session and return to Cyber Login">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Exit / Sign Out</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="main-container">
+
+    <!-- Hero / Quick Ingest Bar -->
+    <section class="hero-section">
+      <div class="hero-text">
+        <h1>Forensic Document Inspection & Authenticity Verification</h1>
+        <p>
+          Analyze passports, IDs, invoices, and certificates for digital manipulation. Performs multi-spectral Error Level Analysis (ELA), high-frequency noise variance, clone stamp matching, and ICAO 9303 MRZ cryptographic checksum recalculation.
+        </p>
+
+        <!-- 1-Click Interactive Demos -->
+        <div class="sample-pills">
+          <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">TRY DEMO SAMPLES:</span>
+          <button class="sample-pill-btn danger" id="loadSamplePassportBtn" title="Test tampered passport with spliced photo and corrupted MRZ">
+            🚨 Tampered Passport (Photo & MRZ Forgery)
+          </button>
+          <button class="sample-pill-btn danger" id="loadSampleInvoiceBtn" title="Test invoice with altered total and cloned audit stamp">
+            ⚠️ Altered Invoice (Math & Stamp Tampering)
+          </button>
+          <button class="sample-pill-btn" id="loadSampleCleanBtn" title="Test verified authentic certificate baseline">
+            🛡️ Authentic Certificate (Clean Baseline)
+          </button>
+          <button class="sample-pill-btn" id="loadSampleIdBtn" title="Test high-resolution photographic biometric ID card">
+            📸 Photometric ID Card (Real Specimen)
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: right;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Supported Formats</span>
+        <div style="font-weight: 700; color: var(--accent-cyan); font-size: 0.95rem; margin-top: 4px;">PDF, PNG, JPG, WEBP, TIFF</div>
+      </div>
+    </section>
+
+    <!-- Upload Dropzone Card -->
+    <section id="dropzone" class="dropzone-card">
+      <input type="file" id="fileInput" accept="image/*,.pdf" style="display: none;">
+      
+      <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      <div class="dropzone-title">Drop your document here, or browse files</div>
+      <div class="dropzone-desc">Drag & drop any document image or PDF for instant multi-layer forensic analysis. Client-side privacy-first engine.</div>
+      
+      <div class="dropzone-actions">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Select File to Inspect
+        </button>
+        <button type="button" class="btn btn-secondary" id="quickCameraTrigger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          Use Device Camera
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Workspace Grid -->
+    <section class="workspace-grid">
+
+      <!-- Left Column: Split-Screen Comparison & Heatmaps -->
+      <div class="forensic-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span>Forensic Spectral Workspace</span>
+            <span id="activeDocumentName" style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal; margin-left: 0.5rem;">[Sample: Tampered Passport]</span>
+          </div>
+
+          <!-- Filter Pill Tabs -->
+          <div class="filter-pills-bar">
+            <button class="filter-btn active" data-filter="ela" title="Error Level Analysis: detects compression quantization mismatch">
+              ELA Heatmap
+            </button>
+            <button class="filter-btn" data-filter="noise" title="Laplacian high-frequency noise consistency">
+              Noise Variance
+            </button>
+            <button class="filter-btn" data-filter="edges" title="Sobel edge gradient and cut-and-paste boundary detector">
+              Edge Inconsistency
+            </button>
+            <button class="filter-btn" data-filter="clones" title="Copy-move duplicate texture detector">
+              Clone Detector
+            </button>
+          </div>
+        </div>
+
+        <!-- Split-Screen Interactive Viewer -->
+        <div class="comparison-wrapper" id="viewerWrapper">
+          <!-- Base Layer: Forensic Heatmap -->
+          <div class="viewer-layer" id="heatmapLayer">
+            <canvas id="forensicCanvas"></canvas>
+          </div>
+
+          <!-- Top Layer: Original Document (with interactive split slider) -->
+          <div class="slider-layer-modified" id="sliderLayer">
+            <div class="viewer-layer">
+              <img id="originalDocumentImage" alt="Original document view" src="./samples/sample-passport-tampered.svg">
+            </div>
+          </div>
+
+          <!-- Draggable Split Slider Handle -->
+          <div class="slider-handle" id="sliderHandle" title="Drag to compare Original vs Forensic Heatmap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#070a13" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"/>
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+
+          <!-- Magnifier Loupe Tool -->
+          <div class="loupe-lens" id="loupeLens"></div>
+
+          <!-- Dynamic Anomaly Markers Overlay -->
+          <div id="anomalyMarkersContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
+        </div>
+
+        <!-- Viewer Toolbar Controls -->
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-secondary);">
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+              <input type="checkbox" id="toggleLoupeBtn" style="accent-color: var(--accent-cyan);">
+              <span>Enable Magnifier Loupe (Pixel Zoom)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+              <input type="checkbox" id="toggleMarkersBtn" checked style="accent-color: var(--accent-cyan);">
+              <span>Show Anomaly Boxes</span>
+            </label>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span>ELA Sensitivity:</span>
+            <input type="range" id="elaScaleSlider" min="10" max="40" value="22" style="accent-color: var(--accent-cyan); cursor: pointer;">
+            <span id="elaScaleValue" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-cyan);">22x</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Threat Radar, Fraud Score & Indicators -->
+      <div class="threat-radar-panel">
+
+        <!-- Central Master Registry & Pre-Upload Status Card -->
+        <div class="registry-card" id="registryStatusCard" style="background: #080f1e; border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); padding: 1.15rem; box-shadow: 0 0 25px rgba(0, 240, 255, 0.12); position: relative; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.6rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.15rem;">🏛️</span>
+              <div>
+                <div style="font-size: 0.78rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">
+                  Govt & Master Registry Verification
+                </div>
+                <div style="font-size: 0.68rem; color: #a0aec0;">UIDAI, Central Ledger & Police Cross-Check</div>
+              </div>
+            </div>
+            <span id="registryMatchBadge" class="indicator-status fail" style="font-size: 0.7rem; padding: 0.2rem 0.55rem; font-weight: 800;">
+              CHECKING...
+            </span>
+          </div>
+
+          <!-- Real vs Fake Official Status Banner -->
+          <div id="registryResultBanner" style="padding: 0.65rem 0.8rem; border-radius: 6px; background: rgba(255,0,85,0.12); border: 1px solid rgba(255,0,85,0.35); margin-bottom: 0.75rem;">
+            <div id="registryResultTitle" style="font-weight: 800; font-size: 0.82rem; color: #ff3366; margin-bottom: 0.2rem;">
+              🚨 FORGERY DETECTED: DATA ALTERED FROM OFFICIAL RECORD
+            </div>
+            <div id="registryResultDesc" style="font-size: 0.74rem; color: #cbd5e0; line-height: 1.4;">
+              Official Government record for ID A98442109 was issued to "Marcus Vance", but uploaded document has been modified/spliced.
+            </div>
+          </div>
+
+          <!-- Pre-Uploaded Duplicate History & Police Clearance Box -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 0.55rem;">
+              <div style="font-size: 0.65rem; color: #a0aec0; text-transform: uppercase; font-weight: 700;">Pre-Upload History:</div>
+              <div id="preUploadStatusText" style="font-weight: 700; font-size: 0.76rem; color: #00ffcc; margin-top: 2px;">
+                📑 Previously Uploaded (Scanned 2x)
+              </div>
+              <div id="preUploadDetailsText" style="font-size: 0.66rem; color: #718096; margin-top: 1px;">
+                First: 2026-10-28
+              </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 0.55rem;">
+              <div style="font-size: 0.65rem; color: #a0aec0; text-transform: uppercase; font-weight: 700;">Police Clearance:</div>
+              <div id="policeStatusText" style="font-weight: 700; font-size: 0.76rem; color: #ff3366; margin-top: 2px;">
+                🚨 Active Police FIR Record
+              </div>
+              <div id="policeDetailsText" style="font-size: 0.66rem; color: #718096; margin-top: 1px;">
+                FIR #78/2026 (Cyber Crime)
+              </div>
+            </div>
+          </div>
+
+          <!-- Police / Authority Action Buttons -->
+          <div style="display: flex; gap: 0.5rem; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.55rem;">
+            <button type="button" class="btn btn-secondary" id="btnViewOfficialRecord" style="flex: 1; padding: 0.35rem 0.5rem; font-size: 0.72rem; justify-content: center;">
+              📋 Master Record
+            </button>
+            <button type="button" class="btn btn-danger" id="btnPoliceFlagDoc" style="flex: 1; padding: 0.35rem 0.5rem; font-size: 0.72rem; justify-content: center;">
+              🚨 Impound & Flag
+            </button>
+          </div>
+        </div>
+
+        <!-- Fraud Risk Score Card -->
+        <div class="risk-card danger" id="riskCard">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">
+              AUTHENTICITY RISK AUDIT
+            </span>
+            <span id="riskSeverityBadge" style="font-size: 0.75rem; font-weight: 800; color: var(--accent-crimson);">
+              HIGH RISK
+            </span>
+          </div>
+
+          <!-- Circular SVG Risk Gauge -->
+          <div class="gauge-wrapper">
+            <svg class="gauge-svg" viewBox="0 0 160 160">
+              <circle class="gauge-bg" cx="80" cy="80" r="70" />
+              <circle class="gauge-fill" id="gaugeCircle" cx="80" cy="80" r="70" stroke="var(--accent-crimson)" />
+            </svg>
+            <div class="gauge-value">
+              <span class="gauge-num" id="riskScoreNumber" style="color: var(--accent-crimson);">88</span>
+              <span class="gauge-label">FRAUD SCORE</span>
+            </div>
+          </div>
+
+          <div class="verdict-tag critical" id="verdictTag">CRITICAL FORGERY DETECTED</div>
+          <p id="verdictSummary" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.75rem;">
+            Strong evidence of digital photo splicing, font weight inconsistency, and invalid ICAO 9303 MRZ cryptographic checksum.
+          </p>
+        </div>
+
+        <!-- Indicators Breakdown List -->
+        <div class="indicators-panel">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">
+            Forensic Vector Indicators
+          </div>
+
+          <div class="indicator-row">
+            <div class="indicator-meta">
+              <div class="indicator-icon" style="background: rgba(255, 0, 85, 0.15); color: var(--accent-crimson);">🔍</div>
+              <div>
+                <div class="indicator-name">Compression Discrepancy (ELA)</div>
+                <div class="indicator-desc" id="elaIndicatorDesc">Localized quantization variance detected</div>
+              </div>
+            </div>
+            <span class="indicator-status fail" id="elaStatusTag">FAILED</span>
+          </div>
+
+          <div class="indicator-row">
+            <div class="indicator-meta">
+              <div class="indicator-icon" style="background: rgba(255, 183, 3, 0.15); color: var(--accent-amber);">⚡</div>
+              <div>
+                <div class="indicator-name">Sensor Noise Grain Uniformity</div>
+                <div class="indicator-desc" id="noiseIndicatorDesc">High-frequency grain discontinuity</div>
+              </div>
+            </div>
+            <span class="indicator-status warn" id="noiseStatusTag">SUSPICIOUS</span>
+          </div>
+
+          <div class="indicator-row">
+            <div class="indicator-meta">
+              <div class="indicator-icon" style="background: rgba(0, 245, 155, 0.15); color: var(--accent-emerald);">✂️</div>
+              <div>
+                <div class="indicator-name">Copy-Move Cloned Patches</div>
+                <div class="indicator-desc" id="cloneIndicatorDesc">Duplicate stamps or digit clusters</div>
+              </div>
+            </div>
+            <span class="indicator-status pass" id="cloneStatusTag">CLEAR</span>
+          </div>
+
+          <div class="indicator-row">
+            <div class="indicator-meta">
+              <div class="indicator-icon" style="background: rgba(255, 0, 85, 0.15); color: var(--accent-crimson);">🛡️</div>
+              <div>
+                <div class="indicator-name">Cryptographic Checksum / MRZ</div>
+                <div class="indicator-desc" id="mrzIndicatorDesc">ICAO 9303 check digit mismatch</div>
+              </div>
+            </div>
+            <span class="indicator-status fail" id="mrzStatusTag">CORRUPTED</span>
+          </div>
+
+          <div class="indicator-row">
+            <div class="indicator-meta">
+              <div class="indicator-icon" style="background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan);">📁</div>
+              <div>
+                <div class="indicator-name">Metadata & Software Signatures</div>
+                <div class="indicator-desc" id="metaIndicatorDesc">Raster editor tags & revision history</div>
+              </div>
+            </div>
+            <span class="indicator-status warn" id="metaStatusTag">FLAGGED</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Deep-Dive Verification Tabs (MRZ / Math / Metadata / Anomaly Log) -->
+    <section class="verification-tabs-section">
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-mrz">
+          🛂 Passport / ID MRZ Checksum
+        </button>
+        <button class="tab-btn" data-tab="tab-math">
+          💰 Financial Math & IBAN Cross-Check
+        </button>
+        <button class="tab-btn" data-tab="tab-meta">
+          📑 File Structure & Revision History
+        </button>
+        <button class="tab-btn" data-tab="tab-anomalies">
+          🎯 Anomaly Hotspot Coordinates
+        </button>
+      </div>
+
+      <!-- Tab 1: MRZ Validation -->
+      <div class="tab-pane active" id="tab-mrz">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          Biometric passports and national identity cards contain an ICAO 9303 Machine Readable Zone (MRZ). Check digits are calculated using modulo-10 weights [7, 3, 1]. Any altered digit breaks the check digit immediately!
+        </p>
+
+        <div class="mrz-code-box" id="mrzDisplayBox">
+P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>
+<span style="color: var(--accent-crimson); font-weight: bold;">A984421099</span>UTO8908144F3112318&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;02
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Inspection Field</th>
+              <th>Parsed Value</th>
+              <th>Recorded Check</th>
+              <th>Calculated ICAO Check</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="mrzChecklistTbody">
+            <tr>
+              <td>Document Number</td>
+              <td><code>A98442109</code></td>
+              <td><code>9</code></td>
+              <td><code>4</code></td>
+              <td><span class="indicator-status fail">FAILED (Mismatch)</span></td>
+            </tr>
+            <tr>
+              <td>Date of Birth</td>
+              <td><code>1989-08-14</code></td>
+              <td><code>4</code></td>
+              <td><code>4</code></td>
+              <td><span class="indicator-status pass">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>Expiry Date</td>
+              <td><code>2031-12-31</code></td>
+              <td><code>8</code></td>
+              <td><code>8</code></td>
+              <td><span class="indicator-status pass">PASSED</span></td>
+            </tr>
+            <tr>
+              <td>Composite MRZ Hash</td>
+              <td>Full Line 2</td>
+              <td><code>2</code></td>
+              <td><code>7</code></td>
+              <td><span class="indicator-status fail">CORRUPTED</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab 2: Financial Math & IBAN -->
+      <div class="tab-pane" id="tab-math">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          Verifies arithmetic consistency on invoices, receipts, and bank statements, plus ISO 7064 Mod-97 checksum on bank account numbers (IBAN).
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--accent-cyan);">Invoice Arithmetic Validation</h4>
+            <div id="invoiceMathResult" style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06);">
+              <div style="font-size: 0.85rem; margin-bottom: 0.35rem;">Calculated Formula: <strong>$3,200.00 + $264.00 (Tax) = $3,464.00</strong></div>
+              <div style="font-size: 0.85rem; margin-bottom: 0.35rem;">Recorded On Document: <strong style="color: var(--accent-crimson);">$9,464.00</strong></div>
+              <div style="font-size: 0.85rem; color: var(--accent-crimson); font-weight: 700;">Discrepancy: +$6,000.00 Unauthorized Inflation</div>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--accent-cyan);">IBAN Mod-97 Checksum</h4>
+            <div id="ibanResult" style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06);">
+              <div style="font-size: 0.85rem; margin-bottom: 0.35rem;">Account: <code>DE89 3704 0044 0532 0130 99</code></div>
+              <div style="font-size: 0.85rem; color: var(--accent-amber); font-weight: 700;">Status: Invalid Check Digit (Expected remainder 1, got 42)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: File Structure & Metadata -->
+      <div class="tab-pane" id="tab-meta">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          Inspects container metadata, PDF incremental revisions (multiple %%EOF tags indicating post-signing edits), and raster editing signatures.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Detected Value</th>
+              <th>Forensic Implication</th>
+            </tr>
+          </thead>
+          <tbody id="metadataTbody">
+            <tr>
+              <td>Authoring Software</td>
+              <td><code style="color: var(--accent-crimson);">Adobe Photoshop 24.1 (Windows)</code></td>
+              <td>Suspicious: Official government/bank documents should not be authored in raster graphics software.</td>
+            </tr>
+            <tr>
+              <td>Incremental PDF Updates</td>
+              <td><code>2 Revisions Detected</code></td>
+              <td>Warning: Document was reopened and saved after its initial creation timestamp.</td>
+            </tr>
+            <tr>
+              <td>Creation Timestamp</td>
+              <td><code>2026-10-14 11:22:04</code></td>
+              <td>Matches document issue date timeline.</td>
+            </tr>
+            <tr>
+              <td>MIME Type Integrity</td>
+              <td><code>Verified (Magic Bytes Match)</code></td>
+              <td>File header conforms to standard container.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab 4: Anomaly Log -->
+      <div class="tab-pane" id="tab-anomalies">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          Geographic coordinates and pixel bounding boxes of identified tampering clusters.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Sector Coordinates</th>
+              <th>Detection Vector</th>
+              <th>Severity</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody id="anomalyLogTbody">
+            <tr>
+              <td>#1</td>
+              <td><code>(x: 70, y: 150, w: 220, h: 280)</code></td>
+              <td>Photo Boundary Splicing</td>
+              <td><span class="indicator-status fail">CRITICAL</span></td>
+              <td>High error-level boundary discontinuity around portrait avatar.</td>
+            </tr>
+            <tr>
+              <td>#2</td>
+              <td><code>(x: 620, y: 165, w: 180, h: 45)</code></td>
+              <td>Font Mismatch & ELA</td>
+              <td><span class="indicator-status fail">HIGH</span></td>
+              <td>Passport number text rendered in divergent typeface and different JPEG quality.</td>
+            </tr>
+            <tr>
+              <td>#3</td>
+              <td><code>(x: 75, y: 565, w: 850, h: 80)</code></td>
+              <td>ICAO Checksum Fail</td>
+              <td><span class="indicator-status fail">CRITICAL</span></td>
+              <td>MRZ check digit validation failure on document identifier.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- Document Audit Vault & Verification Queue (Who Uploaded / Who Can Check) -->
+    <section class="verification-tabs-section" id="documentVaultSection" style="margin-top: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📂</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">Document Vault & Verification Queue</h3>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;" id="vaultSubtitle">
+            Central repository of submitted credentials. Auditors can inspect and stamp verdicts; uploaders can track review progress.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; align-items: center;">
+          <span id="vaultRoleIndicator" class="status-badge" style="font-size: 0.72rem;">Auditor View (All Uploads)</span>
+          <button class="btn btn-secondary" id="refreshVaultBtn" style="padding: 0.4rem 0.75rem; font-size: 0.78rem;">
+            🔄 Refresh Vault
+          </button>
+        </div>
+      </div>
+
+      <!-- Vault Table -->
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Document Name</th>
+              <th>Uploaded By</th>
+              <th>Submitted At</th>
+              <th>Type</th>
+              <th>Risk Score</th>
+              <th>Audit Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="vaultTableBody">
+            <!-- Dynamically populated by auth.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Live Camera Scanner Modal -->
+  <div class="modal-overlay" id="cameraModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan);">Camera Document Scanner</h3>
+        <button class="modal-close-btn" id="closeCameraModalBtn">&times;</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Align your document inside the reticle guide and capture a high-resolution snapshot for instant forensic inspection.
+      </p>
+
+      <div class="camera-scanner-view">
+        <video id="cameraVideo" autoplay playsinline muted></video>
+        <div class="scanner-target-reticle"></div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.25rem;">
+        <button type="button" class="btn btn-primary" id="capturePhotoBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+          Capture & Analyze
+        </button>
+        <button type="button" class="btn btn-secondary" id="cancelCameraBtn">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Official Forensic Audit Report Modal -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div class="brand-logo-icon" style="width: 34px; height: 34px; overflow: hidden; padding: 0;">
+            <img src="./icons/logo.png" alt="DocuForensic AI Logo" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">Official Forensic Audit Certificate</h3>
+        </div>
+        <button class="modal-close-btn" id="closeReportModalBtn">&times;</button>
+      </div>
+
+      <div id="printableReportContent" style="padding: 1rem; background: #070d18; border-radius: var(--radius-sm); border: 1px solid var(--card-border);">
+        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent-cyan); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <div>
+            <h2 style="font-size: 1.3rem; color: #fff;">DOCUFORENSIC AUDIT REPORT</h2>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Automated Digital Forensics & Fraud Assessment</div>
+          </div>
+          <div style="text-align: right; font-size: 0.8rem;">
+            <div>Report ID: <strong id="reportIdText">DF-2026-98104</strong></div>
+            <div>Date: <span id="reportDateText">2026-10-28 10:00:00 UTC</span></div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; font-size: 0.85rem;">
+          <div>
+            <div>Document: <strong id="reportDocName">sample-passport-tampered.svg</strong></div>
+            <div>Format: <strong id="reportDocFormat">SVG / Raster Image</strong></div>
+          </div>
+          <div>
+            <div>Fraud Risk Score: <strong id="reportRiskScore" style="color: var(--accent-crimson); font-size: 1.1rem;">88 / 100</strong></div>
+            <div>Assessment: <strong id="reportVerdict" style="color: var(--accent-crimson);">CRITICAL FORGERY DETECTED</strong></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.9rem; color: var(--accent-cyan); margin-bottom: 0.4rem;">Executive Summary</h4>
+          <p id="reportSummaryText" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+            The uploaded credential was subjected to Error Level Analysis (ELA), high-frequency Laplacian noise analysis, copy-move patch detection, and ICAO 9303 checksum verification. Multiple severe anomalies were confirmed, establishing that the document has been altered post-issuance.
+          </p>
+        </div>
+
+        <div style="font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.75rem;">
+          <div>Cryptographic Verification Signature: <code>9b8c34f0e1a2d7742c3b881e002947ea8d41</code></div>
+          <div>Engine: DocuForensic AI v1.0.0 (Web & PWA Offline Engine)</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+        <button type="button" class="btn btn-secondary" onclick="window.print()">
+          🖨️ Print Report (PDF)
+        </button>
+        <button type="button" class="btn btn-primary" id="downloadReportJsonBtn">
+          💾 Download JSON Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Host & Multi-Browser Connect Modal -->
+  <div class="modal-overlay" id="hostModal">
+    <div class="modal-dialog" style="max-width: 820px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div class="brand-logo-icon" style="width: 34px; height: 34px; font-size: 1.1rem;">🌐</div>
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff;">Multi-Browser & Device Hosting Center</h3>
+            <div style="font-size: 0.78rem; color: var(--accent-cyan);">Connect from any browser, phone, Wi-Fi device, or public web</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeHostModalBtn">&times;</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+
+        <!-- 1. Localhost Browser -->
+        <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+              <span>💻 Local Machine Browser</span>
+              <span class="status-badge" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;">Active</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick="navigator.clipboard.writeText('http://localhost:3000'); showToast('Copied localhost URL!', 'success');">
+                📋 Copy
+              </button>
+              <a href="http://localhost:3000" target="_blank" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">
+                🚀 Open
+              </a>
+            </div>
+          </div>
+          <code id="hostLocalUrl" style="display: block; background: #040810; padding: 0.5rem 0.75rem; border-radius: 4px; color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.85rem;">
+            http://localhost:3000
+          </code>
+          <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.4rem;">
+            Works in Chrome, Edge, Firefox, Brave, Safari, Opera on this computer.
+          </div>
+        </div>
+
+        <!-- 2. Mobile & Wi-Fi Network Access with QR Code -->
+        <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1.25rem;">
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <span style="font-weight: 700; color: #fff;">📱 Mobile & Wi-Fi Network (Phone / Tablet / Laptop)</span>
+                <span class="status-badge app-mode" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;">0.0.0.0 Host</span>
+              </div>
+              <code id="hostNetworkUrl" style="display: block; background: #040810; padding: 0.5rem 0.75rem; border-radius: 4px; color: var(--accent-emerald); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 0.4rem;">
+                http://10.253.158.80:8000
+              </code>
+              <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                Connect any phone, iPad, or another computer on the same Wi-Fi. Scan the QR code with your mobile camera or type this URL into Safari / Chrome on your phone!
+              </p>
+              <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick="copyNetworkUrl()">
+                📋 Copy Mobile Wi-Fi URL
+              </button>
+            </div>
+
+            <!-- Dynamic QR Code Container -->
+            <div style="text-align: center; background: #fff; padding: 0.6rem; border-radius: 8px; box-shadow: 0 0 15px rgba(0,240,255,0.3);">
+              <div id="qrCodeContainer"></div>
+              <div style="font-size: 0.68rem; color: #000; font-weight: bold; margin-top: 4px;">Scan with Phone</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Public Web URL (Internet Anywhere) -->
+        <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+              <span>🌍 Public Internet URL (Anywhere Worldwide)</span>
+              <span class="status-badge" style="background: rgba(121, 40, 202, 0.2); color: #c084fc; border-color: rgba(121,40,202,0.4); padding: 0.15rem 0.5rem; font-size: 0.7rem;">Live Tunnel</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick="navigator.clipboard.writeText(document.getElementById('hostTunnelUrl').textContent.trim()); showToast('Copied Public URL!', 'success');">
+                📋 Copy
+              </button>
+              <a id="hostTunnelLink" href="https://clear-dancers-wonder.loca.lt" target="_blank" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">
+                🚀 Open Public Link
+              </a>
+            </div>
+          </div>
+          <code id="hostTunnelUrl" style="display: block; background: #040810; padding: 0.5rem 0.75rem; border-radius: 4px; color: #c084fc; font-family: var(--font-mono); font-size: 0.85rem;">
+            https://clear-dancers-wonder.loca.lt
+          </code>
+          <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.4rem;">
+            Share this link with anyone over WhatsApp, email, or Slack so they can test the document detector directly in their browser.
+          </div>
+        </div>
+
+        <!-- 4. Serverless & 1-Click Free Cloud Deploy -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 1rem;">
+            <div style="font-weight: 700; color: #fff; font-size: 0.88rem; margin-bottom: 0.3rem;">⚡ Serverless File Mode</div>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+              Double-click <code>public/index.html</code> anywhere. The entire forensic engine runs 100% in pure client-side JavaScript without requiring Node.js.
+            </p>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 1rem;">
+            <div style="font-weight: 700; color: #fff; font-size: 0.88rem; margin-bottom: 0.3rem;">☁️ 1-Click Cloud Hosting</div>
+            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+              Pre-configured with <code>vercel.json</code> and <code>netlify.toml</code>. Drag & drop the project folder onto Vercel or Netlify for permanent 24/7 free hosting.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+        <button type="button" class="btn btn-secondary" id="closeHostModalBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login & Role Authentication Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div class="brand-logo-icon" style="width: 34px; height: 34px; overflow: hidden; padding: 0;">
+            <img src="./icons/logo.png" alt="DocuForensic AI Logo" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: #fff;">Forensic Access Authentication</h3>
+            <div style="font-size: 0.74rem; color: var(--accent-cyan);">Sign in to upload documents or conduct audits</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeLoginModalBtn">&times;</button>
+      </div>
+
+      <!-- Quick 1-Click Demo Logins -->
+      <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem;">
+        <div style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 0.6rem;">Quick Demo Profiles (1-Click Switch):</div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button type="button" class="btn btn-secondary" id="quickLoginAuditorBtn" style="justify-content: flex-start; padding: 0.5rem 0.75rem; font-size: 0.82rem; text-align: left;">
+            <span style="font-size: 1.1rem; margin-right: 0.4rem;">🛡️</span>
+            <div>
+              <div style="font-weight: 700; color: #fff;">Forensic Auditor (Inspector Marcus Vance)</div>
+              <div style="font-size: 0.7rem; color: var(--accent-cyan);">Full inspection tools, stamp verdicts, review vault</div>
+            </div>
+          </button>
+          <button type="button" class="btn btn-secondary" id="quickLoginUploaderBtn" style="justify-content: flex-start; padding: 0.5rem 0.75rem; font-size: 0.82rem; text-align: left;">
+            <span style="font-size: 1.1rem; margin-right: 0.4rem;">👤</span>
+            <div>
+              <div style="font-weight: 700; color: #fff;">Document Submitter (Sarah Jenkins)</div>
+              <div style="font-size: 0.7rem; color: var(--accent-emerald);">Upload credentials, track submissions & certificates</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Credentials Form -->
+      <form id="loginForm" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.3rem;">Email Address</label>
+          <input type="email" id="loginEmailInput" placeholder="auditor@forensic.gov" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.3rem;">Password</label>
+          <input type="password" id="loginPasswordInput" placeholder="••••••••" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.5rem;">
+          <button type="button" class="btn btn-secondary" id="cancelLoginBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Authenticate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 1. Issue Official Document Modal (Govt & Training Issuer Portal) -->
+  <div class="modal-overlay" id="issueDocModal">
+    <div class="modal-dialog" style="max-width: 540px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.4rem;">🏛️</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #00ffcc;">Issue Official Document (Govt / Issuer Portal)</h3>
+            <div style="font-size: 0.74rem; color: #a0aec0;">Register authentic Aadhaar, Passport, or Certificate to Central Ledger</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeIssueDocModalBtn">&times;</button>
+      </div>
+
+      <form id="issueDocForm" style="display: flex; flex-direction: column; gap: 0.85rem; padding-top: 0.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="display: block; font-size: 0.76rem; color: #a0aec0; margin-bottom: 0.3rem;">Document Type *</label>
+            <select id="issueDocType" required style="width: 100%; padding: 0.55rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-size: 0.82rem;">
+              <option value="Aadhaar Identity Card">Aadhaar Card (UIDAI Govt of India)</option>
+              <option value="Biometric Passport (TD3)">Biometric Passport (MEA Govt of India)</option>
+              <option value="AI & Technical Training Certificate">Technical Training Certificate (Institute)</option>
+              <option value="University Degree Diploma">University Degree Diploma</option>
+              <option value="Commercial Tax Invoice">Commercial Tax Invoice</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.76rem; color: #a0aec0; margin-bottom: 0.3rem;">Document / ID Number *</label>
+            <input type="text" id="issueDocNumber" placeholder="e.g. AADHAAR-9021-4412-8800" required style="width: 100%; padding: 0.55rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #00ffcc; font-family: monospace; font-size: 0.82rem;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label style="display: block; font-size: 0.76rem; color: #a0aec0; margin-bottom: 0.3rem;">Holder Full Name *</label>
+            <input type="text" id="issueHolderName" placeholder="e.g. Mukesh Gupta" required style="width: 100%; padding: 0.55rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-size: 0.82rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.76rem; color: #a0aec0; margin-bottom: 0.3rem;">Issuing Authority *</label>
+            <input type="text" id="issueAuthority" placeholder="e.g. UIDAI / Arya College Training Board" required style="width: 100%; padding: 0.55rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-size: 0.82rem;">
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.76rem; color: #a0aec0; margin-bottom: 0.3rem;">Official Security Note / Biometric Hash</label>
+          <input type="text" id="issueSecurityNotes" placeholder="e.g. Biometric Ashoka Seal verified. QR Cryptographic Hash: SHA256-V9801" style="width: 100%; padding: 0.55rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #cbd5e0; font-size: 0.78rem;">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;">
+          <button type="button" class="btn btn-secondary" id="cancelIssueDocBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: #00ffcc; color: #000; font-weight: 700;">
+            ✅ Register to Official Govt Ledger
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Police Crime & FIR Database Modal (Law Enforcement Portal) -->
+  <div class="modal-overlay" id="policeDbModal">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.4rem;">👮</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #ff6b8b;">Police & Crime Investigation Database</h3>
+            <div style="font-size: 0.74rem; color: #a0aec0;">Search Active FIRs, Forged Document Syndicates & Impounded Records</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closePoliceDbModalBtn">&times;</button>
+      </div>
+
+      <div style="padding: 0.75rem 0;">
+        <div style="margin-bottom: 1rem;">
+          <input type="text" id="policeSearchInput" placeholder="🔍 Search FIR Number, Suspect Name, or Document ID..." style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid rgba(255,0,85,0.3); border-radius: 6px; color: #fff; font-size: 0.82rem;">
+        </div>
+
+        <div id="policeFirListContainer" style="display: flex; flex-direction: column; gap: 0.65rem; max-height: 320px; overflow-y: auto;">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+        <div style="margin-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; display: flex; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" id="closePoliceDbModalBtn2">Close Database</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Official Master Record Viewer Modal -->
+  <div class="modal-overlay" id="officialRecordModal">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.3rem;">📋</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">Government Central Registry Record</h3>
+            <div style="font-size: 0.74rem; color: #00ffcc;">Official verified baseline from issuing authority ledger</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeOfficialRecordModalBtn">&times;</button>
+      </div>
+
+      <div id="officialRecordContent" style="padding: 1rem 0; font-size: 0.82rem;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;">
+        <button type="button" class="btn btn-secondary" id="closeOfficialRecordModalBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Logic Scripts -->
+  <script src="./js/forensic-core.js"></script>
+  <script src="./js/document-validator.js"></script>
+  <script src="./js/metadata-extractor.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/pwa.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100">
+  <rect width="900" height="1100" fill="#0d131f" stroke="#233554" stroke-width="4"/>
+
+  <!-- Brand / Header -->
+  <text x="60" y="90" font-family="'Segoe UI', sans-serif" font-size="28" font-weight="900" fill="#00f0ff">APEX CLOUD LOGISTICS INC.</text>
+  <text x="60" y="120" font-family="sans-serif" font-size="14" fill="#8892b0">Tax ID: US-882941049 | 100 Tech Boulevard, Suite 400</text>
+  <line x1="60" y1="150" x2="840" y2="150" stroke="#233554" stroke-width="2"/>
+
+  <!-- Meta Info -->
+  <text x="60" y="200" font-family="sans-serif" font-size="14" fill="#8892b0">INVOICE NUMBER:</text>
+  <text x="60" y="225" font-family="monospace" font-size="18" fill="#ffffff" font-weight="bold">INV-2026-99042</text>
+
+  <text x="320" y="200" font-family="sans-serif" font-size="14" fill="#8892b0">ISSUE DATE:</text>
+  <text x="320" y="225" font-family="sans-serif" font-size="16" fill="#ffffff">October 14, 2026</text>
+
+  <text x="580" y="200" font-family="sans-serif" font-size="14" fill="#8892b0">PAYMENT TERMS:</text>
+  <text x="580" y="225" font-family="sans-serif" font-size="16" fill="#00f0ff">Net 30 Days</text>
+
+  <!-- Table Header -->
+  <rect x="60" y="270" width="780" height="45" fill="#141d2f" rx="4"/>
+  <text x="80" y="300" font-family="sans-serif" font-size="14" font-weight="bold" fill="#00f0ff">DESCRIPTION</text>
+  <text x="460" y="300" font-family="sans-serif" font-size="14" font-weight="bold" fill="#00f0ff">QTY</text>
+  <text x="570" y="300" font-family="sans-serif" font-size="14" font-weight="bold" fill="#00f0ff">UNIT PRICE</text>
+  <text x="730" y="300" font-family="sans-serif" font-size="14" font-weight="bold" fill="#00f0ff">AMOUNT</text>
+
+  <!-- Items -->
+  <text x="80" y="360" font-family="sans-serif" font-size="15" fill="#ffffff">High-Availability Cloud Cluster Node (Month)</text>
+  <text x="470" y="360" font-family="monospace" font-size="15" fill="#ffffff">4</text>
+  <text x="570" y="360" font-family="monospace" font-size="15" fill="#ffffff">$600.00</text>
+  <text x="730" y="360" font-family="monospace" font-size="15" fill="#ffffff">$2,400.00</text>
+
+  <line x1="60" y1="390" x2="840" y2="390" stroke="#1b253b" stroke-width="1"/>
+
+  <text x="80" y="430" font-family="sans-serif" font-size="15" fill="#ffffff">Dedicated Fiber Gateway Tunnel (10 Gbps)</text>
+  <text x="470" y="430" font-family="monospace" font-size="15" fill="#ffffff">1</text>
+  <text x="570" y="430" font-family="monospace" font-size="15" fill="#ffffff">$800.00</text>
+  <text x="730" y="430" font-family="monospace" font-size="15" fill="#ffffff">$800.00</text>
+
+  <line x1="60" y1="460" x2="840" y2="460" stroke="#1b253b" stroke-width="1"/>
+
+  <!-- Math Calculations Breakdown -->
+  <text x="520" y="550" font-family="sans-serif" font-size="15" fill="#8892b0">Subtotal:</text>
+  <text x="730" y="550" font-family="monospace" font-size="16" fill="#ffffff">$3,200.00</text>
+
+  <text x="520" y="590" font-family="sans-serif" font-size="15" fill="#8892b0">Tax (8.25%):</text>
+  <text x="730" y="590" font-family="monospace" font-size="16" fill="#ffffff">$264.00</text>
+
+  <!-- TAMPERED TOTAL FIELD (Original should be $3,464.00, edited to $9,464.00) -->
+  <rect x="490" y="630" width="350" height="70" fill="#24111d" stroke="#ff0055" stroke-width="3" rx="8"/>
+  <text x="510" y="675" font-family="sans-serif" font-size="20" font-weight="bold" fill="#ff4d79">TOTAL DUE:</text>
+  <text x="680" y="678" font-family="'Impact', sans-serif" font-size="28" fill="#ff0055">$9,464.00</text>
+  <text x="510" y="720" font-family="sans-serif" font-size="12" fill="#ff6b8b">[ARITHMETIC DISCREPANCY: 3,200 + 264 != 9,464]</text>
+
+  <!-- Cloned Audit Stamp -->
+  <g transform="translate(120, 680) rotate(-12)">
+    <rect width="180" height="80" rx="10" fill="none" stroke="#ff0055" stroke-width="3" stroke-dasharray="8,4"/>
+    <text x="25" y="48" font-family="sans-serif" font-size="18" font-weight="900" fill="#ff0055">VERIFIED</text>
+    <text x="28" y="68" font-family="sans-serif" font-size="10" fill="#ff4d79">OFFICIAL AUDIT</text>
+  </g>
+
+  <!-- IBAN Information -->
+  <text x="60" y="850" font-family="sans-serif" font-size="14" fill="#8892b0">REMITTANCE IBAN:</text>
+  <!-- Invalid IBAN checksum -->
+  <text x="60" y="880" font-family="monospace" font-size="16" fill="#ffdd55">DE89 3704 0044 0532 0130 99</text>
+</svg>
