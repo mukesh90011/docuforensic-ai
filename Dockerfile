@@ -17,3 +17,4 @@ EXPOSE 8080
 
 # Run DocuForensic AI application
 CMD ["node", "server.js"]
+

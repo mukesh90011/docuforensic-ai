@@ -1,4 +1,8 @@
-require('dotenv').config();
+try {
+  require('dotenv').config();
+} catch (e) {
+  // In cloud environments (Render, Cloud Run, Vercel), env vars are provided directly by host
+}
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
