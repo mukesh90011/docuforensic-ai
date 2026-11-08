@@ -1,0 +1,6 @@
+# Robots.txt for DocuForensic AI - Fake Document Detector
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://docuforensic-ai.onrender.com/sitemap.xml
