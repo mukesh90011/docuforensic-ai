@@ -30,6 +30,32 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
+// Setup Central Multi-Device Database Storage
+const dataDir = path.join(__dirname, 'data');
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+const dbPath = path.join(dataDir, 'database.json');
+
+function getDb() {
+  try {
+    if (fs.existsSync(dbPath)) {
+      return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+    }
+  } catch (e) {
+    console.error('Error reading central database:', e);
+  }
+  return { users: [], masterRegistry: [], policeDatabase: [], scans: [] };
+}
+
+function saveDb(data) {
+  try {
+    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+    return true;
+  } catch (e) {
+    console.error('Error writing central database:', e);
+    return false;
+  }
+}
+
 const upload = multer({
   dest: uploadsDir,
   limits: { fileSize: 40 * 1024 * 1024 } // 40MB limit
@@ -65,6 +91,198 @@ app.get('/api/health', (req, res) => {
     version: '1.0.0',
     app: 'DocuForensic AI',
     timestamp: new Date().toISOString()
+  });
+});
+
+// ===================================================================
+// CENTRAL MULTI-DEVICE DATABASE API (Real-Time Sync Across Phones & PCs)
+// ===================================================================
+
+// 1. Full Database Sync for Clients
+app.get('/api/db/sync', (req, res) => {
+  const db = getDb();
+  res.json({
+    success: true,
+    users: db.users || [],
+    masterRegistry: db.masterRegistry || [],
+    policeDatabase: db.policeDatabase || [],
+    scans: db.scans || [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+// 2. Central User Registration
+app.post('/api/db/user/register', (req, res) => {
+  const { firstName, surname, name, email, password, role, title, department } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, error: 'Email and password required.' });
+  }
+
+  const db = getDb();
+  const cleanEmail = email.trim().toLowerCase();
+  const existing = (db.users || []).find(u => u.email.toLowerCase() === cleanEmail);
+  if (existing) {
+    return res.status(400).json({ success: false, error: 'This Gmail is already registered in Central Database.' });
+  }
+
+  const newUser = {
+    id: `usr_${Date.now()}`,
+    firstName: firstName || 'Agent',
+    surname: surname || '',
+    name: name || `${firstName} ${surname}`.trim(),
+    email: cleanEmail,
+    password: password,
+    role: role || 'citizen',
+    title: title || (role === 'police' ? 'Police Inspector' : role === 'issuer' ? 'Govt Registrar' : 'Citizen Document Holder'),
+    department: department || 'Cyber Verification Division',
+    avatar: role === 'police' ? '👮' : role === 'issuer' ? '🏛️' : '👤',
+    verifiedGmail: true,
+    createdAt: new Date().toISOString()
+  };
+
+  db.users = db.users || [];
+  db.users.push(newUser);
+  saveDb(db);
+
+  console.log(`👤 [Central DB]: User registered successfully: ${newUser.email} (${newUser.role})`);
+  res.json({ success: true, user: newUser });
+});
+
+// 3. Central User Login
+app.post('/api/db/user/login', (req, res) => {
+  const { email, password, role } = req.body;
+  const db = getDb();
+  const cleanEmail = (email || '').trim().toLowerCase();
+
+  const user = (db.users || []).find(u => u.email.toLowerCase() === cleanEmail && u.password === password);
+  if (!user) {
+    return res.status(401).json({ success: false, error: 'Invalid Gmail address or Cyber Password.' });
+  }
+
+  // If role specified and doesn't match
+  if (role && user.role !== role) {
+    return res.status(403).json({ 
+      success: false, 
+      error: `Access Denied: Account registered as "${user.role.toUpperCase()}", not "${role.toUpperCase()}".` 
+    });
+  }
+
+  res.json({ success: true, user });
+});
+
+// 4. Central Issuing Authority: Issue New Official Record
+app.post('/api/db/registry/issue', (req, res) => {
+  const record = req.body;
+  if (!record || !record.docNumber) {
+    return res.status(400).json({ success: false, error: 'Document Number is required.' });
+  }
+
+  const db = getDb();
+  db.masterRegistry = db.masterRegistry || [];
+
+  const newRecord = {
+    id: `REG-${Date.now()}`,
+    docNumber: record.docNumber.trim(),
+    docType: record.docType || 'Official Credential',
+    holderName: record.holderName || 'Authorized Holder',
+    fatherName: record.fatherName || '',
+    dob: record.dob || '',
+    address: record.address || '',
+    issuedBy: record.issuedBy || 'Government / University Registry',
+    issueDate: record.issueDate || new Date().toISOString().split('T')[0],
+    sampleType: record.sampleType || 'clean',
+    status: record.status || 'AUTHENTIC_ACTIVE',
+    securityFeatures: record.securityFeatures || ['Cryptographic Ledger Hash', 'Digital Seal'],
+    crimeRecord: false
+  };
+
+  db.masterRegistry.unshift(newRecord);
+  saveDb(db);
+
+  console.log(`🏛️ [Central DB]: New document issued into Master Ledger: ${newRecord.docNumber}`);
+  res.json({ success: true, record: newRecord });
+});
+
+// 5. Central Police Database: Flag / Impound Document
+app.post('/api/db/police/flag', (req, res) => {
+  const fir = req.body;
+  if (!fir || !fir.linkedDocNumber) {
+    return res.status(400).json({ success: false, error: 'Linked Document Number is required.' });
+  }
+
+  const db = getDb();
+  db.policeDatabase = db.policeDatabase || [];
+
+  const newFir = {
+    firNumber: fir.firNumber || `FIR #${Math.floor(100 + Math.random() * 900)}/${new Date().getFullYear()}`,
+    caseTitle: fir.caseTitle || 'Criminal Forgery & Fraud Investigation',
+    suspectName: fir.suspectName || 'Unknown Suspect / Impersonator',
+    linkedDocNumber: fir.linkedDocNumber.trim(),
+    policeStation: fir.policeStation || 'Central Cyber Crime Police Station',
+    sections: fir.sections || 'Section 468, 471 IPC (Forgery of Valuable Security)',
+    status: 'IMPOUNDED / ACTIVE INVESTIGATION',
+    severity: 'HIGH_CRIME',
+    details: fir.details || 'Document flagged for unauthorized tampering and impounded by Cyber Police Unit.',
+    timestamp: new Date().toISOString()
+  };
+
+  db.policeDatabase.unshift(newFir);
+
+  // Also update masterRegistry status if present
+  if (db.masterRegistry) {
+    const match = db.masterRegistry.find(r => r.docNumber === newFir.linkedDocNumber);
+    if (match) {
+      match.crimeRecord = true;
+      match.linkedFir = newFir.firNumber;
+      match.status = 'OFFICIAL_RECORD_TAMPERED';
+    }
+  }
+
+  saveDb(db);
+
+  console.log(`👮 [Central DB]: Document impounded by Police in Central Ledger: ${newFir.linkedDocNumber}`);
+  res.json({ success: true, fir: newFir });
+});
+
+// 6. Central Network Scan Logging & Duplicate Cross-Device Tracking
+app.post('/api/db/scan/record', (req, res) => {
+  const { title, sampleType, riskScore, verdict, checksum } = req.body;
+  const db = getDb();
+  db.scans = db.scans || [];
+
+  const lowerTitle = (title || '').toLowerCase();
+  const priorScans = db.scans.filter(s => {
+    if (sampleType && s.sampleType === sampleType) return true;
+    if (checksum && s.checksum === checksum) return true;
+    if (lowerTitle && s.title && s.title.toLowerCase().includes(lowerTitle)) return true;
+    return false;
+  });
+
+  const scanCount = priorScans.length + 1;
+  const isPreUploaded = priorScans.length > 0;
+  const firstSeen = isPreUploaded ? priorScans[priorScans.length - 1] : null;
+
+  const newScan = {
+    id: `SCAN-${Date.now()}`,
+    title: title || 'Unknown Document',
+    sampleType: sampleType || null,
+    riskScore: riskScore || 0,
+    verdict: verdict || 'UNKNOWN',
+    checksum: checksum || null,
+    timestamp: new Date().toISOString()
+  };
+
+  db.scans.unshift(newScan);
+  // Keep last 500 scans
+  if (db.scans.length > 500) db.scans.pop();
+  saveDb(db);
+
+  res.json({
+    success: true,
+    scanCount,
+    isPreUploaded,
+    firstSeen: firstSeen ? firstSeen.timestamp : newScan.timestamp,
+    totalNetworkScans: db.scans.length
   });
 });
 

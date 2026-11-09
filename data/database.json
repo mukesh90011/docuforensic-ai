@@ -1,0 +1,147 @@
+{
+  "users": [
+    {
+      "id": "usr_issuer_1",
+      "firstName": "Dr. Rajesh",
+      "surname": "Sharma",
+      "name": "Dr. Rajesh Sharma (Govt Registrar)",
+      "email": "uidai.issuing.authority@gmail.com",
+      "password": "admin",
+      "role": "issuer",
+      "title": "Chief Registrar & Govt Issuing Authority",
+      "department": "UIDAI & National Academic Accreditation Authority",
+      "avatar": "🏛️",
+      "verifiedGmail": true,
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "usr_citizen_1",
+      "firstName": "Mukesh",
+      "surname": "Gupta",
+      "name": "Mukesh Gupta (Citizen)",
+      "email": "kahanagupta84@gmail.com",
+      "password": "user",
+      "role": "citizen",
+      "title": "Citizen Document Holder",
+      "department": "Citizen Self-Verification Portal",
+      "avatar": "👤",
+      "verifiedGmail": true,
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "usr_police_1",
+      "firstName": "Inspector Vikram",
+      "surname": "Rathore",
+      "name": "Inspector Vikram Rathore",
+      "email": "cybercrime.investigator@gmail.com",
+      "password": "police",
+      "role": "police",
+      "title": "Senior Cyber Crime & Forensic Inspector",
+      "department": "Police Crime Branch & Forgery Investigation Unit",
+      "avatar": "👮",
+      "verifiedGmail": true,
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    }
+  ],
+  "masterRegistry": [
+    {
+      "id": "REG-UIDAI-9021",
+      "docNumber": "AADHAAR-9021-4412-8800",
+      "docType": "Aadhaar Identity Card",
+      "holderName": "Mukesh Gupta",
+      "fatherName": "Ramprasad Gupta",
+      "dob": "1998-05-12",
+      "address": "Arya College Campus, Jaipur, Rajasthan, India",
+      "issuedBy": "Unique Identification Authority of India (UIDAI) - Govt of India",
+      "issueDate": "2022-04-10",
+      "sampleType": "id_specimen",
+      "status": "AUTHENTIC_ACTIVE",
+      "securityFeatures": ["Holographic Ashoka Emblem", "Guilloche Micro-pattern", "UIDAI Digital QR Stamp"],
+      "crimeRecord": false
+    },
+    {
+      "id": "REG-MEA-8920",
+      "docNumber": "A98442109",
+      "docType": "Biometric Passport (TD3)",
+      "holderName": "Marcus Vance",
+      "dob": "1989-08-14",
+      "issuedBy": "Ministry of External Affairs / Consular Division",
+      "issueDate": "2021-12-31",
+      "sampleType": "passport",
+      "status": "OFFICIAL_RECORD_TAMPERED",
+      "securityFeatures": ["ICAO 9303 MRZ Modulo-10 Checksum", "UV Fluorescent Fibers"],
+      "tamperNotice": "Original registered name is 'Marcus Vance'. The uploaded document was modified with photo splicing to impersonate Elizabeth Clara with corrupted MRZ checksum.",
+      "crimeRecord": true,
+      "linkedFir": "FIR #78/2026 - International Forged Passport Syndicate"
+    },
+    {
+      "id": "REG-CERT-AI-991",
+      "docNumber": "CERT-AI-2026-991",
+      "docType": "AI & Data Science Professional Certificate",
+      "holderName": "Mukesh Gupta",
+      "institute": "Arya College AI Training & Research Center",
+      "issuedBy": "National AI Accreditation Board & Arya College",
+      "issueDate": "2026-05-15",
+      "sampleType": "clean",
+      "status": "AUTHENTIC_ACTIVE",
+      "securityFeatures": ["Cryptographic Verification Hash", "Digital Registrar Seal"],
+      "crimeRecord": false
+    },
+    {
+      "id": "REG-INV-2026",
+      "docNumber": "INV-2026-8820",
+      "docType": "Commercial Tax Invoice",
+      "issuedBy": "Apex International Logistics & Customs Clearing",
+      "billedTo": "Global Freight Forwarders Ltd",
+      "originalTotal": 3464.0,
+      "issueDate": "2026-10-14",
+      "sampleType": "invoice",
+      "status": "OFFICIAL_RECORD_TAMPERED",
+      "tamperNotice": "Original registered invoice total is $3,464.00. The uploaded document was inflated to $9,464.00 (+$6,000 fraud).",
+      "crimeRecord": true,
+      "linkedFir": "FIR #402/2025 - Financial Fraud & Invoice Inflation"
+    }
+  ],
+  "policeDatabase": [
+    {
+      "firNumber": "FIR #78/2026 / Cyber Crime Unit",
+      "caseTitle": "International Forged Passport & Identity Theft Syndicate",
+      "suspectName": "Vikram Malhotra (Alias: Elizabeth Clara / Fake Passport)",
+      "linkedDocNumber": "A98442109",
+      "policeStation": "Cyber Crime Police Station, New Delhi",
+      "sections": "Section 468, 471, 420 IPC (Forgery for Cheating & False Identity)",
+      "status": "WANTED / CRITICAL ALERT",
+      "severity": "HIGH_CRIME",
+      "details": "Suspect used spliced photo over genuine passport record A98442109 to flee immigration checkpoint."
+    },
+    {
+      "firNumber": "FIR #402/2025 / EOW Branch",
+      "caseTitle": "Commercial Invoice Inflation & Bank Loan Fraud",
+      "suspectName": "Apex Trade Associates / Syndicate #4",
+      "linkedDocNumber": "INV-2026-8820",
+      "policeStation": "Economic Offences Wing (EOW)",
+      "sections": "Section 467, 471 IPC & Prevention of Money Laundering Act",
+      "status": "UNDER ACTIVE CHARGESHEET",
+      "severity": "FINANCIAL_CRIME",
+      "details": "Altered tax invoices by +$6,000 using digital font manipulation to claim unauthorized bank credits."
+    }
+  ],
+  "scans": [
+    {
+      "id": "SCAN-INIT-01",
+      "title": "United Federation Passport - Bio Page",
+      "sampleType": "passport",
+      "riskScore": 88,
+      "verdict": "FLAGGED_FORGERY",
+      "timestamp": "2026-10-28T09:15:00.000Z"
+    },
+    {
+      "id": "SCAN-INIT-02",
+      "title": "Logistics Commercial Invoice #INV-2026",
+      "sampleType": "invoice",
+      "riskScore": 76,
+      "verdict": "PENDING_REVIEW",
+      "timestamp": "2026-10-28T08:40:00.000Z"
+    }
+  ]
+}

@@ -249,6 +249,40 @@ class AuthManager {
     if (!localStorage.getItem(this.POLICE_DB_KEY)) {
       localStorage.setItem(this.POLICE_DB_KEY, JSON.stringify(this.defaultPoliceDatabase));
     }
+
+    // Trigger async multi-device sync with Central Cloud Server
+    this.syncWithCentralDb();
+  }
+
+  /**
+   * Syncs with central server database (real-time cross-device sync)
+   */
+  static async syncWithCentralDb() {
+    if (this._syncing) return;
+    this._syncing = true;
+    try {
+      const resp = await fetch('/api/db/sync');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.users && data.users.length) {
+          localStorage.setItem(this.USERS_KEY, JSON.stringify(data.users));
+        }
+        if (data.masterRegistry && data.masterRegistry.length) {
+          localStorage.setItem(this.MASTER_REGISTRY_KEY, JSON.stringify(data.masterRegistry));
+        }
+        if (data.policeDatabase && data.policeDatabase.length) {
+          localStorage.setItem(this.POLICE_DB_KEY, JSON.stringify(data.policeDatabase));
+        }
+        if (data.scans) {
+          localStorage.setItem('docuforensic_central_scans', JSON.stringify(data.scans));
+        }
+        console.log('🌐 [DocuForensic AI]: Central Multi-Device Database Synced Successfully.');
+      }
+    } catch (e) {
+      console.warn('Central DB sync running in local cache mode.');
+    } finally {
+      this._syncing = false;
+    }
   }
 
   static getCurrentUser() {
@@ -528,6 +562,15 @@ class AuthManager {
     users.push(newUser);
     localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
 
+    // Asynchronously dispatch to central server database
+    try {
+      fetch('/api/db/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser)
+      }).catch(() => {});
+    } catch (e) {}
+
     // Clear active OTP session
     sessionStorage.removeItem(this.OTP_KEY);
 
@@ -619,6 +662,16 @@ class AuthManager {
 
     registry.unshift(newRecord);
     localStorage.setItem(this.MASTER_REGISTRY_KEY, JSON.stringify(registry));
+
+    // Asynchronously sync with central server database
+    try {
+      fetch('/api/db/registry/issue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newRecord)
+      }).catch(() => {});
+    } catch (e) {}
+
     return newRecord;
   }
 
@@ -648,6 +701,16 @@ class AuthManager {
 
     db.unshift(newFir);
     localStorage.setItem(this.POLICE_DB_KEY, JSON.stringify(db));
+
+    // Asynchronously sync with central server database
+    try {
+      fetch('/api/db/police/flag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newFir)
+      }).catch(() => {});
+    } catch (e) {}
+
     return newFir;
   }
 
@@ -663,8 +726,11 @@ class AuthManager {
 
     const lowerTitle = (title || '').toLowerCase();
 
-    // 1. PRE-UPLOAD / DUPLICATE CHECK
-    const priorUploads = vault.filter(d => {
+    // 1. PRE-UPLOAD / DUPLICATE CHECK (Local Vault + Central Network Scans)
+    const centralScans = JSON.parse(localStorage.getItem('docuforensic_central_scans') || '[]');
+    const allPrior = [...vault, ...centralScans];
+
+    const priorUploads = allPrior.filter(d => {
       if (sampleType && d.sampleType === sampleType) return true;
       if (lowerTitle && d.title && d.title.toLowerCase().includes(lowerTitle)) return true;
       return false;
@@ -673,6 +739,19 @@ class AuthManager {
     const isPreUploaded = priorUploads.length > 0;
     const scanCount = priorUploads.length + 1;
     const firstUpload = isPreUploaded ? priorUploads[priorUploads.length - 1] : null;
+
+    // Asynchronously log scan event to central network database
+    try {
+      fetch('/api/db/scan/record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          sampleType,
+          timestamp: new Date().toISOString()
+        })
+      }).catch(() => {});
+    } catch (e) {}
 
     // 2. CENTRAL MASTER REGISTRY CHECK (Real vs Fake)
     let masterMatch = null;

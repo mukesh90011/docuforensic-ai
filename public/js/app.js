@@ -1669,12 +1669,47 @@ function updateCentralRegistryAndPoliceVerification(docTitle, sampleTypeHint) {
       policeDetailsText.textContent = `No criminal complaints, warrants, or forgery flags recorded.`;
     }
   }
+
+  // 4. Update Smart AI OCR Extracted Fields Card
+  if (typeof SmartOcrEngine !== 'undefined') {
+    const ocrData = SmartOcrEngine.extractFields(null, sampleTypeHint, title);
+    appState.currentOcrData = ocrData;
+
+    const ocrGrid = document.getElementById('ocrExtractedFieldsGrid');
+    if (ocrGrid && ocrData.fieldsList) {
+      ocrGrid.innerHTML = ocrData.fieldsList.map(f => `
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 240, 255, 0.15); border-radius: 4px; padding: 0.45rem 0.6rem;">
+          <div style="font-size: 0.63rem; color: #8b949e; text-transform: uppercase; font-weight: 700;">${f.label}</div>
+          <div style="font-size: 0.76rem; font-weight: 700; color: ${f.value.includes('Tampered') || f.value.includes('MISMATCH') || f.value.includes('Spliced') ? '#ff3366' : '#00ffcc'}; margin-top: 2px; word-break: break-word;">${f.value}</div>
+        </div>
+      `).join('');
+    }
+  }
 }
 
 /**
  * Initializes Authority (Issue Doc), Police DB, and Master Record Modals
  */
 function initAuthorityAndPoliceModals() {
+  // Court-Admissible Forensic PDF Evidence Report Handler
+  const downloadPdfBtn = document.getElementById('downloadOfficialForensicPdfBtn');
+  if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', () => {
+      if (typeof ForensicReportGenerator !== 'undefined') {
+        const title = document.getElementById('activeDocumentName')?.textContent || 'Document Evidence';
+        ForensicReportGenerator.openReportModal({
+          docTitle: title,
+          docType: appState.currentOcrData ? appState.currentOcrData.detectedType : 'Official Credential',
+          riskScore: appState.forensicResults ? appState.forensicResults.riskScore : (appState.currentVerification?.registry?.status === 'REAL_AUTHENTIC' ? 4 : 88),
+          riskLevel: appState.forensicResults ? appState.forensicResults.riskLevel : 'CRITICAL',
+          elaData: appState.forensicResults ? appState.forensicResults.ela : null,
+          ocrData: appState.currentOcrData,
+          integrityData: appState.currentVerification,
+          currentUser: AuthManager.getCurrentUser()
+        });
+      }
+    });
+  }
   // 1. Issue Document Modal
   const issueModal = document.getElementById('issueDocModal');
   const btnOpenIssue = document.getElementById('btnOpenIssueDocModal');
