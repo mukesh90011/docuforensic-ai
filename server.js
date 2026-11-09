@@ -90,9 +90,35 @@ app.get('/api/health', (req, res) => {
     status: 'ONLINE',
     version: '1.0.0',
     app: 'DocuForensic AI',
+    keepAlive: 'ACTIVE_24_7',
     timestamp: new Date().toISOString()
   });
 });
+
+// 24/7 Autonomous Keep-Alive Heartbeat (Prevents Render Sleep Mode)
+const KEEP_ALIVE_URL = process.env.KEEP_ALIVE_URL || 'https://docuforensic-ai.onrender.com/api/health';
+const KEEP_ALIVE_INTERVAL = 10 * 60 * 1000; // Ping every 10 minutes (Render sleeps at 15 mins)
+
+function initKeepAliveHeartbeat() {
+  const https = require('https');
+  const http = require('http');
+
+  setInterval(() => {
+    try {
+      const client = KEEP_ALIVE_URL.startsWith('https') ? https : http;
+      client.get(KEEP_ALIVE_URL, (res) => {
+        console.log(`💓 [24/7 Keep-Alive Heartbeat]: Pinged ${KEEP_ALIVE_URL} - Status: ${res.statusCode}`);
+      }).on('error', (err) => {
+        console.warn(`⚠️ [Keep-Alive Notice]: ${err.message}`);
+      });
+    } catch (e) {
+      // Ignore background keep-alive network errors
+    }
+  }, KEEP_ALIVE_INTERVAL);
+}
+
+// Start keep-alive worker
+initKeepAliveHeartbeat();
 
 // ===================================================================
 // CENTRAL MULTI-DEVICE DATABASE API (Real-Time Sync Across Phones & PCs)
