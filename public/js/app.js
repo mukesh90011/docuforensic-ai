@@ -251,6 +251,12 @@ function renderActiveFilterLayer() {
     sourceCanvas = res.edges.canvas;
   } else if (appState.activeFilter === 'clones') {
     sourceCanvas = res.ela.canvas; // With clone lines
+  } else if (appState.activeFilter === 'uv' && res.uv) {
+    sourceCanvas = res.uv.canvas;
+  } else if (appState.activeFilter === 'hologram' && res.hologram) {
+    sourceCanvas = res.hologram.canvas;
+  } else if (appState.activeFilter === 'dct' && res.dct) {
+    sourceCanvas = res.dct.canvas;
   }
 
   if (sourceCanvas) {

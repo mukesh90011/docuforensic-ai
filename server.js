@@ -286,6 +286,57 @@ app.post('/api/db/scan/record', (req, res) => {
   });
 });
 
+// 7. Client Rehydration & Resilient Storage Sync (Prevents Container Restart Data Loss)
+app.post('/api/db/client-sync', (req, res) => {
+  const clientData = req.body;
+  if (!clientData) return res.json({ success: true });
+
+  const db = getDb();
+  let changed = false;
+
+  // Merge users
+  if (Array.isArray(clientData.users)) {
+    clientData.users.forEach(cu => {
+      if (cu.email && !db.users.some(u => u.email.toLowerCase() === cu.email.toLowerCase())) {
+        db.users.push(cu);
+        changed = true;
+      }
+    });
+  }
+
+  // Merge masterRegistry
+  if (Array.isArray(clientData.masterRegistry)) {
+    clientData.masterRegistry.forEach(cr => {
+      if (cr.docNumber && !db.masterRegistry.some(r => r.docNumber === cr.docNumber)) {
+        db.masterRegistry.unshift(cr);
+        changed = true;
+      }
+    });
+  }
+
+  // Merge policeDatabase
+  if (Array.isArray(clientData.policeDatabase)) {
+    clientData.policeDatabase.forEach(cp => {
+      if (cp.linkedDocNumber && !db.policeDatabase.some(p => p.linkedDocNumber === cp.linkedDocNumber)) {
+        db.policeDatabase.unshift(cp);
+        changed = true;
+      }
+    });
+  }
+
+  if (changed) {
+    saveDb(db);
+    console.log('🔄 [Central DB]: Resilient Client Auto-Rehydration Synced Successfully.');
+  }
+
+  res.json({
+    success: true,
+    users: db.users,
+    masterRegistry: db.masterRegistry,
+    policeDatabase: db.policeDatabase
+  });
+});
+
 // API: Network & Hosting Information (for multi-browser and mobile QR connecting)
 app.get('/api/network-info', (req, res) => {
   const localIp = getLocalIpv4();

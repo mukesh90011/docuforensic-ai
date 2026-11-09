@@ -277,6 +277,21 @@ class AuthManager {
           localStorage.setItem('docuforensic_central_scans', JSON.stringify(data.scans));
         }
         console.log('🌐 [DocuForensic AI]: Central Multi-Device Database Synced Successfully.');
+
+        // Resilient Auto-Rehydration: Ensure any local user creations are backed up to central server
+        const localUsers = JSON.parse(localStorage.getItem(this.USERS_KEY) || '[]');
+        const localRegistry = JSON.parse(localStorage.getItem(this.MASTER_REGISTRY_KEY) || '[]');
+        const localPolice = JSON.parse(localStorage.getItem(this.POLICE_DB_KEY) || '[]');
+        
+        fetch('/api/db/client-sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            users: localUsers,
+            masterRegistry: localRegistry,
+            policeDatabase: localPolice
+          })
+        }).catch(() => {});
       }
     } catch (e) {
       console.warn('Central DB sync running in local cache mode.');

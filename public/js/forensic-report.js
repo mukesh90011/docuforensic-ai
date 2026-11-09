@@ -257,3 +257,4 @@ class ForensicReportGenerator {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = ForensicReportGenerator;
 }
+
