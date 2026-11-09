@@ -309,6 +309,7 @@ function updateRiskRadar(results) {
   gaugeCircle.style.strokeDashoffset = offset;
 
   if (score >= 65) {
+    if (window.DynamicBackground) window.DynamicBackground.setTheme('threat', 8000);
     riskCard.className = 'risk-card danger';
     gaugeCircle.style.stroke = 'var(--accent-crimson)';
     scoreNum.style.color = 'var(--accent-crimson)';
@@ -337,6 +338,7 @@ function updateRiskRadar(results) {
     document.getElementById('mrzStatusTag').className = 'indicator-status pass';
     document.getElementById('mrzStatusTag').textContent = 'PASSED';
   } else {
+    if (window.DynamicBackground) window.DynamicBackground.setTheme('clean', 7000);
     riskCard.className = 'risk-card clean';
     gaugeCircle.style.stroke = 'var(--accent-emerald)';
     scoreNum.style.color = 'var(--accent-emerald)';
@@ -1438,6 +1440,7 @@ function initAuthUI() {
   // 6. Logout Handlers
   function handleLogout() {
     AuthManager.logout();
+    if (window.DynamicBackground) window.DynamicBackground.setTheme('auth');
     if (overlay) overlay.classList.remove('hidden');
     updateUserHeaderDisplay();
     renderVaultTable();
@@ -1531,6 +1534,7 @@ function updateUserHeaderDisplay() {
     if (deptEl) deptEl.textContent = `${user.email} • Verified Gmail`;
 
     if (user.role === 'issuer') {
+      if (window.DynamicBackground) window.DynamicBackground.setTheme('issuer');
       if (roleEl) {
         roleEl.textContent = '🏛️ Govt / Issuer Authority';
         roleEl.style.color = '#00ffcc';
@@ -1545,6 +1549,7 @@ function updateUserHeaderDisplay() {
       if (btnOpenIssueDoc) btnOpenIssueDoc.classList.remove('hidden');
       if (btnOpenPoliceDb) btnOpenPoliceDb.classList.add('hidden');
     } else if (user.role === 'police') {
+      if (window.DynamicBackground) window.DynamicBackground.setTheme('police');
       if (roleEl) {
         roleEl.textContent = '👮 Police Crime Investigator';
         roleEl.style.color = '#ff6b8b';
@@ -1560,6 +1565,7 @@ function updateUserHeaderDisplay() {
       if (btnOpenPoliceDb) btnOpenPoliceDb.classList.remove('hidden');
     } else {
       // Citizen / Document Holder
+      if (window.DynamicBackground) window.DynamicBackground.setTheme(user.role === 'admin' ? 'forensic' : 'citizen');
       if (roleEl) {
         roleEl.textContent = '👤 Citizen Document Holder';
         roleEl.style.color = '#00e5ff';
