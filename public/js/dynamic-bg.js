@@ -379,9 +379,10 @@
         'closeReportModalBtn',
         'closeHostModalBtn', 'closeHostModalBtn2',
         'closeLoginModalBtn',
-        'closeIssueDocModalBtn',
+        'closeIssueDocModalBtn', 'cancelIssueDocBtn',
         'closePoliceDbModalBtn', 'closePoliceDbModalBtn2',
-        'closeOfficialRecordModalBtn', 'closeOfficialRecordModalBtn2'
+        'closeOfficialRecordModalBtn', 'closeOfficialRecordModalBtn2',
+        'closeAuthorityClearanceModalBtn', 'cancelAuthorityClearanceBtn'
       ];
 
       closeButtons.forEach((btnId) => {
@@ -668,3 +669,4 @@
   window.DynamicBackground = new ReactiveBackgroundEngine();
 
 })();
+

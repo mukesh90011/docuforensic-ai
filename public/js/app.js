@@ -1379,7 +1379,110 @@ function initAuthUI() {
     });
   }
 
-  // 4. Login Form Submit
+  // 4. Authority Clearance Role Selector & Login Controller
+  const AUTHORITY_CONFIGS = {
+    issuer: {
+      name: 'Government / Issuing Authority Portal',
+      email: 'uidai.issuing.authority@gmail.com',
+      key: 'admin',
+      icon: '🏛️',
+      color: '#00ffcc',
+      badgeClass: 'issuer',
+      sub: 'Official Registrar for UIDAI Aadhaar, Passports & Institute Certificates.',
+      btnText: '⚡ Authenticate as Issuing Authority'
+    },
+    police: {
+      name: 'Police & Law Enforcement Crime Verifier',
+      email: 'cybercrime.investigator@gmail.com',
+      key: 'police',
+      icon: '👮',
+      color: '#ff6b8b',
+      badgeClass: 'police',
+      sub: 'Criminal Investigation, FIR Cross-Referencing & Impounded Evidence Vault.',
+      btnText: '⚡ Authenticate as Police Investigator'
+    },
+    citizen: {
+      name: 'Citizen Document Holder Portal',
+      email: 'kahanagupta84@gmail.com',
+      key: 'user',
+      icon: '👤',
+      color: '#00e5ff',
+      badgeClass: 'citizen',
+      sub: 'Personal Identity & Academic Certificate Verification.',
+      btnText: '⚡ Authenticate as Citizen'
+    }
+  };
+
+  let activeAuthorityRole = 'issuer';
+
+  const authTabIssuer = document.getElementById('authTabIssuer');
+  const authTabPolice = document.getElementById('authTabPolice');
+  const authTabCitizen = document.getElementById('authTabCitizen');
+  const authorityBannerCard = document.getElementById('authorityBannerCard');
+  const authorityBannerIcon = document.getElementById('authorityBannerIcon');
+  const authorityBannerTitle = document.getElementById('authorityBannerTitle');
+  const authorityBannerSub = document.getElementById('authorityBannerSub');
+  const loginEmailLabel = document.getElementById('loginEmailLabel');
+  const loginEmailIcon = document.getElementById('loginEmailIcon');
+  const demoKeyText = document.getElementById('demoKeyText');
+  const btnFillDemoKey = document.getElementById('btnFillDemoKey');
+  const btnLoginSubmit = document.getElementById('btnLoginSubmit');
+  const btnLoginSubmitText = document.getElementById('btnLoginSubmitText');
+
+  function selectAuthorityRole(role) {
+    activeAuthorityRole = role;
+    const cfg = AUTHORITY_CONFIGS[role];
+    if (!cfg) return;
+
+    [authTabIssuer, authTabPolice, authTabCitizen].forEach(tab => {
+      if (tab) {
+        tab.classList.remove('active');
+        if (tab.dataset.role === role) tab.classList.add('active');
+      }
+    });
+
+    if (authorityBannerCard) authorityBannerCard.className = 'authority-banner-card ' + cfg.badgeClass;
+    if (authorityBannerIcon) authorityBannerIcon.textContent = cfg.icon;
+    if (authorityBannerTitle) {
+      authorityBannerTitle.textContent = cfg.name;
+      authorityBannerTitle.style.color = cfg.color;
+    }
+    if (authorityBannerSub) authorityBannerSub.textContent = cfg.sub;
+
+    const emailInput = document.getElementById('loginEmail');
+    if (emailInput) emailInput.value = cfg.email;
+    if (loginEmailLabel) loginEmailLabel.textContent = `${cfg.icon} Official ${role === 'police' ? 'Police' : (role === 'issuer' ? 'Govt' : 'Citizen')} Email`;
+    if (loginEmailIcon) loginEmailIcon.textContent = cfg.icon;
+    if (demoKeyText) demoKeyText.textContent = cfg.key;
+    if (btnFillDemoKey) btnFillDemoKey.style.color = cfg.color;
+    if (btnLoginSubmitText) btnLoginSubmitText.textContent = cfg.btnText;
+    if (btnLoginSubmit) btnLoginSubmit.style.background = `linear-gradient(135deg, ${cfg.color}, #0066ff)`;
+
+    const passInput = document.getElementById('loginPassword');
+    if (passInput) {
+      passInput.value = '';
+      passInput.focus();
+    }
+
+    if (window.DynamicBackground) window.DynamicBackground.setTheme(role);
+  }
+
+  if (authTabIssuer) authTabIssuer.addEventListener('click', () => selectAuthorityRole('issuer'));
+  if (authTabPolice) authTabPolice.addEventListener('click', () => selectAuthorityRole('police'));
+  if (authTabCitizen) authTabCitizen.addEventListener('click', () => selectAuthorityRole('citizen'));
+
+  if (btnFillDemoKey) {
+    btnFillDemoKey.addEventListener('click', () => {
+      const cfg = AUTHORITY_CONFIGS[activeAuthorityRole];
+      const passInput = document.getElementById('loginPassword');
+      if (passInput && cfg) {
+        passInput.value = cfg.key;
+        showToast(`Filled ${cfg.icon} clearance key: ${cfg.key}`, 'info');
+      }
+    });
+  }
+
+  // Login Form Submit (Requires Email + Password validation)
   if (cyberLoginForm) {
     cyberLoginForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -1388,6 +1491,11 @@ function initAuthUI() {
       const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value;
 
+      if (!email || !pass) {
+        showCyberAlert(loginAlertBox, 'Please enter your official Email and clearance Password to authenticate.', 'danger');
+        return;
+      }
+
       const res = AuthManager.login(email, pass);
       if (!res.success) {
         showCyberAlert(loginAlertBox, res.error, 'danger');
@@ -1395,45 +1503,22 @@ function initAuthUI() {
         return;
       }
 
-      showToast(`Access Granted: Welcome back, Agent ${res.user.name}`, 'success');
+      // Enforce Authority Role Clearance
+      if (activeAuthorityRole === 'issuer' && res.user.role !== 'issuer') {
+        showCyberAlert(loginAlertBox, 'Access Denied: This account is not registered with Government Issuing Authority clearance.', 'danger');
+        showToast('Access Denied: Missing Issuer Clearance', 'danger');
+        return;
+      }
+      if (activeAuthorityRole === 'police' && res.user.role !== 'police') {
+        showCyberAlert(loginAlertBox, 'Access Denied: Law Enforcement Clearance Required. Only verified Police accounts can access this portal.', 'danger');
+        showToast('Access Denied: Missing Police Clearance', 'danger');
+        return;
+      }
+
+      showToast(`Clearance Verified: Welcome ${res.user.name}`, 'success');
       if (overlay) overlay.classList.add('hidden');
       updateUserHeaderDisplay();
       renderVaultTable();
-    });
-  }
-
-  // 5. Quick 1-Click Portal Demo Profiles (3 Distinct Portals)
-  const quickIssuerCyber = document.getElementById('quickIssuerBtnCyber');
-  const quickCitizenCyber = document.getElementById('quickCitizenBtnCyber');
-  const quickPoliceCyber = document.getElementById('quickPoliceBtnCyber');
-
-  if (quickIssuerCyber) {
-    quickIssuerCyber.addEventListener('click', () => {
-      AuthManager.login('uidai.issuing.authority@gmail.com', 'admin');
-      if (overlay) overlay.classList.add('hidden');
-      updateUserHeaderDisplay();
-      renderVaultTable();
-      showToast('Authenticated as 🏛️ Issuing Authority (Dr. Rajesh Sharma - UIDAI)', 'success');
-    });
-  }
-
-  if (quickCitizenCyber) {
-    quickCitizenCyber.addEventListener('click', () => {
-      AuthManager.login('kahanagupta84@gmail.com', 'user');
-      if (overlay) overlay.classList.add('hidden');
-      updateUserHeaderDisplay();
-      renderVaultTable();
-      showToast('Authenticated as 👤 Citizen Document Holder (Mukesh Gupta)', 'info');
-    });
-  }
-
-  if (quickPoliceCyber) {
-    quickPoliceCyber.addEventListener('click', () => {
-      AuthManager.login('cybercrime.investigator@gmail.com', 'police');
-      if (overlay) overlay.classList.add('hidden');
-      updateUserHeaderDisplay();
-      renderVaultTable();
-      showToast('Authenticated as 👮 Police Crime Investigator (Inspector Vikram Rathore)', 'success');
     });
   }
 
@@ -1468,37 +1553,140 @@ function initAuthUI() {
     dropdown.addEventListener('click', (e) => e.stopPropagation());
   }
 
-  // 3-Portal Role Switchers in Dropdown
+  // Authority Security Clearance Gate (Enforces Email + Password validation before opening restricted portals)
+  function openAuthorityClearanceGate(targetRole, onSuccess) {
+    const gateModal = document.getElementById('authorityClearanceModal');
+    const gateIcon = document.getElementById('gateIcon');
+    const gateTitle = document.getElementById('gateTitle');
+    const gateSubtitle = document.getElementById('gateSubtitle');
+    const gateNoticeText = document.getElementById('gateNoticeText');
+    const gateEmailInput = document.getElementById('gateEmailInput');
+    const gatePasswordInput = document.getElementById('gatePasswordInput');
+    const gateKeyHintText = document.getElementById('gateKeyHintText');
+    const gateSubmitText = document.getElementById('gateSubmitText');
+    const gateAlertBox = document.getElementById('gateAlertBox');
+    const gateForm = document.getElementById('authorityClearanceForm');
+    const gateCloseBtn = document.getElementById('closeAuthorityClearanceModalBtn');
+    const gateCancelBtn = document.getElementById('cancelAuthorityClearanceBtn');
+    const gateAutoFillKeyBtn = document.getElementById('gateAutoFillKeyBtn');
+    const toggleGatePasswordBtn = document.getElementById('toggleGatePasswordBtn');
+
+    if (!gateModal) return;
+
+    hideCyberAlert(gateAlertBox);
+    gatePasswordInput.value = '';
+
+    const cfg = AUTHORITY_CONFIGS[targetRole] || AUTHORITY_CONFIGS.issuer;
+
+    gateIcon.textContent = cfg.icon;
+    gateTitle.textContent = `${cfg.name} Clearance`;
+    gateTitle.style.color = cfg.color;
+    gateSubtitle.textContent = `Official identity & clearance verification required`;
+    gateNoticeText.textContent = `This restricted action requires authenticated ${cfg.name} clearance. Please enter the official department email and clearance password.`;
+    gateEmailInput.value = cfg.email;
+    gateKeyHintText.textContent = cfg.key;
+    gateSubmitText.textContent = `⚡ Verify & Unlock ${cfg.icon}`;
+
+    gateModal.classList.remove('hidden');
+    gateModal.classList.add('open');
+    if (window.DynamicBackground) window.DynamicBackground.setTheme(targetRole);
+
+    const closeGate = () => {
+      gateModal.classList.remove('open');
+      gateModal.classList.add('hidden');
+      if (window.DynamicBackground) window.DynamicBackground.revertToCurrentState();
+    };
+
+    if (gateCloseBtn) gateCloseBtn.onclick = closeGate;
+    if (gateCancelBtn) gateCancelBtn.onclick = closeGate;
+
+    if (gateAutoFillKeyBtn) {
+      gateAutoFillKeyBtn.onclick = () => {
+        gatePasswordInput.value = cfg.key;
+        showToast(`Filled clearance key: ${cfg.key}`, 'info');
+      };
+    }
+
+    if (toggleGatePasswordBtn) {
+      toggleGatePasswordBtn.onclick = () => {
+        gatePasswordInput.type = gatePasswordInput.type === 'password' ? 'text' : 'password';
+      };
+    }
+
+    gateForm.onsubmit = (e) => {
+      e.preventDefault();
+      hideCyberAlert(gateAlertBox);
+
+      const email = gateEmailInput.value.trim();
+      const pass = gatePasswordInput.value;
+
+      if (!email || !pass) {
+        showCyberAlert(gateAlertBox, 'Please enter both Email and Password.', 'danger');
+        return;
+      }
+
+      const res = AuthManager.login(email, pass);
+      if (!res.success) {
+        showCyberAlert(gateAlertBox, res.error, 'danger');
+        showToast(res.error, 'danger');
+        return;
+      }
+
+      if (targetRole === 'issuer' && res.user.role !== 'issuer') {
+        showCyberAlert(gateAlertBox, 'Access Denied: This account is not registered as an Official Issuing Authority.', 'danger');
+        return;
+      }
+      if (targetRole === 'police' && res.user.role !== 'police') {
+        showCyberAlert(gateAlertBox, 'Access Denied: Only verified Law Enforcement / Police accounts have clearance.', 'danger');
+        return;
+      }
+
+      closeGate();
+      updateUserHeaderDisplay();
+      renderVaultTable();
+      showToast(`Clearance Verified! Authenticated as ${res.user.name}`, 'success');
+
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
+    };
+  }
+  window.openAuthorityClearanceGate = openAuthorityClearanceGate;
+
+  // 3-Portal Role Switchers in Dropdown (Enforcing Authority Clearance Authentication)
   const switchIssuerBtn = document.getElementById('switchIssuerBtn');
   if (switchIssuerBtn) {
     switchIssuerBtn.addEventListener('click', () => {
-      AuthManager.login('uidai.issuing.authority@gmail.com', 'admin');
-      updateUserHeaderDisplay();
-      renderVaultTable();
       dropdown.classList.add('hidden');
-      showToast('Switched to 🏛️ Issuing Authority Portal', 'success');
+      if (AuthManager.isIssuer()) {
+        showToast('Already active in 🏛️ Issuing Authority Portal', 'info');
+      } else {
+        openAuthorityClearanceGate('issuer');
+      }
     });
   }
 
   const switchCitizenBtn = document.getElementById('switchCitizenBtn');
   if (switchCitizenBtn) {
     switchCitizenBtn.addEventListener('click', () => {
-      AuthManager.login('kahanagupta84@gmail.com', 'user');
-      updateUserHeaderDisplay();
-      renderVaultTable();
       dropdown.classList.add('hidden');
-      showToast('Switched to 👤 Citizen / Holder Portal', 'info');
+      if (AuthManager.isCitizen()) {
+        showToast('Already active in 👤 Citizen / Holder Portal', 'info');
+      } else {
+        openAuthorityClearanceGate('citizen');
+      }
     });
   }
 
   const switchPoliceBtn = document.getElementById('switchPoliceBtn');
   if (switchPoliceBtn) {
     switchPoliceBtn.addEventListener('click', () => {
-      AuthManager.login('cybercrime.investigator@gmail.com', 'police');
-      updateUserHeaderDisplay();
-      renderVaultTable();
       dropdown.classList.add('hidden');
-      showToast('Switched to 👮 Police Crime Verifier Portal', 'success');
+      if (AuthManager.isPolice()) {
+        showToast('Already active in 👮 Police Crime Verifier Portal', 'info');
+      } else {
+        openAuthorityClearanceGate('police');
+      }
     });
   }
 
@@ -1730,7 +1918,15 @@ function initAuthorityAndPoliceModals() {
   const issueForm = document.getElementById('issueDocForm');
 
   if (btnOpenIssue && issueModal) {
-    btnOpenIssue.addEventListener('click', () => issueModal.classList.remove('hidden'));
+    btnOpenIssue.addEventListener('click', () => {
+      if (AuthManager.isIssuer()) {
+        issueModal.classList.remove('hidden');
+      } else {
+        openAuthorityClearanceGate('issuer', () => {
+          issueModal.classList.remove('hidden');
+        });
+      }
+    });
   }
   [btnCloseIssue, btnCancelIssue].forEach(btn => {
     if (btn && issueModal) btn.addEventListener('click', () => issueModal.classList.add('hidden'));
@@ -1811,8 +2007,15 @@ function initAuthorityAndPoliceModals() {
 
   if (btnOpenPolice && policeModal) {
     btnOpenPolice.addEventListener('click', () => {
-      renderPoliceFirs();
-      policeModal.classList.remove('hidden');
+      if (AuthManager.isPolice()) {
+        renderPoliceFirs();
+        policeModal.classList.remove('hidden');
+      } else {
+        openAuthorityClearanceGate('police', () => {
+          renderPoliceFirs();
+          policeModal.classList.remove('hidden');
+        });
+      }
     });
   }
   [btnClosePolice1, btnClosePolice2].forEach(btn => {
