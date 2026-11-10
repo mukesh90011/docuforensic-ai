@@ -402,17 +402,23 @@ app.post('/api/send-otp', async (req, res) => {
   console.log(`🔐 VERIFICATION CODE: [ ${code} ]`);
   console.log('====================================================\n');
 
-  // Attempt real email dispatch via Gmail SMTP if credentials exist in .env
-  const emailUser = process.env.EMAIL_USER;
-  const emailPass = process.env.EMAIL_PASS;
+  // Attempt real email dispatch via Gmail SMTP with fallback credentials for Render production
+  const emailUser = process.env.EMAIL_USER || 'mukesh24aiaryacollege.in@gmail.com';
+  const emailPass = process.env.EMAIL_PASS || 'skgbhspruscyoynn';
 
   if (emailUser && emailPass) {
     try {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
           user: emailUser,
           pass: emailPass
+        },
+        tls: {
+          rejectUnauthorized: false
         }
       });
 

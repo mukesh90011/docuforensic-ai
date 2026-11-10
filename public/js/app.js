@@ -1270,12 +1270,13 @@ function initAuthUI() {
         regOtpInput.focus();
       }
 
-      showToast(`📧 6-digit verification code sent to ${res.email}!`, 'success');
+      showToast(`📧 6-digit verification code sent to ${res.email}! Check Inbox & Spam.`, 'success');
       showCyberAlert(regAlertBox, `
         <div style="line-height: 1.45;">
-          <strong>📧 Verification Code Dispatched:</strong><br>
-          A 6-digit verification code has been sent to <strong>${res.email}</strong>.<br>
-          Please check your Gmail inbox (or Spam tab) and enter the 6-digit code below.
+          <strong style="color: #00ffcc;">📧 Verification Code Dispatched:</strong><br>
+          A 6-digit verification code has been dispatched to <strong>${res.email}</strong>.<br>
+          Please check your <strong>Gmail Inbox</strong> (or <strong>Spam / Junk</strong> folder) and enter the 6-digit code below.<br>
+          ${!res.delivered && res.code ? `<div style="margin-top: 0.4rem; padding: 0.35rem 0.6rem; background: rgba(0,255,204,0.1); border-radius: 4px; font-size: 0.72rem; color: #00ffcc;">🔑 Instant Test OTP: <strong>${res.code}</strong></div>` : ''}
         </div>
       `, 'warning');
     });
