@@ -413,6 +413,9 @@ app.post('/api/send-otp', async (req, res) => {
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
+        connectionTimeout: 4000,
+        greetingTimeout: 4000,
+        socketTimeout: 6000,
         auth: {
           user: emailUser,
           pass: emailPass

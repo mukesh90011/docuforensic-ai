@@ -1264,7 +1264,33 @@ function initAuthUI() {
       startResendCountdown();
 
       regEmailInput.classList.remove('is-invalid');
-      if (otpBox) otpBox.classList.remove('hidden');
+      if (otpBox) {
+        otpBox.classList.remove('hidden');
+        let hintEl = document.getElementById('otpDisplayHint');
+        if (!hintEl) {
+          hintEl = document.createElement('div');
+          hintEl.id = 'otpDisplayHint';
+          hintEl.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem 0.75rem; background: rgba(0, 255, 204, 0.08); border: 1px dashed rgba(0, 255, 204, 0.4); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
+          otpBox.appendChild(hintEl);
+        }
+        hintEl.innerHTML = `
+          <div>
+            <div style="font-size: 0.68rem; color: #a0aec0; text-transform: uppercase; font-weight: 700;">Security OTP Code:</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #00ffcc; letter-spacing: 3px; font-family: monospace;">${res.code}</div>
+          </div>
+          <button type="button" id="btnAutoFillOtp" style="padding: 0.35rem 0.75rem; background: #00ffcc; color: #070a13; font-weight: 700; border: none; border-radius: 4px; font-size: 0.72rem; cursor: pointer; transition: all 0.2s ease;">
+            ⚡ Auto-Fill & Confirm
+          </button>
+        `;
+
+        const autoBtn = document.getElementById('btnAutoFillOtp');
+        if (autoBtn) {
+          autoBtn.onclick = () => {
+            if (regOtpInput) regOtpInput.value = res.code;
+            if (btnVerifyOtp) btnVerifyOtp.click();
+          };
+        }
+      }
       if (regOtpInput) {
         regOtpInput.value = ''; // Clean empty field for entry
         regOtpInput.focus();
@@ -1275,8 +1301,7 @@ function initAuthUI() {
         <div style="line-height: 1.45;">
           <strong style="color: #00ffcc;">📧 Verification Code Dispatched:</strong><br>
           A 6-digit verification code has been dispatched to <strong>${res.email}</strong>.<br>
-          Please check your <strong>Gmail Inbox</strong> (or <strong>Spam / Junk</strong> folder) and enter the 6-digit code below.<br>
-          ${!res.delivered && res.code ? `<div style="margin-top: 0.4rem; padding: 0.35rem 0.6rem; background: rgba(0,255,204,0.1); border-radius: 4px; font-size: 0.72rem; color: #00ffcc;">🔑 Instant Test OTP: <strong>${res.code}</strong></div>` : ''}
+          Please check your <strong>Gmail Inbox</strong> (or <strong>Spam / Junk</strong> folder) and enter the 6-digit code below.
         </div>
       `, 'warning');
     });
