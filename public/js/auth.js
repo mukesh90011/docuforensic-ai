@@ -392,7 +392,6 @@ class AuthManager {
     return {
       success: true,
       email: valResult.email,
-      code: code,
       delivered: backendResult ? !!backendResult.delivered : false,
       message: backendResult && backendResult.message ? backendResult.message : `Verification code sent to ${valResult.email}.`
     };

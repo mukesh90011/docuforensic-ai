@@ -453,12 +453,11 @@ app.post('/api/send-otp', async (req, res) => {
     }
   }
 
-  // Fallback when SMTP is not configured yet or fails
+  // If SMTP dispatch fails (or is blocked by cloud hosting firewall)
   return res.json({
-    success: true,
+    success: false,
     delivered: false,
-    code: code,
-    message: `Verification code generated for ${email}. (Code: ${code})`
+    message: `Unable to dispatch verification email to ${email} via SMTP. Please try again later.`
   });
 });
 
