@@ -56,7 +56,11 @@
       "issueDate": "2022-04-10",
       "sampleType": "id_specimen",
       "status": "AUTHENTIC_ACTIVE",
-      "securityFeatures": ["Holographic Ashoka Emblem", "Guilloche Micro-pattern", "UIDAI Digital QR Stamp"],
+      "securityFeatures": [
+        "Holographic Ashoka Emblem",
+        "Guilloche Micro-pattern",
+        "UIDAI Digital QR Stamp"
+      ],
       "crimeRecord": false
     },
     {
@@ -69,7 +73,10 @@
       "issueDate": "2021-12-31",
       "sampleType": "passport",
       "status": "OFFICIAL_RECORD_TAMPERED",
-      "securityFeatures": ["ICAO 9303 MRZ Modulo-10 Checksum", "UV Fluorescent Fibers"],
+      "securityFeatures": [
+        "ICAO 9303 MRZ Modulo-10 Checksum",
+        "UV Fluorescent Fibers"
+      ],
       "tamperNotice": "Original registered name is 'Marcus Vance'. The uploaded document was modified with photo splicing to impersonate Elizabeth Clara with corrupted MRZ checksum.",
       "crimeRecord": true,
       "linkedFir": "FIR #78/2026 - International Forged Passport Syndicate"
@@ -84,7 +91,10 @@
       "issueDate": "2026-05-15",
       "sampleType": "clean",
       "status": "AUTHENTIC_ACTIVE",
-      "securityFeatures": ["Cryptographic Verification Hash", "Digital Registrar Seal"],
+      "securityFeatures": [
+        "Cryptographic Verification Hash",
+        "Digital Registrar Seal"
+      ],
       "crimeRecord": false
     },
     {
@@ -93,7 +103,7 @@
       "docType": "Commercial Tax Invoice",
       "issuedBy": "Apex International Logistics & Customs Clearing",
       "billedTo": "Global Freight Forwarders Ltd",
-      "originalTotal": 3464.0,
+      "originalTotal": 3464,
       "issueDate": "2026-10-14",
       "sampleType": "invoice",
       "status": "OFFICIAL_RECORD_TAMPERED",
@@ -128,6 +138,51 @@
   ],
   "scans": [
     {
+      "id": "SCAN-1794494168573",
+      "title": "passport",
+      "sampleType": "passport",
+      "riskScore": 0,
+      "verdict": "UNKNOWN",
+      "checksum": null,
+      "timestamp": "2026-11-12T14:36:08.573Z"
+    },
+    {
+      "id": "SCAN-1794494029617",
+      "title": "passport",
+      "sampleType": "passport",
+      "riskScore": 0,
+      "verdict": "UNKNOWN",
+      "checksum": null,
+      "timestamp": "2026-11-12T14:33:49.617Z"
+    },
+    {
+      "id": "SCAN-1794494010115",
+      "title": "chinu 10 .jpeg",
+      "sampleType": null,
+      "riskScore": 0,
+      "verdict": "UNKNOWN",
+      "checksum": null,
+      "timestamp": "2026-11-12T14:33:30.115Z"
+    },
+    {
+      "id": "SCAN-1794493977244",
+      "title": "chinu 10 .jpeg",
+      "sampleType": null,
+      "riskScore": 0,
+      "verdict": "UNKNOWN",
+      "checksum": null,
+      "timestamp": "2026-11-12T14:32:57.244Z"
+    },
+    {
+      "id": "SCAN-1794493909028",
+      "title": "passport",
+      "sampleType": "passport",
+      "riskScore": 0,
+      "verdict": "UNKNOWN",
+      "checksum": null,
+      "timestamp": "2026-11-12T14:31:49.028Z"
+    },
+    {
       "id": "SCAN-INIT-01",
       "title": "United Federation Passport - Bio Page",
       "sampleType": "passport",
@@ -145,4 +200,3 @@
     }
   ]
 }
-
