@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocuForensic AI — Official Working Video Demo & AI Showcase</title>
+  <title>DocuForensic AI — How to Login & Use | Official AI Video Walkthrough</title>
   <link rel="icon" type="image/png" href="./icons/logo.png">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,25 +24,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       padding-bottom: 0.75rem;
       border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      flex-wrap: wrap;
+      gap: 0.8rem;
     }
     .brand-title {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-    .brand-title img { width: 36px; height: 36px; border-radius: 6px; }
+    .brand-title img { width: 40px; height: 40px; border-radius: 8px; border: 1px solid #00f0ff; }
     .brand-title h1 { font-size: 1.25rem; color: #00f0ff; letter-spacing: 0.5px; }
     .brand-title p { font-size: 0.72rem; color: #94a3b8; }
 
-    .header-actions { display: flex; gap: 0.6rem; }
+    .header-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
     .btn-cyber {
       background: rgba(0, 240, 255, 0.1);
       border: 1px solid #00f0ff;
       color: #00f0ff;
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 0.9rem;
       border-radius: 6px;
       font-size: 0.8rem;
       font-weight: 700;
@@ -67,6 +69,65 @@
       background: #ff3366;
       color: #fff;
       box-shadow: 0 0 15px rgba(255, 51, 102, 0.6);
+    }
+
+    /* Mode and Language Bar */
+    .toolbar-bar {
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .mode-tabs {
+      display: flex;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 0.25rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .mode-tab-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-tab-btn.active {
+      background: #00f0ff;
+      color: #030712;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+    .lang-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .lang-btn.active {
+      background: #00ffcc;
+      color: #030712;
     }
 
     /* Video Player Canvas Box */
@@ -97,14 +158,14 @@
       bottom: 55px;
       left: 3%;
       right: 3%;
-      background: rgba(3, 7, 18, 0.88);
-      border: 1px solid rgba(0, 255, 204, 0.4);
+      background: rgba(3, 7, 18, 0.92);
+      border: 1px solid rgba(0, 255, 204, 0.5);
       border-radius: 8px;
-      padding: 0.6rem 1rem;
+      padding: 0.65rem 1.1rem;
       text-align: center;
       backdrop-filter: blur(8px);
       z-index: 20;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }
     .subtitle-speaker {
       font-size: 0.68rem;
@@ -128,7 +189,7 @@
       left: 0;
       right: 0;
       height: 50px;
-      background: rgba(7, 14, 27, 0.95);
+      background: rgba(7, 14, 27, 0.96);
       border-top: 1px solid rgba(0, 240, 255, 0.25);
       display: flex;
       align-items: center;
@@ -161,10 +222,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.2s;
+      transition: transform 0.15s;
     }
-    .ctrl-btn:hover { color: #00f0ff; }
-    .time-badge { font-family: monospace; font-size: 0.78rem; color: #94a3b8; }
+    .ctrl-btn:hover { transform: scale(1.15); color: #00f0ff; }
+    .time-badge {
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
     .scene-badge {
       font-size: 0.72rem;
       background: rgba(0, 240, 255, 0.15);
@@ -180,20 +245,23 @@
     .playlist-section {
       width: 100%;
       max-width: 1080px;
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
     }
     .playlist-title {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #00ffcc;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .scenes-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.6rem;
+      gap: 0.55rem;
     }
     .scene-card {
       background: rgba(15, 23, 42, 0.6);
@@ -240,8 +308,8 @@
     <div class="brand-title">
       <img src="./icons/logo.png" alt="DocuForensic AI Logo">
       <div>
-        <h1>DocuForensic AI — Working Demonstration</h1>
-        <p>Interactive System Architecture & Forensic Pipeline Showcase</p>
+        <h1>DocuForensic AI — Video Demonstration & Walkthrough</h1>
+        <p>Interactive System Tutorial: Kaise Login Karein & Kaise Use Karein</p>
       </div>
     </div>
     <div class="header-actions">
@@ -255,6 +323,23 @@
     </div>
   </header>
 
+  <!-- Toolbar: Video Mode & Language -->
+  <div class="toolbar-bar">
+    <div class="mode-tabs">
+      <button type="button" class="mode-tab-btn active" id="tabModeTutorial">
+        🎓 How to Login & Use (User Tutorial)
+      </button>
+      <button type="button" class="mode-tab-btn" id="tabModeForensic">
+        🔬 Forensic Engine & ELA Scans
+      </button>
+    </div>
+    <div class="lang-selector">
+      <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700;">Voice Language:</span>
+      <button type="button" class="lang-btn active" id="btnLangHi">🇮🇳 Hindi / Hinglish</button>
+      <button type="button" class="lang-btn" id="btnLangEn">🌐 English</button>
+    </div>
+  </div>
+
   <!-- Video Viewport -->
   <div class="video-viewport-wrapper">
     <div id="recordingIndicator">
@@ -265,9 +350,9 @@
 
     <!-- Subtitles / AI Voice Telemetry -->
     <div class="subtitles-bar">
-      <div class="subtitle-speaker" id="subtitleSpeaker">AI FORENSIC NARRATOR</div>
+      <div class="subtitle-speaker" id="subtitleSpeaker">AI FORENSIC GUIDE</div>
       <div class="subtitle-text" id="subtitleText">
-        Initializing DocuForensic AI System Architecture...
+        DocuForensic AI Guide Loading...
       </div>
     </div>
 
@@ -292,7 +377,10 @@
 
   <!-- Scene Playlist -->
   <section class="playlist-section">
-    <div class="playlist-title">Forensic Demonstration Scenes:</div>
+    <div class="playlist-title">
+      <span id="playlistTitleLabel">Walkthrough Chapters:</span>
+      <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 400;">(Click any chapter to jump directly)</span>
+    </div>
     <div class="scenes-grid" id="scenesList">
       <!-- Injected dynamically -->
     </div>
@@ -300,30 +388,196 @@
 
   <script>
     // ===================================================================
-    // SCENE TIMELINE & MULTI-SPECTRAL DATA
+    // GLOBAL STATE
     // ===================================================================
-    const SCENES = [
+    let currentMode = "tutorial"; // 'tutorial' | 'forensic'
+    let currentLang = "hi";       // 'hi' | 'en'
+    let currentSceneIndex = 0;
+    let isPlaying = true;
+    let isMuted = false;
+    let sceneStartTime = null;
+    let animationFrameId = null;
+
+    const canvas = document.getElementById("videoCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const timeDisplay = document.getElementById("timeDisplay");
+    const sceneBadge = document.getElementById("sceneBadge");
+    const progressFill = document.getElementById("progressFill");
+    const progressBar = document.getElementById("progressBar");
+    const subtitleSpeaker = document.getElementById("subtitleSpeaker");
+    const subtitleText = document.getElementById("subtitleText");
+    const btnPlayPause = document.getElementById("btnPlayPause");
+    const btnPrevScene = document.getElementById("btnPrevScene");
+    const btnNextScene = document.getElementById("btnNextScene");
+    const btnToggleAudio = document.getElementById("btnToggleAudio");
+    const scenesList = document.getElementById("scenesList");
+
+    // ===================================================================
+    // PLAYLIST 1: USER TUTORIAL (HOW TO LOGIN & HOW TO USE)
+    // ===================================================================
+    const TUTORIAL_SCENES = [
+      {
+        id: 1,
+        title: "1. Agent Registration",
+        duration: 20,
+        speaker: "ONBOARDING GUIDE",
+        narration: {
+          hi: "Sabse pehle 'Register Agent' par click karein. Apna Name, Email, aur Strong Password dalein. Phir apna Portal select karein: Govt Issuer, Police FIR Verifier, ya Citizen Document Holder. Iske baad 'Register' par click karein.",
+          en: "To get started, click Register Agent. Enter your Full Name, Email, and create a strong password. Next, choose your clearance portal: Govt Issuer, Police Verifier, or Citizen Holder, then click Register."
+        },
+        badge: "STEP 1: REGISTRATION",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 1: AGENT REGISTRATION & PORTAL CLEARANCE", "#00f0ff");
+
+          // Draw Registration Window Card
+          drawRegistrationMockup(ctx, 320, 150, 640, 480, t, progress);
+
+          // Animated pointer
+          const cursorX = progress < 0.4 ? 420 : (progress < 0.7 ? 550 : 640);
+          const cursorY = progress < 0.4 ? 240 : (progress < 0.7 ? 430 : 570);
+          drawCursor(ctx, cursorX, cursorY, progress > 0.85);
+        }
+      },
+      {
+        id: 2,
+        title: "2. Gmail Link & OTP",
+        duration: 18,
+        speaker: "SECURITY GATEWAY",
+        narration: {
+          hi: "Register karte hi aapki registered Gmail par instant verification email aayegi. Email me 6-digit PIN aur direct 1-click verification link milega. Link par click karte hi aapka account instantly activate aur verify ho jata hai.",
+          en: "Immediately after registering, a verification email arrives in your Gmail inbox. It contains a 6-digit PIN and a direct 1-click verification link. Simply click the link to activate your account."
+        },
+        badge: "STEP 2: EMAIL VERIFY",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 2: GMAIL OTP & 1-CLICK VERIFICATION LINK", "#00ffcc");
+
+          // Draw Email Inbox Simulation
+          drawEmailInboxMockup(ctx, 280, 150, 720, 470, t, progress);
+
+          // Cursor clicks verify link
+          const cursorX = 640;
+          const cursorY = 460;
+          drawCursor(ctx, cursorX, cursorY, progress > 0.55);
+        }
+      },
+      {
+        id: 3,
+        title: "3. Login & Recovery",
+        duration: 20,
+        speaker: "ACCESS CONTROLLER",
+        narration: {
+          hi: "Ab Access Login screen par aayein. Apna clearance portal select karein, registered email aur password enter karein. Agar password bhool gaye hain, toh 'Forgot Password?' par click karke security CAPTCHA solve karein aur password reset karein.",
+          en: "Now switch to the Access Login screen. Select your clearance portal, enter your registered email and password. If you ever forget your password, click Forgot Password, solve the security CAPTCHA, and reset it via email."
+        },
+        badge: "STEP 3: LOGIN & CAPTCHA",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 3: CLEARANCE LOGIN & FORGOT PASSWORD RECOVERY", "#00f0ff");
+
+          // Draw Login & Forgot Password Mockup
+          drawLoginMockup(ctx, 320, 150, 640, 480, t, progress);
+
+          // Animated pointer
+          const cursorX = progress < 0.5 ? 640 : (progress < 0.8 ? 580 : 640);
+          const cursorY = progress < 0.5 ? 380 : (progress < 0.8 ? 440 : 540);
+          drawCursor(ctx, cursorX, cursorY, progress > 0.85);
+        }
+      },
+      {
+        id: 4,
+        title: "4. Document Upload",
+        duration: 18,
+        speaker: "WORKSTATION INGESTION",
+        narration: {
+          hi: "Dashboard open hote hi aap apna document drag-and-drop karein ya file select karein — jaise Aadhaar, Passport, Driving License, ya Degree. System turant file ka SHA-256 cryptographic hash generate karke authenticity lock kar deta hai.",
+          en: "Once inside the dashboard, upload any document such as an Aadhaar, Passport, Driving License, or Degree Certificate. The dropzone immediately calculates a SHA-256 cryptographic hash to lock its digital integrity."
+        },
+        badge: "STEP 4: UPLOAD & HASH",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 4: DRAG & DROP DOCUMENT & CRYPTOGRAPHIC HASHING", "#00e5ff");
+
+          // Draw Upload Dropzone & Floating Document
+          drawUploadMockup(ctx, 240, 150, 800, 470, t, progress);
+        }
+      },
+      {
+        id: 5,
+        title: "5. ELA Scan & Tampering",
+        duration: 22,
+        speaker: "FORENSIC ANALYZER",
+        narration: {
+          hi: "Upload ke baad 'Run ELA Scan' par click karein. Laser scan image ke pixel compression ko analyze karta hai. Agar kisi ne photo, date of birth ya text Photoshop se badla hai, toh woh glowing red heatmap me pakda jata hai.",
+          en: "Next, trigger the ELA Scanner. A high-precision laser scans the pixel compression grid. If any name, photo, or date of birth was digitally manipulated with Photoshop, it glows in a bright red tamper heatmap."
+        },
+        badge: "STEP 5: ELA HEATMAP",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 5: MULTI-SPECTRAL ELA SCAN & SPLICED TEXT DETECTION", "#ff0055");
+
+          // Draw ELA Scanning Comparison
+          drawElaScanMockup(ctx, 220, 150, 840, 480, t, progress);
+        }
+      },
+      {
+        id: 6,
+        title: "6. UV & Police Check",
+        duration: 20,
+        speaker: "PHYSICAL & FIR VALIDATOR",
+        narration: {
+          hi: "Iske baad 365nm UV Lamp button dabayein taaki physical paper ke phosphor threads aur hologram check ho sakein. Sath hi Police Crime DB button se document number ko central FIR database se cross-reference karein.",
+          en: "Toggle the 365nm UV Wood's Lamp to inspect hidden fluorescent security fibers and holographic foils. Then click Crime Records DB to cross-reference the ID against active police FIR warrants in real time."
+        },
+        badge: "STEP 6: UV & POLICE DB",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 6: 365nm UV WOOD'S LAMP & POLICE CRIME DB VERIFICATION", "#ff6b8b");
+
+          // Draw UV and Police DB
+          drawUvPoliceMockup(ctx, 220, 150, 840, 480, t, progress);
+        }
+      },
+      {
+        id: 7,
+        title: "7. PDF Audit Report",
+        duration: 20,
+        speaker: "CERTIFICATE ISSUER",
+        narration: {
+          hi: "Final step me 'Audit Report' button par click karein. System ek official tamper-evident forensic report generate karega jisme QR code, digital signature aur complete verdict hota hai. Ise aap 1-click me PDF download kar sakte hain!",
+          en: "Finally, click Audit Report. The system generates an official tamper-evident forensic certificate equipped with a scannable QR code and SHA-256 signature. Download your ready-to-print PDF report in one click!"
+        },
+        badge: "STEP 7: PDF REPORT",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          drawHeaderTitle(ctx, "STEP 7: OFFICIAL SHA-256 FORENSIC CERTIFICATE & PDF DOWNLOAD", "#00ffcc");
+
+          // Draw PDF Report & Certificate Preview
+          drawReportMockup(ctx, 260, 150, 760, 480, t, progress);
+        }
+      }
+    ];
+
+    // ===================================================================
+    // PLAYLIST 2: DEEP FORENSIC ALGORITHMS & ARCHITECTURE
+    // ===================================================================
+    const FORENSIC_SCENES = [
       {
         id: 1,
         title: "Architecture & Cyber UI",
         duration: 18,
-        speaker: "AI SYSTEM ARCHITECT",
-        narration: "Welcome to DocuForensic AI. An end-to-end forensic document authenticity and tampering detection platform powered by neural image processing and cryptographic verification.",
+        speaker: "SYSTEM ARCHITECT",
+        narration: {
+          hi: "DocuForensic AI me aapka swagat hai. Yeh ek end-to-end multi-spectral forensic document authenticity platform hai, jo neural vision aur cryptographic hash verification se bana hai.",
+          en: "Welcome to DocuForensic AI. An end-to-end forensic document authenticity and tampering detection platform powered by neural image processing and cryptographic verification."
+        },
         badge: "SYSTEM OVERVIEW",
-        render: (ctx, t, progress) => {
-          // Cyber Matrix Grid & Glowing Core
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
           drawShieldEmblem(ctx, 640, 310, t);
-          
-          ctx.fillStyle = "#00f0ff";
-          ctx.font = "bold 38px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("DOCUFORENSIC AI", 640, 160);
-          
-          ctx.fillStyle = "#a0aec0";
-          ctx.font = "16px sans-serif";
-          ctx.fillText("Deep Tampering & Checksum Verification Platform", 640, 200);
-
+          drawHeaderTitle(ctx, "DOCUFORENSIC AI // FORENSIC CORE", "#00f0ff");
           drawTechSpecs(ctx, [
             "● Multi-Spectral Error Level Analysis (ELA)",
             "● ICAO 9303 MRZ Modulo-10 Checksum Engine",
@@ -335,57 +589,38 @@
       },
       {
         id: 2,
-        title: "Clearance Authentication",
+        title: "Three-Tier Portals",
         duration: 20,
         speaker: "SECURITY GATEWAY",
-        narration: "DocuForensic AI enforces 3 strict clearance portals: Government Issuing Authority, Law Enforcement Police Verifier, and Citizen Document Holder with real Gmail OTP verification.",
+        narration: {
+          hi: "System me 3 high-security clearance portals hain: Govt Issuing Authority, Police Crime Branch Verifier, aur Citizen Document Holder, sabhi protected hain Gmail verification ke sath.",
+          en: "DocuForensic AI enforces 3 strict clearance portals: Government Issuing Authority, Law Enforcement Police Verifier, and Citizen Document Holder with real Gmail OTP verification."
+        },
         badge: "ROLE CLEARANCES",
-        render: (ctx, t, progress) => {
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-          
-          // Draw 3 Portal Cards
+          drawHeaderTitle(ctx, "THREE-TIER HIGH-SECURITY CLEARANCE GATEWAY", "#00ffcc");
           drawPortalCard(ctx, 220, 200, 260, 320, "🏛️ GOVT ISSUER", "UIDAI & Consular", "#00ffcc", "Issue Authentic Passports, Degrees & Aadhaar into Central Ledger", t);
           drawPortalCard(ctx, 510, 200, 260, 320, "👤 CITIZEN HOLDER", "Public Verification", "#00e5ff", "Cross-check personal documents against central registry in seconds", t);
           drawPortalCard(ctx, 800, 200, 260, 320, "👮 POLICE VERIFIER", "Crime Branch & FIR", "#ff3366", "Cross-reference FIR records, flag fraudulent syndicates & impound IDs", t);
-
-          ctx.fillStyle = "#00ffcc";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("THREE-TIER HIGH-SECURITY CLEARANCE GATEWAY", 640, 130);
         }
       },
       {
         id: 3,
-        title: "Error Level Analysis (ELA)",
+        title: "ELA Residual Heatmap",
         duration: 22,
-        speaker: "FORENSIC VISION ANALYZER",
-        narration: "Error Level Analysis detects localized compression differences. Photoshopped text and spliced headshots show high error variance, lighting up in glowing neon heatmap.",
-        badge: "ELA SCANNER",
-        render: (ctx, t, progress) => {
+        speaker: "FORENSIC ANALYZER",
+        narration: {
+          hi: "Error Level Analysis image me alag-alag compression rates ko pakadta hai. Photoshopped numbers aur spliced images neon red heatmap me glow karti hain.",
+          en: "Error Level Analysis detects localized compression differences. Photoshopped text and spliced headshots show high error variance, lighting up in glowing neon heatmap."
+        },
+        badge: "ELA HEATMAP",
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-          
-          ctx.fillStyle = "#ff0055";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("MULTI-SPECTRAL ERROR LEVEL ANALYSIS (ELA)", 640, 120);
-
-          // Split View: Original vs ELA Heatmap
-          drawDocumentMockup(ctx, 220, 170, 380, 260, "ORIGINAL DOCUMENT", false, t);
-          drawDocumentMockup(ctx, 680, 170, 380, 260, "ELA RESIDUAL HEATMAP", true, t);
-
-          // Scanner Laser Bar
-          const scanY = 170 + ((t * 80) % 260);
-          ctx.strokeStyle = "#ff0055";
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.moveTo(220, scanY);
-          ctx.lineTo(600, scanY);
-          ctx.stroke();
-
-          ctx.fillStyle = "rgba(255, 0, 85, 0.15)";
-          ctx.fillRect(220, scanY - 15, 380, 30);
-
-          drawVerdictBadge(ctx, 640, 480, "CRITICAL FORGERY DETECTED: 94.8% CONFIDENCE", "#ff0055");
+          drawHeaderTitle(ctx, "MULTI-SPECTRAL ERROR LEVEL ANALYSIS (ELA)", "#ff0055");
+          drawDocumentMockup(ctx, 220, 180, 380, 260, "ORIGINAL DOCUMENT", false, t);
+          drawDocumentMockup(ctx, 680, 180, 380, 260, "ELA RESIDUAL HEATMAP", true, t);
+          drawVerdictBadge(ctx, 640, 500, "CRITICAL FORGERY DETECTED: 94.8% CONFIDENCE", "#ff0055");
         }
       },
       {
@@ -393,39 +628,34 @@
         title: "Passport MRZ Checksum",
         duration: 20,
         speaker: "CRYPTOGRAPHIC VALIDATOR",
-        narration: "For Passports and National IDs, the system decodes the Machine Readable Zone and validates ICAO 9303 Modulo-10 check digits, exposing manipulated birth dates and fake names.",
+        narration: {
+          hi: "Passports ke liye ICAO 9303 Modulo-10 checksum engine date of birth aur document number ke check digits ko mathematically verify karke nakli passport pakad leta hai.",
+          en: "For Passports and National IDs, the system decodes the Machine Readable Zone and validates ICAO 9303 Modulo-10 check digits, exposing manipulated birth dates and fake names."
+        },
         badge: "ICAO 9303 CHECK",
-        render: (ctx, t, progress) => {
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-
-          ctx.fillStyle = "#00f0ff";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("ICAO 9303 MRZ PASSPORT CHECKSUM VERIFIER", 640, 120);
-
+          drawHeaderTitle(ctx, "ICAO 9303 MRZ PASSPORT CHECKSUM VERIFIER", "#00f0ff");
           drawMrzCard(ctx, 240, 180, 800, 260, t);
-          drawVerdictBadge(ctx, 640, 490, "MRZ MODULO-10 CHECKSUM FAILED // PHOTO SPLICED", "#ff3366");
+          drawVerdictBadge(ctx, 640, 500, "MRZ MODULO-10 CHECKSUM FAILED // PHOTO SPLICED", "#ff3366");
         }
       },
       {
         id: 5,
-        title: "365nm UV Lamp & Hologram",
+        title: "365nm UV & Hologram",
         duration: 20,
-        speaker: "PHYSICAL SECURITY SIMULATOR",
-        narration: "Testing physical authenticity: The 365nm Wood's Lamp reveals embedded UV phosphor threads, while the Multi-Spectral Foil engine authenticates rainbow dispersion in holographic seals.",
+        speaker: "PHYSICAL SIMULATOR",
+        narration: {
+          hi: "365nm UV Wood's Lamp simulation se genuine paper ke chhupe hue phosphor threads aur holographic foil ki rainbow dispersion chamakti hai.",
+          en: "Testing physical authenticity: The 365nm Wood's Lamp reveals embedded UV phosphor threads, while the Multi-Spectral Foil engine authenticates rainbow dispersion in holographic seals."
+        },
         badge: "UV & HOLOGRAM",
-        render: (ctx, t, progress) => {
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-
-          ctx.fillStyle = "#00ffcc";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("365nm UV WOOD'S LAMP & RAINBOW DISPERSION", 640, 120);
-
+          drawHeaderTitle(ctx, "365nm UV WOOD'S LAMP & RAINBOW DISPERSION", "#00ffcc");
           drawUvSimulation(ctx, 220, 180, 380, 260, t);
           drawHologramSimulation(ctx, 680, 180, 380, 260, t);
-
-          drawVerdictBadge(ctx, 640, 490, "GENUINE 365nm PHOSPHOR LUMINESCENCE VERIFIED", "#00ffcc");
+          drawVerdictBadge(ctx, 640, 500, "GENUINE 365nm PHOSPHOR LUMINESCENCE VERIFIED", "#00ffcc");
         }
       },
       {
@@ -433,49 +663,49 @@
         title: "Police Crime DB & FIRs",
         duration: 20,
         speaker: "LAW ENFORCEMENT ENGINE",
-        narration: "The Police verification portal scans Central Crime Records. Uploaded document numbers are cross-referenced with active FIR warrants and blacklisted syndicates in real time.",
+        narration: {
+          hi: "Police portal central crime database se live cross-reference karta hai, jisse blacklisted gangs aur fake FIR documents turant impound ho jaate hain.",
+          en: "The Police verification portal scans Central Crime Records. Uploaded document numbers are cross-referenced with active FIR warrants and blacklisted syndicates in real time."
+        },
         badge: "POLICE CLEARANCE",
-        render: (ctx, t, progress) => {
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-
-          ctx.fillStyle = "#ff6b8b";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("CENTRAL POLICE CRIME & FIR CROSS-REFERENCE", 640, 120);
-
+          drawHeaderTitle(ctx, "CENTRAL POLICE CRIME & FIR CROSS-REFERENCE", "#ff6b8b");
           drawPoliceScanTable(ctx, 240, 180, 800, 260, t);
-          drawVerdictBadge(ctx, 640, 490, "WARNING: ACTIVE CRIME RECORD // FIR #78/2026 LINKED", "#ff0055");
+          drawVerdictBadge(ctx, 640, 500, "WARNING: ACTIVE CRIME RECORD // FIR #78/2026 LINKED", "#ff0055");
         }
       },
       {
         id: 7,
-        title: "SHA-256 Audit Certificate",
-        duration: 18,
-        speaker: "CENTRAL REGISTRY LEDGER",
-        narration: "Every inspection produces a cryptographic SHA-256 audit certificate. Official A4 Forensic PDF reports can be exported instantly with forensic timestamps and digital registrar seals.",
-        badge: "AUDIT CERTIFICATE",
-        render: (ctx, t, progress) => {
+        title: "SHA-256 Certificate",
+        duration: 20,
+        speaker: "AUDIT SYSTEM",
+        narration: {
+          hi: "Verification pura hote hi tamper-proof SHA-256 cryptographic certificate aur printable A4 forensic report instant download ke liye generate hoti hai.",
+          en: "Upon verification, a tamper-proof SHA-256 cryptographic certificate is generated with embedded QR verification and full A4 print-ready PDF export."
+        },
+        badge: "AUDIT EXPORT",
+        render: (ctx, t) => {
           drawCyberGrid(ctx, t);
-
-          ctx.fillStyle = "#00f0ff";
-          ctx.font = "bold 24px 'Courier New', monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("TAMPER-EVIDENT SHA-256 AUDIT CERTIFICATE & PDF", 640, 120);
-
-          drawCertificateMockup(ctx, 360, 170, 560, 280, t);
-          drawVerdictBadge(ctx, 640, 490, "OFFICIAL VERIFIED LEDGER STAMP ISSUED", "#00ffcc");
+          drawHeaderTitle(ctx, "TAMPER-EVIDENT SHA-256 AUDIT CERTIFICATE", "#00ffcc");
+          drawCertificateCard(ctx, 320, 180, 640, 290, t);
+          drawVerdictBadge(ctx, 640, 510, "OFFICIAL FORENSIC VERDICT // SHA-256 SEALED", "#00ffcc");
         }
       }
     ];
 
+    function getActiveScenes() {
+      return currentMode === "tutorial" ? TUTORIAL_SCENES : FORENSIC_SCENES;
+    }
+
     // ===================================================================
-    // DRAWING HELPER FUNCTIONS
+    // CANVAS DRAWING HELPER FUNCTIONS
     // ===================================================================
     function drawCyberGrid(ctx, t) {
       ctx.fillStyle = "#030712";
       ctx.fillRect(0, 0, 1280, 720);
 
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.05)";
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.06)";
       ctx.lineWidth = 1;
       const gridSize = 40;
       const shift = (t * 15) % gridSize;
@@ -494,14 +724,568 @@
       }
     }
 
+    function drawHeaderTitle(ctx, title, color) {
+      ctx.fillStyle = color;
+      ctx.font = "bold 26px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(title, 640, 105);
+    }
+
+    function drawCursor(ctx, x, y, isClicking) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.shadowColor = "#00f0ff";
+      ctx.shadowBlur = 8;
+
+      ctx.fillStyle = isClicking ? "#ff0055" : "#00f0ff";
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, 18);
+      ctx.lineTo(5, 14);
+      ctx.lineTo(10, 23);
+      ctx.lineTo(13, 21);
+      ctx.lineTo(8, 12);
+      ctx.lineTo(14, 12);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      if (isClicking) {
+        ctx.strokeStyle = "rgba(255, 0, 85, 0.8)";
+        ctx.beginPath();
+        ctx.arc(0, 0, 14, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawWindowFrame(ctx, x, y, w, h, title, borderColor = "rgba(0, 240, 255, 0.4)") {
+      ctx.fillStyle = "#070e1b";
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 10);
+      ctx.fill();
+      ctx.stroke();
+
+      // Window Header
+      ctx.fillStyle = "#0c182c";
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, 36, [10, 10, 0, 0]);
+      ctx.fill();
+
+      // Window Dots
+      ctx.fillStyle = "#ff5f56"; ctx.beginPath(); ctx.arc(x + 18, y + 18, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#ffbd2e"; ctx.beginPath(); ctx.arc(x + 34, y + 18, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#27c93f"; ctx.beginPath(); ctx.arc(x + 50, y + 18, 5, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "bold 13px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(title, x + w / 2, y + 23);
+    }
+
+    // --- MOCKUP 1: Registration Form ---
+    function drawRegistrationMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "DocuForensic AI — Register Agent & Clearance Portal");
+
+      // Tabs: Access Login vs Register Agent
+      ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.fillRect(x + 30, y + 55, w - 60, 36);
+
+      ctx.fillStyle = "#64748b";
+      ctx.font = "bold 13px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("⚡ Access Login", x + 150, y + 78);
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.fillRect(x + w / 2 + 5, y + 57, (w - 70) / 2, 32);
+      ctx.fillStyle = "#030712";
+      ctx.fillText("🛡️ Register Agent [ACTIVE]", x + w / 2 + 150, y + 78);
+
+      // Inputs (Name & Email)
+      drawInputBox(ctx, x + 40, y + 110, w - 80, 42, "Full Legal Name", "Agent Inspector Sharma", true);
+      drawInputBox(ctx, x + 40, y + 170, w - 80, 42, "Account Email (Gmail/Gov)", "inspector.sharma@gov.in", true);
+
+      // Password + Strength Bar
+      drawInputBox(ctx, x + 40, y + 230, w - 80, 42, "Strong Password", "•••••••••••••• (Hard Secure)", true);
+      ctx.fillStyle = "rgba(255,255,255,0.1)";
+      ctx.fillRect(x + 40, y + 276, w - 80, 6);
+      ctx.fillStyle = "#00ffcc";
+      ctx.fillRect(x + 40, y + 276, (w - 80) * Math.min(progress * 1.5, 1.0), 6);
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "11px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText("✔ 256-Bit Cryptographic Strength", x + w - 40, y + 296);
+
+      // Portal Role Radio Selection
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "bold 12px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText("Select Clearance Authority:", x + 40, y + 320);
+
+      drawRoleRadio(ctx, x + 40, y + 335, 170, 55, "🏛️ Govt Issuer", "UIDAI / Registry", true, "#00ffcc");
+      drawRoleRadio(ctx, x + 230, y + 335, 170, 55, "👤 Citizen", "Public Holder", false, "#00e5ff");
+      drawRoleRadio(ctx, x + 420, y + 335, 170, 55, "👮 Police FIR", "Crime Branch", false, "#ff3366");
+
+      // Register Button
+      const btnGlow = Math.sin(t * 4) * 8 + 8;
+      ctx.shadowColor = "#00f0ff";
+      ctx.shadowBlur = btnGlow;
+      ctx.fillStyle = "#00f0ff";
+      ctx.beginPath();
+      ctx.roundRect(x + 40, y + 410, w - 80, 44, 8);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 15px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("🛡️ REGISTER & DISPATCH GMAIL VERIFICATION LINK", x + w / 2, y + 438);
+    }
+
+    // --- MOCKUP 2: Gmail Verification ---
+    function drawEmailInboxMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "Google Mail — Inbox: inspector.sharma@gov.in", "rgba(0, 255, 204, 0.4)");
+
+      // Gmail Top Search
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(x + 20, y + 50, w - 40, 36);
+      ctx.fillStyle = "#64748b";
+      ctx.font = "13px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText("🔍 Search in mail...", x + 35, y + 73);
+
+      // Email Card
+      ctx.fillStyle = "#0c192e";
+      ctx.strokeStyle = "#00ffcc";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(x + 25, y + 105, w - 50, 335, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      // Email Header
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 16px sans-serif";
+      ctx.fillText("DocuForensic AI — Verify Your Authority Account", x + 50, y + 140);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "12px sans-serif";
+      ctx.fillText("From: security@docuforensic-ai.onrender.com  |  To: inspector.sharma@gov.in", x + 50, y + 165);
+
+      ctx.fillStyle = "rgba(255,255,255,0.1)";
+      ctx.fillRect(x + 50, y + 180, w - 100, 1);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "14px sans-serif";
+      ctx.fillText("Hello Inspector Sharma,", x + 50, y + 210);
+      ctx.fillText("Your 6-digit cryptographic PIN and direct 1-click verification link are ready:", x + 50, y + 235);
+
+      // PIN Code Box
+      ctx.fillStyle = "#070e1b";
+      ctx.strokeStyle = "#00f0ff";
+      ctx.strokeRect(x + 50, y + 255, 240, 50);
+      ctx.fillRect(x + 50, y + 255, 240, 50);
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "bold 26px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("PIN: 849 201", x + 170, y + 290);
+
+      // 1-Click Verification Link Button
+      ctx.fillStyle = "#00ffcc";
+      ctx.beginPath();
+      ctx.roundRect(x + 320, y + 255, 280, 50, 8);
+      ctx.fill();
+
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("⚡ 1-CLICK VERIFY ACCOUNT", x + 460, y + 286);
+
+      // Account Status Stamp
+      if (progress > 0.6) {
+        ctx.fillStyle = "rgba(0, 255, 204, 0.15)";
+        ctx.strokeStyle = "#00ffcc";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(x + 50, y + 330, w - 100, 80, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#00ffcc";
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillText("✔ ACCOUNT ACTIVATED & VERIFIED VIA CRYPTOGRAPHIC LINK", x + w / 2, y + 375);
+      }
+    }
+
+    // --- MOCKUP 3: Authority Login & Forgot Password ---
+    function drawLoginMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "DocuForensic AI — Clearance Authentication Gateway");
+
+      // Clearance Tabs (Govt / Police / Citizen)
+      drawRoleRadio(ctx, x + 40, y + 55, 170, 50, "🏛️ Govt Issuer", "Official Registrar", true, "#00ffcc");
+      drawRoleRadio(ctx, x + 230, y + 55, 170, 50, "👮 Police FIR", "Crime Branch", false, "#ff3366");
+      drawRoleRadio(ctx, x + 420, y + 55, 170, 50, "👤 Citizen", "Holder Mode", false, "#00e5ff");
+
+      // Login Inputs
+      drawInputBox(ctx, x + 40, y + 125, w - 80, 42, "Registered Clearance Email", "inspector.sharma@gov.in", true);
+      drawInputBox(ctx, x + 40, y + 185, w - 80, 42, "Clearance Password", "•••••••••••••• (Entered)", true);
+
+      // Forgot Password Link + Captcha
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "bold 12px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText("Forgot Password? [Security CAPTCHA Protected]", x + w - 40, y + 245);
+
+      // Mini Captcha Demonstration Box
+      ctx.fillStyle = "#0a1322";
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+      ctx.strokeRect(x + 40, y + 265, w - 80, 85);
+      ctx.fillRect(x + 40, y + 265, w - 80, 85);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("CAPTCHA VERIFICATION (Anti-Bot Distorted Code):", x + 55, y + 285);
+
+      // Distorted text
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 20px 'Courier New', monospace";
+      ctx.fillText("K  7  #  9  X", x + 65, y + 325);
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.fillRect(x + 220, y + 300, 160, 34);
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 12px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Verify & Reset PIN", x + 300, y + 322);
+
+      // Login Button
+      ctx.fillStyle = "#00ffcc";
+      ctx.beginPath();
+      ctx.roundRect(x + 40, y + 380, w - 80, 48, 8);
+      ctx.fill();
+
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 16px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("⚡ AUTHENTICATE CLEARANCE & ENTER SYSTEM", x + w / 2, y + 410);
+
+      // Success Badge
+      if (progress > 0.8) {
+        ctx.fillStyle = "rgba(0, 255, 204, 0.9)";
+        ctx.beginPath();
+        ctx.roundRect(x + 100, y + 440, w - 200, 32, 6);
+        ctx.fill();
+        ctx.fillStyle = "#030712";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText("✔ CLEARANCE APPROVED — ACCESS GRANTED", x + w / 2, y + 461);
+      }
+    }
+
+    // --- MOCKUP 4: Document Upload ---
+    function drawUploadMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "Forensic Workstation — Document Ingestion & Cryptographic Hashing");
+
+      // Left Dropzone
+      const isDropped = progress > 0.4;
+      ctx.fillStyle = isDropped ? "#0c1a2e" : "#091220";
+      ctx.strokeStyle = isDropped ? "#00ffcc" : "#00f0ff";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.roundRect(x + 30, y + 60, 360, 370, 8);
+      ctx.fill();
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (!isDropped) {
+        ctx.fillStyle = "#00f0ff";
+        ctx.font = "40px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("📥", x + 210, y + 210);
+
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillText("Drag & Drop Document Here", x + 210, y + 250);
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "12px sans-serif";
+        ctx.fillText("Supports Aadhaar, Passport, ID, Certificate (PNG/JPG/PDF)", x + 210, y + 280);
+      } else {
+        // Document Thumbnail
+        ctx.fillStyle = "#1e293b";
+        ctx.fillRect(x + 70, y + 90, 280, 180);
+
+        ctx.fillStyle = "#00f0ff";
+        ctx.font = "bold 14px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("AADHAAR CARD [GOVT REGISTERED]", x + 210, y + 130);
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "11px monospace";
+        ctx.fillText("Holder: Rajesh Kumar Sharma", x + 210, y + 160);
+        ctx.fillText("DOB: 12/08/1988", x + 210, y + 185);
+        ctx.fillText("UID: 4892 •••• 9012", x + 210, y + 210);
+
+        ctx.fillStyle = "#00ffcc";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText("✔ File Loaded & Dimension Verified", x + 210, y + 300);
+      }
+
+      // Right Metadata & Hashing Panel
+      ctx.fillStyle = "#091222";
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+      ctx.strokeRect(x + 420, y + 60, 350, 370);
+      ctx.fillRect(x + 420, y + 60, 350, 370);
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "bold 15px 'Courier New', monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("DIGITAL EVIDENCE METADATA", x + 440, y + 95);
+
+      const hashProgress = isDropped ? "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" : "Computing hash...";
+      drawMetaRow(ctx, x + 440, y + 130, "File Format:", isDropped ? "image/jpeg (2.4 MB)" : "--");
+      drawMetaRow(ctx, x + 440, y + 170, "Resolution:", isDropped ? "3000 x 2000 px (300 DPI)" : "--");
+      drawMetaRow(ctx, x + 440, y + 210, "SHA-256 Hash:", isDropped ? hashProgress.substring(0, 24) + "..." : "Waiting...");
+      drawMetaRow(ctx, x + 440, y + 250, "Tamper Lock:", isDropped ? "SECURED IN BROWSER MEMORY" : "--");
+
+      // Action Button
+      ctx.fillStyle = isDropped ? "#00ffcc" : "#334155";
+      ctx.beginPath();
+      ctx.roundRect(x + 440, y + 330, 310, 45, 6);
+      ctx.fill();
+
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("⚡ START MULTI-SPECTRAL FORENSIC SCAN", x + 595, y + 358);
+    }
+
+    // --- MOCKUP 5: ELA Scan & Spliced Text Detection ---
+    function drawElaScanMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "Forensic Scan — Error Level Analysis (ELA) & Tampering Heatmap", "rgba(255, 0, 85, 0.5)");
+
+      // Original Document vs Heatmap
+      drawDocumentMockup(ctx, x + 30, y + 65, 370, 280, "RAW UPLOADED DOCUMENT", false, t);
+      drawDocumentMockup(ctx, x + 440, y + 65, 370, 280, "ELA RESIDUAL HEATMAP (PHOTOSHOP DETECTION)", true, t);
+
+      // Scanning Laser Bar
+      const scanY = y + 65 + ((t * 90) % 280);
+      ctx.strokeStyle = "#ff0055";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x + 30, scanY);
+      ctx.lineTo(x + 400, scanY);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(255, 0, 85, 0.15)";
+      ctx.fillRect(x + 30, scanY - 15, 370, 30);
+
+      // Verdict Banner
+      ctx.fillStyle = "#16050b";
+      ctx.strokeStyle = "#ff0055";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x + 30, y + 365, w - 60, 85, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#ff0055";
+      ctx.font = "bold 16px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("⚠ CRITICAL TAMPERING CONFIRMED: 94.8% FORGERY PROBABILITY", x + w / 2, y + 400);
+
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "12px sans-serif";
+      ctx.fillText("Spliced Photo Region Detected  |  Modified Date of Birth Pixels Mismatched  |  Laplacian Noise Inconsistency", x + w / 2, y + 425);
+    }
+
+    // --- MOCKUP 6: UV Light & Police FIR DB ---
+    function drawUvPoliceMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "Security Checks — 365nm UV Wood's Lamp & Police Crime Database");
+
+      // Left: UV Simulation
+      ctx.fillStyle = "#0c081f";
+      ctx.strokeStyle = "#a855f7";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x + 30, y + 60, 370, 380, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#c084fc";
+      ctx.font = "bold 14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("365nm UV WOOD'S LAMP VIEW", x + 215, y + 90);
+
+      // Glow phosphor threads
+      ctx.strokeStyle = "#4ade80";
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x + 60 + i * 50, y + 140);
+        ctx.bezierCurveTo(x + 80 + i * 50, y + 190, x + 40 + i * 50, y + 240, x + 70 + i * 50, y + 290);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "#4ade80";
+      ctx.font = "bold 12px sans-serif";
+      ctx.fillText("✔ Phosphor Fiber Threads Detected", x + 215, y + 340);
+      ctx.fillText("✔ Rainbow Hologram Reflectance Verified", x + 215, y + 365);
+
+      // Right: Police Crime DB Query
+      ctx.fillStyle = "#13080e";
+      ctx.strokeStyle = "#ff3366";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x + 440, y + 60, 370, 380, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#ff6b8b";
+      ctx.font = "bold 14px 'Courier New', monospace";
+      ctx.fillText("CENTRAL POLICE FIR & CRIME DB", x + 625, y + 90);
+
+      drawCrimeRow(ctx, x + 460, y + 130, "Document ID:", "AADHAAR-89012");
+      drawCrimeRow(ctx, x + 460, y + 170, "FIR Status:", "ACTIVE WARRANT LINKED");
+      drawCrimeRow(ctx, x + 460, y + 210, "Police Station:", "Cyber Crime Cell, Delhi");
+      drawCrimeRow(ctx, x + 460, y + 250, "FIR Case No:", "#CR-2026/0892");
+      drawCrimeRow(ctx, x + 460, y + 290, "Syndicate Alert:", "FLAGGED IN BLACKLIST");
+
+      ctx.fillStyle = "#ff0055";
+      ctx.font = "bold 13px sans-serif";
+      ctx.fillText("🚨 POLICE ALERT: IMPOUND EVIDENCE IMMEDIATELY", x + 625, y + 365);
+    }
+
+    // --- MOCKUP 7: Official Audit PDF Report ---
+    function drawReportMockup(ctx, x, y, w, h, t, progress) {
+      drawWindowFrame(ctx, x, y, w, h, "Official SHA-256 Forensic Audit Certificate & PDF Export", "rgba(0, 255, 204, 0.5)");
+
+      // Certificate Sheet
+      ctx.fillStyle = "#0c172a";
+      ctx.strokeStyle = "#00ffcc";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x + 60, y + 55, w - 120, 350, 10);
+      ctx.fill();
+      ctx.stroke();
+
+      // Certificate Header
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 18px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("GOVERNMENT FORENSIC AUDIT CERTIFICATE", x + w / 2, y + 95);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px sans-serif";
+      ctx.fillText("ISSUED BY DOCUFORENSIC AI // NATIONAL VERIFICATION ENGINE", x + w / 2, y + 115);
+
+      ctx.fillStyle = "rgba(255,255,255,0.1)";
+      ctx.fillRect(x + 90, y + 130, w - 180, 1);
+
+      // Certificate Details
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "13px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("• Document Case ID: #DF-2026-9921", x + 100, y + 160);
+      ctx.fillText("• Examiner: Inspector Sharma (UIDAI Authorized)", x + 100, y + 190);
+      ctx.fillText("• ELA Heatmap Variance: 94.8% Anomalous", x + 100, y + 220);
+      ctx.fillText("• Final Verdict: FORGERY CONFIRMED // ALTERED DOB", x + 100, y + 250);
+      ctx.fillText("• SHA-256 Seal: 9f8345c2...884a12", x + 100, y + 280);
+
+      // QR Code Box & Seal
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(x + w - 210, y + 155, 85, 85);
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(x + w - 200, y + 165, 25, 25);
+      ctx.fillRect(x + w - 160, y + 165, 25, 25);
+      ctx.fillRect(x + w - 200, y + 205, 25, 25);
+
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 11px monospace";
+      ctx.fillText("[SCAN TO VERIFY]", x + w - 215, y + 260);
+
+      // Download Button
+      ctx.fillStyle = "#00ffcc";
+      ctx.beginPath();
+      ctx.roundRect(x + 160, y + 420, w - 320, 44, 8);
+      ctx.fill();
+
+      ctx.fillStyle = "#030712";
+      ctx.font = "bold 15px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("📥 DOWNLOAD OFFICIAL FORENSIC AUDIT PDF REPORT", x + w / 2, y + 448);
+    }
+
+    // Basic UI element helpers
+    function drawInputBox(ctx, x, y, w, h, label, val, isFilled) {
+      ctx.fillStyle = "#091220";
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+      ctx.strokeRect(x, y, w, h);
+      ctx.fillRect(x, y, w, h);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(label, x + 12, y - 4);
+
+      ctx.fillStyle = isFilled ? "#f8fafc" : "#64748b";
+      ctx.font = "13px monospace";
+      ctx.fillText(val, x + 12, y + 26);
+    }
+
+    function drawRoleRadio(ctx, x, y, w, h, title, sub, isSelected, color) {
+      ctx.fillStyle = isSelected ? "rgba(0, 240, 255, 0.15)" : "#091220";
+      ctx.strokeStyle = isSelected ? color : "rgba(255,255,255,0.15)";
+      ctx.lineWidth = isSelected ? 2 : 1;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      ctx.font = "bold 12px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(title, x + w / 2, y + 22);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "10px sans-serif";
+      ctx.fillText(sub, x + w / 2, y + 38);
+    }
+
+    function drawMetaRow(ctx, x, y, label, val) {
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(label, x, y);
+
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 12px monospace";
+      ctx.fillText(val, x + 110, y);
+    }
+
+    function drawCrimeRow(ctx, x, y, label, val) {
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(label, x, y);
+
+      ctx.fillStyle = "#ff6b8b";
+      ctx.font = "bold 12px monospace";
+      ctx.fillText(val, x + 120, y);
+    }
+
     function drawShieldEmblem(ctx, x, y, t) {
       ctx.save();
       ctx.translate(x, y);
-      
       const glow = Math.sin(t * 3) * 10 + 20;
       ctx.shadowColor = "#00f0ff";
       ctx.shadowBlur = glow;
-
       ctx.strokeStyle = "#00f0ff";
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -513,16 +1297,12 @@
       ctx.lineTo(-50, -30);
       ctx.closePath();
       ctx.stroke();
-
       ctx.fillStyle = "rgba(0, 240, 255, 0.12)";
       ctx.fill();
-
-      // Lock Icon
       ctx.fillStyle = "#00ffcc";
       ctx.font = "32px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("🛡️", 0, 12);
-
       ctx.restore();
     }
 
@@ -563,7 +1343,6 @@
       ctx.font = "12px sans-serif";
       wrapText(ctx, desc, x + 20, y + 105, w - 40, 18);
 
-      // Status indicator
       ctx.fillStyle = color;
       ctx.font = "bold 11px monospace";
       ctx.fillText("● CLEARANCE ACTIVE", x + w / 2, y + h - 25);
@@ -583,13 +1362,11 @@
       ctx.textAlign = "left";
       ctx.fillText(title, x + 15, y + 25);
 
-      // Simulated Document Lines
       for (let i = 0; i < 5; i++) {
         ctx.fillStyle = isHeatmap ? "rgba(255, 0, 85, 0.25)" : "rgba(255, 255, 255, 0.2)";
         ctx.fillRect(x + 15, y + 50 + (i * 22), (i % 2 === 0 ? w - 100 : w - 50), 10);
       }
 
-      // If Heatmap, draw glowing tampered area (Photoshop edit patch)
       if (isHeatmap) {
         const glow = Math.sin(t * 5) * 8 + 12;
         ctx.shadowColor = "#ff0055";
@@ -597,19 +1374,19 @@
         ctx.strokeStyle = "#ff0055";
         ctx.lineWidth = 2;
         ctx.strokeRect(x + 140, y + 65, 120, 45);
-
-        ctx.fillStyle = "rgba(255, 0, 85, 0.4)";
+        ctx.fillStyle = "rgba(255, 0, 85, 0.45)";
         ctx.fillRect(x + 140, y + 65, 120, 45);
-
-        ctx.fillStyle = "#ffeb3b";
-        ctx.font = "bold 11px monospace";
-        ctx.fillText("TAMPERED // SPLICED", x + 142, y + 125);
         ctx.shadowBlur = 0;
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 10px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("ALTERED PIXELS", x + 200, y + 92);
       }
     }
 
     function drawMrzCard(ctx, x, y, w, h, t) {
-      ctx.fillStyle = "#060d1a";
+      ctx.fillStyle = "#0c1527";
       ctx.strokeStyle = "#00f0ff";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -618,95 +1395,77 @@
       ctx.stroke();
 
       ctx.fillStyle = "#00f0ff";
-      ctx.font = "bold 14px monospace";
+      ctx.font = "bold 14px 'Courier New', monospace";
       ctx.textAlign = "left";
-      ctx.fillText("ICAO 9303 BIOMETRIC PASSPORT MACHINE READABLE ZONE", x + 25, y + 35);
+      ctx.fillText("ICAO 9303 OCR MACHINE READABLE ZONE (MRZ)", x + 20, y + 35);
 
-      ctx.fillStyle = "#f8fafc";
-      ctx.font = "bold 20px 'Courier New', monospace";
-      ctx.fillText("P<INDGUPTA<<MUKESH<<<<<<<<<<<<<<<<<<<<<<<<<<", x + 25, y + 100);
-      ctx.fillText("A984421094IND9805128M3112314<<<<<<<<<<<<<<04", x + 25, y + 140);
+      ctx.fillStyle = "#050b14";
+      ctx.fillRect(x + 20, y + 60, w - 40, 110);
 
-      // Tampered checksum highlights
-      ctx.fillStyle = "rgba(255, 0, 85, 0.25)";
-      ctx.strokeStyle = "#ff0055";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(x + 170, y + 120, 32, 28);
-      ctx.fillRect(x + 170, y + 120, 32, 28);
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "18px 'Courier New', monospace";
+      ctx.fillText("P<INDSHARMA<<RAJESH<<<<<<<<<<<<<<<<<<<<<<<<<<", x + 35, y + 105);
+      ctx.fillText("Z8901234<4IND8808124M3101017<<<<<<<<<<<<<<<4", x + 35, y + 145);
 
-      ctx.fillStyle = "#ff6b8b";
-      ctx.font = "12px monospace";
-      ctx.fillText("FAIL: Checksum Digit '4' != Computed '8' (Modulo-10 mismatch)", x + 25, y + 200);
+      ctx.fillStyle = "#ff3366";
+      ctx.fillRect(x + 35 + (8 * 11), y + 130, 22, 20);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 11px sans-serif";
+      ctx.fillText("▲ CHECK-DIGIT FAILURE: MODULO-10 COMPUTED 9, FOUND 4", x + 20, y + 215);
     }
 
     function drawUvSimulation(ctx, x, y, w, h, t) {
-      ctx.fillStyle = "#160728";
-      ctx.strokeStyle = "#a855f7";
+      ctx.fillStyle = "#080517";
+      ctx.strokeStyle = "#9945ff";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.roundRect(x, y, w, h, 8);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = "#c084fc";
-      ctx.font = "bold 13px monospace";
+      ctx.fillStyle = "#d8b4fe";
+      ctx.font = "bold 13px 'Courier New', monospace";
       ctx.textAlign = "left";
-      ctx.fillText("365nm ULTRAVIOLET WOOD'S LAMP", x + 15, y + 25);
+      ctx.fillText("365nm UV WOOD'S LAMP VIEW", x + 15, y + 25);
 
-      // Fluorescent glowing threads
-      ctx.shadowColor = "#00ffcc";
-      ctx.shadowBlur = 12;
-      ctx.strokeStyle = "#00ffcc";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(x + 50, y + 60);
-      ctx.bezierCurveTo(x + 120, y + 90, x + 80, y + 160, x + 150, y + 200);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      ctx.fillStyle = "#00ffcc";
-      ctx.font = "11px monospace";
-      ctx.fillText("SECURITY THREAD: PHOSPHOR ACTIVE", x + 15, y + 235);
+      ctx.strokeStyle = "#22c55e";
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x + 40 + i * 50, y + 60);
+        ctx.quadraticCurveTo(x + 60 + i * 50, y + 120, x + 30 + i * 50, y + 180);
+        ctx.stroke();
+      }
     }
 
     function drawHologramSimulation(ctx, x, y, w, h, t) {
-      ctx.fillStyle = "#091528";
-      ctx.strokeStyle = "#00f0ff";
+      ctx.fillStyle = "#0a1322";
+      ctx.strokeStyle = "#00ffcc";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.roundRect(x, y, w, h, 8);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = "#00f0ff";
-      ctx.font = "bold 13px monospace";
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 13px 'Courier New', monospace";
       ctx.textAlign = "left";
-      ctx.fillText("HOLOGRAM MULTI-SPECTRAL DISPERSION", x + 15, y + 25);
+      ctx.fillText("HOLOGRAPHIC FOIL RAINBOW DISPERSION", x + 15, y + 25);
 
-      // Rainbow dispersion wheel
-      const cx = x + w / 2;
-      const cy = y + h / 2 - 10;
-      const grad = ctx.createConicGradient(t * 2, cx, cy);
-      grad.addColorStop(0, "#ff0055");
-      grad.addColorStop(0.2, "#ffb703");
-      grad.addColorStop(0.4, "#00ffcc");
-      grad.addColorStop(0.6, "#00f0ff");
-      grad.addColorStop(0.8, "#a855f7");
-      grad.addColorStop(1, "#ff0055");
+      const grad = ctx.createLinearGradient(x + 60, y + 70, x + 300, y + 200);
+      const angle = (t * 50) % 360;
+      grad.addColorStop(0, "hsl(" + angle + ", 100%, 60%)");
+      grad.addColorStop(0.5, "hsl(" + (angle + 120) % 360 + ", 100%, 60%)");
+      grad.addColorStop(1, "hsl(" + (angle + 240) % 360 + ", 100%, 60%)");
 
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(cx, cy, 55, 0, Math.PI * 2);
+      ctx.arc(x + w / 2, y + 130, 50, 0, Math.PI * 2);
       ctx.fill();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 11px monospace";
-      ctx.textAlign = "center";
-      ctx.fillText("RAINBOW FOIL VERIFIED", cx, y + 235);
     }
 
     function drawPoliceScanTable(ctx, x, y, w, h, t) {
-      ctx.fillStyle = "#18060d";
+      ctx.fillStyle = "#110712";
       ctx.strokeStyle = "#ff3366";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -715,37 +1474,31 @@
       ctx.stroke();
 
       ctx.fillStyle = "#ff6b8b";
-      ctx.font = "bold 14px monospace";
+      ctx.font = "bold 14px 'Courier New', monospace";
       ctx.textAlign = "left";
-      ctx.fillText("CENTRAL CRIME INVESTIGATION & FIR DATABASE", x + 25, y + 35);
+      ctx.fillText("CENTRAL POLICE CRIME & FIR CROSS-REFERENCE", x + 20, y + 35);
 
-      const rows = [
-        { id: "A98442109", name: "Marcus Vance", fir: "FIR #78/2026", status: "WARRANT ACTIVE (FORGERY)" },
-        { id: "AADHAAR-9021", name: "Mukesh Gupta", fir: "NONE", status: "CLEAN RECORD (AUTHENTIC)" },
-        { id: "CERT-AI-991", name: "Mukesh Gupta", fir: "NONE", status: "CLEAN RECORD (ACTIVE)" }
-      ];
-
-      rows.forEach((r, idx) => {
-        const ry = y + 75 + (idx * 45);
-        ctx.fillStyle = idx === 0 ? "rgba(255, 0, 85, 0.2)" : "rgba(0, 255, 204, 0.08)";
-        ctx.fillRect(x + 20, ry, w - 40, 36);
-
-        ctx.fillStyle = idx === 0 ? "#ff3366" : "#00ffcc";
-        ctx.font = "bold 13px monospace";
-        ctx.fillText(r.id, x + 35, ry + 22);
-
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "13px sans-serif";
-        ctx.fillText(r.name, x + 220, ry + 22);
-
-        ctx.fillStyle = idx === 0 ? "#ff3366" : "#a0aec0";
-        ctx.font = "bold 12px monospace";
-        ctx.fillText(r.status, x + 440, ry + 22);
-      });
+      drawPoliceRow(ctx, x + 20, y + 70, "DOC NUMBER", "FIR STATUS", "POLICE STATION", "VERDICT");
+      drawPoliceRow(ctx, x + 20, y + 110, "AADHAAR-8921", "ACTIVE #78/2026", "CYBER CELL DELHI", "MATCH // BLACKLISTED", true);
+      drawPoliceRow(ctx, x + 20, y + 150, "PASS-Z890123", "SUSPICIOUS IMPRINT", "MUMBAI CRIME BRANCH", "HIGH RISK FLAG", true);
+      drawPoliceRow(ctx, x + 20, y + 190, "DL-DL0420239", "CLEAN / NO WARRANT", "REGISTRAR VERIFIED", "CLEAR // AUTHENTIC", false);
     }
 
-    function drawCertificateMockup(ctx, x, y, w, h, t) {
-      ctx.fillStyle = "#070e1b";
+    function drawPoliceRow(ctx, x, y, c1, c2, c3, c4, isAlert) {
+      ctx.fillStyle = isAlert ? "rgba(255, 0, 85, 0.15)" : "rgba(255, 255, 255, 0.05)";
+      ctx.fillRect(x, y, 760, 32);
+
+      ctx.fillStyle = isAlert ? "#ff6b8b" : "#94a3b8";
+      ctx.font = "12px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText(c1, x + 15, y + 21);
+      ctx.fillText(c2, x + 190, y + 21);
+      ctx.fillText(c3, x + 380, y + 21);
+      ctx.fillText(c4, x + 580, y + 21);
+    }
+
+    function drawCertificateCard(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#0c1527";
       ctx.strokeStyle = "#00ffcc";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -754,50 +1507,59 @@
       ctx.stroke();
 
       ctx.fillStyle = "#00ffcc";
-      ctx.font = "bold 15px 'Courier New', monospace";
+      ctx.font = "bold 16px 'Courier New', monospace";
       ctx.textAlign = "center";
-      ctx.fillText("DIGITAL FORENSIC AUDIT CERTIFICATE", x + w / 2, y + 35);
+      ctx.fillText("OFFICIAL FORENSIC AUDIT CERTIFICATE", x + w / 2, y + 40);
 
-      ctx.fillStyle = "#e2e8f0";
-      ctx.font = "12px monospace";
-      ctx.fillText("HASH: 7e9b4c02f1a8d5e6...c98124b89a (SHA-256)", x + w / 2, y + 80);
-      ctx.fillText("VERDICT: OFFICIAL VERIFICATION CONFIRMED", x + w / 2, y + 115);
-      ctx.fillText("ISSUED BY: DOCUFORENSIC AI AUTONOMOUS LEDGER", x + w / 2, y + 150);
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "12px sans-serif";
+      ctx.fillText("CASE REF: #CR-2026-9921-X   |   EXAMINER: AGENT MARCUS VANCE", x + w / 2, y + 70);
 
-      // Digital Seal
+      ctx.fillStyle = "rgba(0, 255, 204, 0.1)";
+      ctx.fillRect(x + 40, y + 90, w - 80, 110);
       ctx.strokeStyle = "#00ffcc";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(x + w / 2, y + 215, 35, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.strokeRect(x + 40, y + 90, w - 80, 110);
 
       ctx.fillStyle = "#00ffcc";
-      ctx.font = "24px sans-serif";
-      ctx.fillText("⚖️", x + w / 2, y + 222);
+      ctx.font = "bold 14px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("CRYPTOGRAPHIC SHA-256 AUDIT SEAL:", x + 55, y + 120);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "11px monospace";
+      ctx.fillText("9f8345c2f0f8a9a812e987c2b5e403d6d5a1b32f918e7c65342a19b847f9e801", x + 55, y + 150);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText("Timestamp: 2026-11-14T00:15:00.000Z  |  Tamper Verified: 100% SECURE", x + 55, y + 180);
     }
 
     function drawVerdictBadge(ctx, x, y, text, color) {
-      ctx.fillStyle = "rgba(3, 7, 18, 0.9)";
+      ctx.save();
+      ctx.fillStyle = "#040914";
       ctx.strokeStyle = color;
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.roundRect(x - 260, y - 20, 520, 42, 6);
+      ctx.roundRect(x - 280, y - 20, 560, 42, 20);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = color;
-      ctx.font = "bold 14px 'Courier New', monospace";
+      ctx.font = "bold 13px 'Courier New', monospace";
       ctx.textAlign = "center";
       ctx.fillText(text, x, y + 6);
+      ctx.restore();
     }
 
     function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
       const words = text.split(" ");
       let line = "";
+      ctx.textAlign = "left";
+
       for (let n = 0; n < words.length; n++) {
         const testLine = line + words[n] + " ";
         const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && n > 0) {
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
           ctx.fillText(line, x, y);
           line = words[n] + " ";
           y += lineHeight;
@@ -809,73 +1571,73 @@
     }
 
     // ===================================================================
-    // VIDEO PLAYER & ANIMATION ENGINE
+    // UI UPDATES & PLAYLIST RENDERER
     // ===================================================================
-    const canvas = document.getElementById("videoCanvas");
-    const ctx = canvas.getContext("2d");
+    function updateSceneUI() {
+      const scenes = getActiveScenes();
+      const scene = scenes[currentSceneIndex];
 
-    let currentSceneIndex = 0;
-    let sceneStartTime = 0;
-    let isPlaying = true;
-    let isMuted = false;
-    let animationFrameId = null;
+      subtitleSpeaker.textContent = scene.speaker;
+      subtitleText.textContent = scene.narration[currentLang];
+      sceneBadge.textContent = `SCENE ${scene.id}/${scenes.length}`;
 
-    const totalVideoDuration = SCENES.reduce((acc, s) => acc + s.duration, 0);
+      renderPlaylistButtons();
+    }
 
-    const subtitleSpeaker = document.getElementById("subtitleSpeaker");
-    const subtitleText = document.getElementById("subtitleText");
-    const progressFill = document.getElementById("progressFill");
-    const timeDisplay = document.getElementById("timeDisplay");
-    const sceneBadge = document.getElementById("sceneBadge");
-    const btnPlayPause = document.getElementById("btnPlayPause");
-    const btnPrevScene = document.getElementById("btnPrevScene");
-    const btnNextScene = document.getElementById("btnNextScene");
-    const btnToggleAudio = document.getElementById("btnToggleAudio");
-    const scenesListEl = document.getElementById("scenesList");
+    function renderPlaylistButtons() {
+      const scenes = getActiveScenes();
+      scenesList.innerHTML = "";
 
-    // Render Scene List
-    SCENES.forEach((scene, idx) => {
-      const card = document.createElement("div");
-      card.className = "scene-card" + (idx === 0 ? " active" : "");
-      card.innerHTML = `
-        <div class="scene-card-num">SCENE 0${scene.id}</div>
-        <div class="scene-card-title">${scene.title}</div>
-      `;
-      card.onclick = () => jumpToScene(idx);
-      scenesListEl.appendChild(card);
-    });
+      scenes.forEach((s, idx) => {
+        const card = document.createElement("div");
+        card.className = `scene-card ${idx === currentSceneIndex ? "active" : ""}`;
+        card.innerHTML = `
+          <div class="scene-card-num">${s.badge}</div>
+          <div class="scene-card-title">${s.title}</div>
+        `;
+        card.onclick = () => jumpToScene(idx);
+        scenesList.appendChild(card);
+      });
+    }
 
-    function jumpToScene(idx) {
-      currentSceneIndex = Math.max(0, Math.min(idx, SCENES.length - 1));
+    function jumpToScene(index) {
+      const scenes = getActiveScenes();
+      currentSceneIndex = (index + scenes.length) % scenes.length;
       sceneStartTime = performance.now();
       updateSceneUI();
       speakSceneNarration();
     }
 
-    function updateSceneUI() {
-      const scene = SCENES[currentSceneIndex];
-      subtitleSpeaker.textContent = scene.speaker;
-      subtitleText.textContent = scene.narration;
-      sceneBadge.textContent = `SCENE ${scene.id}/${SCENES.length}`;
-
-      document.querySelectorAll(".scene-card").forEach((c, i) => {
-        c.classList.toggle("active", i === currentSceneIndex);
-      });
-    }
-
-    // AI Speech Narration via Web Speech Synthesis
+    // ===================================================================
+    // AI VOICE SYNTHESIS
+    // ===================================================================
     function speakSceneNarration() {
       if (isMuted || !("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
 
-      const scene = SCENES[currentSceneIndex];
-      const utterance = new SpeechSynthesisUtterance(scene.narration);
+      const scenes = getActiveScenes();
+      const scene = scenes[currentSceneIndex];
+      const textToSpeak = scene.narration[currentLang];
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.rate = 1.0;
-      utterance.pitch = 0.95; // Slightly robotic/deep cyber AI voice
+      utterance.pitch = currentLang === "hi" ? 1.0 : 0.95;
+
+      const voices = window.speechSynthesis.getVoices();
+      if (currentLang === "hi") {
+        const hiVoice = voices.find(v => v.lang.startsWith("hi") || v.lang.includes("IN"));
+        if (hiVoice) utterance.voice = hiVoice;
+      } else {
+        const enVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("Google") || v.name.includes("Natural")));
+        if (enVoice) utterance.voice = enVoice;
+      }
+
       window.speechSynthesis.speak(utterance);
     }
 
-    // Audio Cyber Beep Synth
+    // ===================================================================
+    // AUDIO BEEP SYNTHESIZER
+    // ===================================================================
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playCyberBeep(freq = 600, duration = 0.08) {
       if (isMuted) return;
@@ -894,22 +1656,25 @@
       } catch (e) {}
     }
 
-    // Main 60 FPS Render Loop
+    // ===================================================================
+    // 60 FPS RENDER LOOP
+    // ===================================================================
     function renderLoop(now) {
       if (!sceneStartTime) sceneStartTime = now;
       const elapsedScene = (now - sceneStartTime) / 1000;
-      const currentScene = SCENES[currentSceneIndex];
+      const scenes = getActiveScenes();
+      const currentScene = scenes[currentSceneIndex];
 
-      // Auto advance to next scene
+      // Auto advance
       if (elapsedScene >= currentScene.duration) {
-        if (currentSceneIndex < SCENES.length - 1) {
+        if (currentSceneIndex < scenes.length - 1) {
           currentSceneIndex++;
           sceneStartTime = now;
           updateSceneUI();
           speakSceneNarration();
           playCyberBeep(880, 0.12);
         } else {
-          // Loop or stop
+          // Loop back to beginning
           currentSceneIndex = 0;
           sceneStartTime = now;
           updateSceneUI();
@@ -917,16 +1682,16 @@
         }
       }
 
-      // Render Current Scene Graphics
+      // Render graphics
       const sceneProgress = Math.min(elapsedScene / currentScene.duration, 1.0);
       currentScene.render(ctx, elapsedScene, sceneProgress);
 
-      // Calculate Total Time
+      // Timecode
+      let totalVideoDuration = scenes.reduce((acc, s) => acc + s.duration, 0);
       let elapsedTotal = 0;
-      for (let i = 0; i < currentSceneIndex; i++) elapsedTotal += SCENES[i].duration;
+      for (let i = 0; i < currentSceneIndex; i++) elapsedTotal += scenes[i].duration;
       elapsedTotal += elapsedScene;
 
-      // Update Time & Progress
       const curM = Math.floor(elapsedTotal / 60);
       const curS = Math.floor(elapsedTotal % 60);
       const totM = Math.floor(totalVideoDuration / 60);
@@ -940,7 +1705,9 @@
       }
     }
 
-    // Play / Pause Toggle
+    // ===================================================================
+    // EVENT LISTENERS & CONTROLS
+    // ===================================================================
     btnPlayPause.onclick = () => {
       isPlaying = !isPlaying;
       btnPlayPause.textContent = isPlaying ? "⏸️" : "▶️";
@@ -958,6 +1725,7 @@
       jumpToScene(currentSceneIndex - 1);
       playCyberBeep(520, 0.1);
     };
+
     btnNextScene.onclick = () => {
       jumpToScene(currentSceneIndex + 1);
       playCyberBeep(740, 0.1);
@@ -970,18 +1738,53 @@
       else speakSceneNarration();
     };
 
-    // Fullscreen
-    document.getElementById("btnFullscreen").onclick = () => {
-      const elem = document.querySelector(".video-viewport-wrapper");
-      if (!document.fullscreenElement) {
-        elem.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen();
+    // Mode Switchers
+    document.getElementById("tabModeTutorial").onclick = () => {
+      if (currentMode !== "tutorial") {
+        currentMode = "tutorial";
+        document.getElementById("tabModeTutorial").classList.add("active");
+        document.getElementById("tabModeForensic").classList.remove("active");
+        document.getElementById("playlistTitleLabel").textContent = "How to Login & Use Walkthrough Chapters:";
+        jumpToScene(0);
       }
     };
 
+    document.getElementById("tabModeForensic").onclick = () => {
+      if (currentMode !== "forensic") {
+        currentMode = "forensic";
+        document.getElementById("tabModeForensic").classList.add("active");
+        document.getElementById("tabModeTutorial").classList.remove("active");
+        document.getElementById("playlistTitleLabel").textContent = "Deep Forensic Technology Chapters:";
+        jumpToScene(0);
+      }
+    };
+
+    // Language Switchers
+    document.getElementById("btnLangHi").onclick = () => {
+      currentLang = "hi";
+      document.getElementById("btnLangHi").classList.add("active");
+      document.getElementById("btnLangEn").classList.remove("active");
+      updateSceneUI();
+      speakSceneNarration();
+    };
+
+    document.getElementById("btnLangEn").onclick = () => {
+      currentLang = "en";
+      document.getElementById("btnLangEn").classList.add("active");
+      document.getElementById("btnLangHi").classList.remove("active");
+      updateSceneUI();
+      speakSceneNarration();
+    };
+
+    // Fullscreen
+    document.getElementById("btnFullscreen").onclick = () => {
+      const elem = document.querySelector(".video-viewport-wrapper");
+      if (!document.fullscreenElement) elem.requestFullscreen().catch(() => {});
+      else document.exitFullscreen();
+    };
+
     // ===================================================================
-    // 1-CLICK VIDEO RECORDER & DOWNLOADER (Canvas to .webm / .mp4)
+    // 1-CLICK VIDEO RECORDER & DOWNLOADER (.webm)
     // ===================================================================
     let mediaRecorder = null;
     let recordedChunks = [];
@@ -995,16 +1798,13 @@
     let recTimerInterval = null;
 
     btnRecord.onclick = () => {
-      if (!isRecording) {
-        startRecording();
-      } else {
-        stopRecording();
-      }
+      if (!isRecording) startRecording();
+      else stopRecording();
     };
 
     function startRecording() {
       recordedChunks = [];
-      const stream = canvas.captureStream(30); // 30 FPS HD
+      const stream = canvas.captureStream(30);
 
       try {
         mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
@@ -1012,7 +1812,7 @@
         try {
           mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
         } catch (err) {
-          alert("MediaRecorder is not supported in this browser.");
+          alert("MediaRecorder not supported on this device.");
           return;
         }
       }
@@ -1026,7 +1826,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "DocuForensic_AI_Working_Demo.webm";
+        a.download = `DocuForensic_AI_${currentMode}_Walkthrough.webm`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -1046,7 +1846,6 @@
         recTimer.textContent = `${m}:${s}`;
       }, 1000);
 
-      // Jump to beginning
       jumpToScene(0);
     }
 
@@ -1060,11 +1859,13 @@
       }
     }
 
-    // Initial Start
+    // Window Load
     window.onload = () => {
       updateSceneUI();
       animationFrameId = requestAnimationFrame(renderLoop);
-      speakSceneNarration();
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.onvoiceschanged = () => {};
+      }
     };
   </script>
 </body>
