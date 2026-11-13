@@ -1736,46 +1736,62 @@ function initAuthUI() {
   }
 
   function openForgotPasswordModal(prefilledEmail = '') {
-    if (!forgotModal) return;
+    const modal = document.getElementById('forgotPasswordModal') || forgotModal;
+    if (!modal) return;
+
     hideCyberAlert(forgotAlertBox);
     if (forgotStep1Form) forgotStep1Form.classList.remove('hidden');
     if (forgotStep2Form) forgotStep2Form.classList.add('hidden');
+
+    modal.style.display = 'flex';
+    modal.style.zIndex = '35000';
+    modal.classList.remove('hidden');
+    modal.classList.add('open');
+
     if (forgotEmailInput) {
       forgotEmailInput.value = prefilledEmail || '';
-      forgotEmailInput.focus();
+      setTimeout(() => forgotEmailInput.focus(), 80);
     }
+
     generateCyberCaptcha();
-    forgotModal.classList.remove('hidden');
-    forgotModal.classList.add('open');
     if (window.DynamicBackground) window.DynamicBackground.setTheme('threat');
   }
+  window.openForgotPasswordModal = openForgotPasswordModal;
 
   function closeForgotPasswordModal() {
-    if (!forgotModal) return;
-    forgotModal.classList.remove('open');
-    forgotModal.classList.add('hidden');
+    const modal = document.getElementById('forgotPasswordModal') || forgotModal;
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.classList.add('hidden');
+    modal.style.display = 'none';
     if (window.DynamicBackground) window.DynamicBackground.revertToCurrentState();
   }
+  window.closeForgotPasswordModal = closeForgotPasswordModal;
 
   if (closeForgotModalBtn) closeForgotModalBtn.onclick = closeForgotPasswordModal;
   if (cancelForgotBtn) cancelForgotBtn.onclick = closeForgotPasswordModal;
   if (btnRefreshCaptcha) btnRefreshCaptcha.onclick = generateCyberCaptcha;
 
-  const btnForgotPassLogin = document.getElementById('btnForgotPassLogin');
-  if (btnForgotPassLogin) {
-    btnForgotPassLogin.addEventListener('click', () => {
-      const emailVal = document.getElementById('loginEmail')?.value || '';
+  // Global delegation for opening Forgot Password from anywhere
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target && (
+      target.id === 'btnForgotPassLogin' ||
+      target.id === 'btnForgotPassModal' ||
+      target.id === 'btnGateForgotPass' ||
+      target.classList?.contains('btn-forgot-pass-link') ||
+      target.closest('#btnForgotPassLogin') ||
+      target.closest('#btnForgotPassModal') ||
+      target.closest('#btnGateForgotPass')
+    )) {
+      e.preventDefault();
+      e.stopPropagation();
+      const emailVal = document.getElementById('loginEmail')?.value || 
+                       document.getElementById('gateEmailInput')?.value || 
+                       document.getElementById('loginEmailInput')?.value || '';
       openForgotPasswordModal(emailVal);
-    });
-  }
-
-  const btnForgotPassModal = document.getElementById('btnForgotPassModal');
-  if (btnForgotPassModal) {
-    btnForgotPassModal.addEventListener('click', () => {
-      const emailVal = document.getElementById('loginEmailInput')?.value || '';
-      openForgotPasswordModal(emailVal);
-    });
-  }
+    }
+  });
 
   // Toggle eye buttons in Forgot Password Step 2
   if (toggleForgotNewPassBtn && forgotNewPasswordInput) {

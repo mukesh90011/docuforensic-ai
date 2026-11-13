@@ -972,10 +972,18 @@ body[data-theme="host"] .app-header {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  z-index: 200;
+  z-index: 20000;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-fast);
+}
+
+#forgotPasswordModal {
+  z-index: 25000 !important;
+}
+
+#authorityClearanceModal {
+  z-index: 22000 !important;
 }
 
 .modal-overlay.open {
