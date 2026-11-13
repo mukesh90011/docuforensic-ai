@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mukesh — GitHub Profile README Studio & Preview</title>
+  <title>Mukesh — GitHub Profile README Studio (With Photos & Badges)</title>
   <link rel="icon" type="image/png" href="./icons/logo.png">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,43 +59,6 @@
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
     }
 
-    /* Activation Guide Card */
-    .guide-card {
-      width: 100%;
-      max-width: 960px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(0, 255, 204, 0.4);
-      border-radius: 10px;
-      padding: 1rem 1.4rem;
-      margin-bottom: 1.5rem;
-    }
-    .guide-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #00ffcc;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .guide-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0.8rem;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-    }
-    .guide-step {
-      background: rgba(3, 7, 18, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.65rem 0.85rem;
-      border-radius: 6px;
-    }
-    .guide-step b { color: #00f0ff; }
-
-    /* GitHub Preview Container (Simulating GitHub Profile UI) */
     .github-preview-box {
       width: 100%;
       max-width: 960px;
@@ -107,63 +70,6 @@
       overflow-x: auto;
     }
 
-    .github-header-badge {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.78rem;
-      color: #8b949e;
-      font-family: monospace;
-    }
-    .github-header-badge b { color: #58a6ff; }
-
-    /* Markdown Rendered Content Styles */
-    .md-content {
-      line-height: 1.6;
-      font-size: 0.92rem;
-    }
-    .md-content h1, .md-content h2, .md-content h3 {
-      color: #f0f6fc;
-      margin-top: 1.25rem;
-      margin-bottom: 0.75rem;
-      border-bottom: 1px solid #21262d;
-      padding-bottom: 0.35rem;
-    }
-    .md-content p { margin-bottom: 0.85rem; }
-    .md-content a { color: #58a6ff; text-decoration: none; }
-    .md-content a:hover { text-decoration: underline; }
-    .md-content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-    }
-    .md-content td, .md-content th {
-      border: 1px solid #30363d;
-      padding: 10px 14px;
-    }
-    .md-content pre {
-      background: #161b22;
-      border: 1px solid #30363d;
-      padding: 1rem;
-      border-radius: 6px;
-      overflow-x: auto;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      color: #e6edf3;
-    }
-    .md-content blockquote {
-      border-left: 3px solid #00f0ff;
-      padding-left: 1rem;
-      color: #8b949e;
-      font-style: italic;
-      margin: 1rem 0;
-    }
-
-    /* Notification Toast */
     #copyToast {
       position: fixed;
       bottom: 25px;
@@ -179,20 +85,17 @@
       align-items: center;
       gap: 0.5rem;
       z-index: 100;
-      animation: fadeIn 0.3s;
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- Top Action Toolbar -->
   <header class="top-bar">
     <div class="brand-box">
       <img src="./icons/logo.png" alt="Logo">
       <div>
-        <h1>Mukesh // GitHub Profile README Studio</h1>
-        <p>AI & Data Science (AI & DS) Portfolio & Profile Readme Showcase</p>
+        <h1>Mukesh // GitHub Profile Studio (Priyanshu Style + Photos)</h1>
+        <p>Hero Avatar Card + Verified Builder ID + Get In Touch Photo Card</p>
       </div>
     </div>
     <div style="display: flex; gap: 0.6rem;">
@@ -200,257 +103,38 @@
         <span>📋</span>
         <span>1-Click Copy Full README.md</span>
       </button>
-      <a href="https://github.com/new" target="_blank" class="btn-copy" style="background: rgba(255,255,255,0.1); color: #fff; box-shadow: none;">
-        <span>🚀</span> Open GitHub
+      <a href="https://github.com/mukesh90011/mukesh90011/edit/main/README.md" target="_blank" class="btn-copy" style="background: rgba(255,255,255,0.1); color: #fff; box-shadow: none;">
+        <span>✏️</span> Open GitHub Edit
       </a>
     </div>
   </header>
 
-  <!-- Activation Guide -->
-  <div class="guide-card">
-    <div class="guide-title">
-      <span>⚡</span> How to Put This on Your Real GitHub Profile (1 Minute):
-    </div>
-    <div class="guide-steps">
-      <div class="guide-step">
-        <b>Step 1:</b> GitHub open karein aur naya repository banayein jiska naam exact aapka username ho: <b>mukesh90011</b>
-      </div>
-      <div class="guide-step">
-        <b>Step 2:</b> Repository ko <b>Public</b> rakhein aur <b>"Add a README file"</b> check karein.
-      </div>
-      <div class="guide-step">
-        <b>Step 3:</b> Upar diye <b>"1-Click Copy"</b> button se code copy karke us README me paste karein aur commit karein. Done!
-      </div>
-    </div>
-  </div>
-
-  <!-- Live GitHub Markdown Preview -->
   <div class="github-preview-box">
-    <div class="github-header-badge">
-      <span>mukesh90011 / <b>README.md</b></span>
-      <span>AI & DS SPECIALIST // HIGH TECH HUD</span>
+    <div style="color: #8b949e; font-family: monospace; font-size: 0.8rem; margin-bottom: 1.5rem; border-bottom: 1px solid #30363d; padding-bottom: 0.5rem;">
+      mukesh90011 / <b>README.md</b> — PREVIEW
     </div>
 
-    <!-- Rendered Markdown Body -->
-    <div class="md-content" id="previewArea">
-
-      <div align="center">
-        <p align="center">
-          <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=24&duration=3000&pause=1000&color=00F0FF&center=true&vCenter=true&multiline=false&width=750&height=50&lines=HELLO+WORLD+I'M+MUKESH;AI+%26+DATA+SCIENCE+ENGINEER;BUILDING+INTELLIGENT+FORENSIC+%26+CV+SYSTEMS" alt="Typing SVG" />
-        </p>
-
-        <h1 align="center" style="border: none;">
-          MUKESH
-        </h1>
-
-        <p align="center">
-          <b>AI & Data Science (AI & DS) Engineer | Computer Vision & Cryptographic Security Specialist</b><br>
-          <i>B.Tech in Artificial Intelligence & Data Science — Arya College of Engineering & I.T. (ACEIT), Jaipur</i>
-        </p>
-
-        <p align="center">
-          <a href="https://docuforensic-ai.onrender.com" target="_blank">
-            <img src="https://img.shields.io/badge/LIVE%20APP-DocuForensic%20AI-00f0ff?style=for-the-badge&logo=render&logoColor=black" alt="DocuForensic AI" />
-          </a>
-          <a href="https://linkedin.com/in/" target="_blank">
-            <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
-          </a>
-          <a href="mailto:mukesh24ai@gmail.com">
-            <img src="https://img.shields.io/badge/Gmail-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
-          </a>
-          <a href="https://github.com/mukesh90011?tab=repositories">
-            <img src="https://img.shields.io/badge/Repositories-Browse%20Work-181717?style=for-the-badge&logo=github&logoColor=white" alt="Repos" />
-          </a>
-        </p>
-
-        <p align="center">
-          <img src="https://img.shields.io/badge/Accuracy-94%25%2B%20Forensic%20Tamper%20Detection-00ffcc?style=flat-square" />
-          <img src="https://img.shields.io/badge/Inference-%3C150ms%20CV%20Latency-00e5ff?style=flat-square" />
-          <img src="https://img.shields.io/badge/Standard-ICAO%209303%20Modulo--10-ff0055?style=flat-square" />
-          <img src="https://img.shields.io/badge/Hackathon-Hackstorm%20'25%20Innovator-ffbd2e?style=flat-square" />
-        </p>
-      </div>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>⚡ 01 // EXECUTIVE TERMINAL & ABOUT ME</h3>
-
-      <pre><code>mukesh@ai-workstation:~$ neofetch --profile
-------------------------------------------
-OS         : Linux (Ubuntu) / Windows Subsystem for Linux
-Role       : AI & Data Science (AI & DS) Engineer
-Education  : B.Tech in AI & Data Science (2024 - 2028)
-College    : Arya College of Engineering & I.T. (ACEIT), Jaipur
-Focus      : Computer Vision, Error Level Analysis (ELA), Cryptographic Checksums
-Projects   : DocuForensic AI (Tampering Detection), Agri Seva (Satellite Analytics)
-Status     : 🚀 Building High-Impact ML Systems & Scalable Production Apps
-Location   : Jaipur, Rajasthan, India
-Contact    : mukesh24ai@gmail.com</code></pre>
-
-      <blockquote>
-        "Transforming complex computer vision, neural models, and cryptographic algorithms into resilient, production-ready systems that solve real-world forensic and agricultural challenges."
-      </blockquote>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>🛠️ 02 // TECH ARSENAL & CONSTELLATION</h3>
-
-      <table>
-        <tr>
-          <td width="25%"><b>Core Languages</b></td>
-          <td><img src="https://skillicons.dev/icons?i=python,c,cpp,js,html,css" /></td>
-        </tr>
-        <tr>
-          <td><b>AI, ML & Vision</b></td>
-          <td>
-            <img src="https://img.shields.io/badge/Error%20Level%20Analysis-FF0055?style=flat-square&logoColor=white" />
-            <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white" />
-            <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" />
-            <img src="https://img.shields.io/badge/CNN%20Vision-00F0FF?style=flat-square" />
-            <img src="https://img.shields.io/badge/NDVI%20Satellite%20Data-22C55E?style=flat-square" />
-          </td>
-        </tr>
-        <tr>
-          <td><b>Data & Databases</b></td>
-          <td>
-            <img src="https://skillicons.dev/icons?i=postgres,sqlite" />
-            <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" />
-            <img src="https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white" />
-          </td>
-        </tr>
-        <tr>
-          <td><b>Security & Forensics</b></td>
-          <td>
-            <img src="https://img.shields.io/badge/SHA--256%20Cryptography-00FFCC?style=flat-square" />
-            <img src="https://img.shields.io/badge/ICAO%209303%20MRZ-0284C7?style=flat-square" />
-            <img src="https://img.shields.io/badge/RBAC%20Portals-FF3366?style=flat-square" />
-            <img src="https://img.shields.io/badge/Anti--Bot%20CAPTCHA-A855F7?style=flat-square" />
-          </td>
-        </tr>
-        <tr>
-          <td><b>Cloud & Dev Tools</b></td>
-          <td><img src="https://skillicons.dev/icons?i=git,github,vscode,linux,bash,postman" /></td>
-        </tr>
-      </table>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>🚀 03 // FEATURED FLAGSHIP PROJECTS</h3>
-
-      <table>
-        <tr>
-          <td width="50%" valign="top">
-            <h4 style="color: #00f0ff; margin-bottom: 0.4rem;">🛡️ DocuForensic AI</h4>
-            <p>
-              <b>Deep Document Forgery, ELA & Checksum Detection System</b><br>
-              <small>End-to-end multi-spectral forensic verification platform scanning Passports, Aadhaar, and Certificates for digital Photoshop manipulation.</small>
-            </p>
-            <ul>
-              <li><b>Error Level Analysis (ELA)</b>: Highlights localized JPEG compression anomalies & spliced patches with <b>94%+ accuracy</b>.</li>
-              <li><b>ICAO 9303 MRZ Engine</b>: Validates passport check-digit Modulo-10 checksums (7-3-1 weight pattern).</li>
-              <li><b>3-Tier Clearance Gateway</b>: Govt Issuer, Police FIR Branch, and Citizen Portal with Gmail OTP link & anti-bot CAPTCHA.</li>
-            </ul>
-            <p>
-              <a href="https://docuforensic-ai.onrender.com" target="_blank">
-                <img src="https://img.shields.io/badge/Live%20Production%20Demo-00f0ff?style=flat-square&logo=render&logoColor=black" />
-              </a>
-              <a href="https://github.com/mukesh90011/docuforensic-ai" target="_blank">
-                <img src="https://img.shields.io/badge/Source%20Code-181717?style=flat-square&logo=github&logoColor=white" />
-              </a>
-            </p>
-          </td>
-          <td width="50%" valign="top">
-            <h4 style="color: #22c55e; margin-bottom: 0.4rem;">🌾 Agri Seva</h4>
-            <p>
-              <b>Smart AI Agriculture & Satellite Crop Diagnostics</b><br>
-              <small>Intelligent agricultural analytics platform using multispectral satellite data & Computer Vision for crop health monitoring.</small>
-            </p>
-            <ul>
-              <li><b>NDVI Remote Sensing</b>: Computes vegetation health indices to detect crop water deficit and stress.</li>
-              <li><b>CNN Crop Disease Classifier</b>: Real-time on-device pathogen identification through farmer photo uploads.</li>
-              <li><b>Hackstorm '25 MVP</b>: Built and presented under high-pressure 24-hour sprint to an expert panel.</li>
-            </ul>
-            <p>
-              <img src="https://img.shields.io/badge/Status-Hackstorm%20'25%20MVP-22c55e?style=flat-square" />
-              <img src="https://img.shields.io/badge/Domain-AgriTech%20%2F%20Satellite%20AI-0284c7?style=flat-square" />
-            </p>
-          </td>
-        </tr>
-      </table>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>📊 04 // LIVE GITHUB ANALYTICS & ACTIVITY</h3>
-
-      <div align="center">
-        <img src="https://github-readme-stats.vercel.app/api?username=mukesh90011&show_icons=true&theme=tokyonight&hide_border=true&bg_color=090d16&title_color=00f0ff&icon_color=00ffcc&text_color=e2e8f0" alt="Mukesh's GitHub Stats" width="49%" />
-        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mukesh90011&layout=compact&theme=tokyonight&hide_border=true&bg_color=090d16&title_color=00f0ff&text_color=e2e8f0" alt="Top Languages" width="45%" />
-      </div>
-
-      <p align="center" style="margin-top: 1rem;">
-        <img src="https://github-readme-streak-stats.herokuapp.com/?user=mukesh90011&theme=tokyonight&hide_border=true&background=090d16&stroke=00f0ff&ring=00ffcc&fire=ff0055&currStreakLabel=00f0ff" alt="GitHub Streak" width="95%" />
-      </p>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>🎓 05 // ACADEMIC & CERTIFIED CREDENTIALS</h3>
-
-      <pre><code>Degree         : Bachelor of Technology (B.Tech)
-Major          : Artificial Intelligence & Data Science (AI & DS)
-Institution    : Arya College of Engineering & I.T. (ACEIT), Jaipur
-Tenure         : 2024 – 2028 (Present)
-Coursework     : Machine Learning, Data Structures & Algorithms, DBMS, Statistical Methods, Python
-
-Certifications :
-  - IIT Bombay               : C & C++ Programming Certification
-  - Cisco Networking Academy : C Essentials 1
-  - Infosys Springboard      : Programming in C & Software Engineering</code></pre>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <h3>🎯 06 // LIFE BEYOND CODE</h3>
-
-      <p align="center">
-        <img src="https://img.shields.io/badge/🏃_Athletics-Sprint%20%26%20Race-0284c7?style=for-the-badge" />
-        <img src="https://img.shields.io/badge/🤼_Kabaddi-Competitive%20Sports-ff0055?style=for-the-badge" />
-        <img src="https://img.shields.io/badge/✈️_Traveling-Exploring%20Horizons-10b981?style=for-the-badge" />
-        <img src="https://img.shields.io/badge/🏋️_Fitness-Daily%20Discipline-8b5cf6?style=for-the-badge" />
-      </p>
-
-      <hr style="border-color: #30363d; margin: 1.5rem 0;">
-
-      <div align="center">
-        <h3>📬 07 // LET'S BUILD SOMETHING EXTRAORDINARY</h3>
-        <p>
-          I am actively seeking <b>AI & Data Science (AI & DS)</b> internships, collaborative research, and engineering opportunities.<br>
-          Feel free to reach out and connect!
-        </p>
-
-        <p>
-          <a href="mailto:mukesh24ai@gmail.com">
-            <img src="https://img.shields.io/badge/Email-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
-          </a>
-          <a href="https://linkedin.com/in/">
-            <img src="https://img.shields.io/badge/LinkedIn-Mukesh-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
-          </a>
-          <a href="https://docuforensic-ai.onrender.com" target="_blank">
-            <img src="https://img.shields.io/badge/Portfolio-DocuForensic%20AI-00f0ff?style=for-the-badge&logo=render&logoColor=black" />
-          </a>
-        </p>
-      </div>
-
+    <!-- Live Render of the Profile -->
+    <div id="previewArea">
+      <!-- Auto loaded from github-profile/README.md -->
+      <p style="color: #00ffcc;">Loading updated profile preview with photos & badges...</p>
     </div>
   </div>
 
   <div id="copyToast">
-    <span>✔</span> README.md Markdown Copied to Clipboard! Ready to paste on GitHub!
+    <span>✔</span> README.md with Photos & Badges Copied! Ready to Paste on GitHub!
   </div>
 
   <script>
-    const markdownContent = `# MUKESH // AI & DATA SCIENCE ENGINEER
-Full Profile README content from github-profile/README.md`;
+    async function loadReadme() {
+      try {
+        const res = await fetch('/api/raw-github-readme');
+        const md = await res.text();
+        document.getElementById('previewArea').innerHTML = md;
+      } catch (e) {}
+    }
+    loadReadme();
 
-    // Fetch raw markdown for 1-click copy
     document.getElementById("btnCopyMarkdown").onclick = async () => {
       try {
         const resp = await fetch("/api/raw-github-readme");
@@ -458,13 +142,6 @@ Full Profile README content from github-profile/README.md`;
         await navigator.clipboard.writeText(text);
         showToast();
       } catch (err) {
-        // Fallback
-        const textarea = document.createElement("textarea");
-        textarea.value = \`\${document.getElementById("previewArea").innerText}\`;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
         showToast();
       }
     };
@@ -477,4 +154,3 @@ Full Profile README content from github-profile/README.md`;
   </script>
 </body>
 </html>
-
