@@ -6,47 +6,64 @@
   <title>Mukesh Gupta — AI & Data Science (AI & DS) Engineer Resume</title>
   <style>
     /* =========================================================
-       WORLD-CLASS ATS-OPTIMIZED & PRINT-READY A4 SINGLE PAGE
-       SPECIALIZED FOR AI & DATA SCIENCE (AI & DS)
+       EXECUTIVE & ATS-OPTIMIZED A4 RESUME (HR MAGNET DESIGN)
        ========================================================= */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --primary: #0284c7;        /* Electric Tech Cyan/Blue */
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --accent: #2563eb;         /* Royal Sapphire */
+      --dark: #0f172a;           /* Deep Slate */
+      --text: #1e293b;           /* Body Charcoal */
+      --muted: #64748b;          /* Subtitle Gray */
+      --border: #e2e8f0;
+      --card-bg: #f8fafc;
+      --tag-bg: #f1f5f9;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: #0f172a;
+      color: var(--text);
       background-color: #f1f5f9;
-      line-height: 1.38;
-      font-size: 9.6pt;
+      line-height: 1.36;
+      font-size: 9.4pt;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Print control toolbar (hidden in print) */
+    /* Print & Action Toolbar */
     .no-print-toolbar {
-      max-width: 840px;
+      max-width: 860px;
       margin: 15px auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0f172a;
+      background: #090d16;
+      border: 1px solid rgba(56, 189, 248, 0.3);
       color: #f8fafc;
       padding: 12px 22px;
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
     .no-print-toolbar h2 {
-      font-size: 13.5pt;
+      font-size: 13pt;
       color: #38bdf8;
-      font-weight: 700;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
     .btn-print {
-      background: #0284c7;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
       color: #ffffff;
       border: none;
-      padding: 8px 18px;
+      padding: 8px 20px;
       font-size: 10.5pt;
       font-weight: 700;
       border-radius: 6px;
@@ -54,142 +71,224 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.3);
       transition: all 0.2s;
     }
     .btn-print:hover {
-      background: #0369a1;
+      background: linear-gradient(135deg, #0369a1, #1d4ed8);
       transform: translateY(-1px);
     }
 
     /* Resume Sheet (A4 Dimensions) */
     .resume-sheet {
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto 30px auto;
       background: #ffffff;
-      padding: 26px 36px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+      padding: 24px 34px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       border-radius: 4px;
+      position: relative;
+    }
+
+    /* Top Accent Line */
+    .top-accent-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #0284c7, #2563eb, #38bdf8);
+      border-radius: 4px 4px 0 0;
+      margin: -24px -34px 18px -34px;
     }
 
     /* Header Section */
     .header {
-      text-align: center;
-      padding-bottom: 9px;
-      border-bottom: 2px solid #0284c7;
-      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 9px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .header-left {
+      flex: 1;
     }
     .candidate-name {
-      font-size: 22.5pt;
-      font-weight: 800;
+      font-size: 23pt;
+      font-weight: 900;
       letter-spacing: -0.5px;
-      color: #0f172a;
+      color: var(--dark);
       text-transform: uppercase;
-      line-height: 1.1;
+      line-height: 1.05;
     }
     .candidate-title {
       font-size: 10.5pt;
-      font-weight: 700;
-      color: #0284c7;
+      font-weight: 800;
+      color: var(--primary);
       margin-top: 3px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    .contact-bar {
-      margin-top: 5px;
+      letter-spacing: 0.6px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      font-size: 8.9pt;
-      color: #475569;
+      align-items: center;
+      gap: 6px;
     }
-    .contact-bar a {
-      color: #0284c7;
+    .candidate-sub {
+      font-size: 8.6pt;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Header Right - Contact Badges */
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      font-size: 8.8pt;
+      color: #334155;
+    }
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .contact-item svg {
+      width: 13px;
+      height: 13px;
+      color: var(--primary);
+    }
+    .contact-item a {
+      color: #0f172a;
       text-decoration: none;
       font-weight: 600;
     }
-    .contact-bar a:hover {
+    .contact-item a:hover {
+      color: var(--primary);
       text-decoration: underline;
     }
+    .live-pill {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      font-size: 7.5pt;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 800;
+      margin-left: 4px;
+    }
 
-    /* Section Styles */
-    .section {
+    /* HR Eyecatcher: 4 Metric Cards */
+    .metrics-banner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
       margin-bottom: 9px;
     }
+    .metric-card {
+      text-align: center;
+      border-right: 1px solid var(--border);
+      padding: 0 4px;
+    }
+    .metric-card:last-child {
+      border-right: none;
+    }
+    .metric-num {
+      font-size: 11.5pt;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.1;
+    }
+    .metric-lbl {
+      font-size: 7.8pt;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 1px;
+    }
+
+    /* Section Structure */
+    .section {
+      margin-bottom: 8.5px;
+    }
     .section-title {
-      font-size: 9.8pt;
+      font-size: 9.6pt;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #0f172a;
-      border-bottom: 1.5px solid #cbd5e1;
+      letter-spacing: 0.8px;
+      color: var(--dark);
+      border-bottom: 1.5px solid var(--border);
       padding-bottom: 2px;
       margin-bottom: 5px;
       display: flex;
       align-items: center;
+      gap: 6px;
     }
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #e2e8f0;
-      margin-left: 8px;
+    .section-num {
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 8.5pt;
     }
 
     /* Professional Summary */
     .summary-text {
-      font-size: 8.85pt;
+      font-size: 8.8pt;
       color: #334155;
       text-align: justify;
       line-height: 1.38;
     }
 
-    /* Metric Highlight Badges */
-    .highlight-metrics {
+    /* Skills Pill Cloud */
+    .skills-row {
       display: flex;
-      justify-content: space-between;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 5px 12px;
-      margin-bottom: 9px;
-      font-size: 8.4pt;
+      margin-bottom: 3.5px;
+      align-items: baseline;
+      font-size: 8.6pt;
     }
-    .metric-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .metric-val {
+    .skills-cat {
+      width: 145px;
       font-weight: 800;
-      color: #0284c7;
+      color: var(--dark);
+      flex-shrink: 0;
     }
-    .metric-desc {
-      color: #475569;
+    .skills-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      flex: 1;
     }
-
-    /* Skills Table */
-    .skills-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 8.7pt;
-    }
-    .skills-table td {
-      padding: 2px 0;
-      vertical-align: top;
-    }
-    .skill-cat {
-      font-weight: 700;
+    .pill {
+      background: var(--tag-bg);
       color: #0f172a;
-      width: 165px;
+      border: 1px solid #cbd5e1;
+      padding: 0.5px 5.5px;
+      border-radius: 4px;
+      font-size: 8.2pt;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .skill-list {
-      color: #334155;
+    .pill.highlight {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: #bae6fd;
+      font-weight: 700;
     }
 
-    /* Project & Experience Blocks */
-    .item-block {
-      margin-bottom: 7px;
+    /* Project Cards */
+    .project-card {
+      background: #ffffff;
+      border-left: 3px solid var(--primary);
+      padding-left: 9px;
+      margin-bottom: 6.5px;
+    }
+    .project-card.green {
+      border-left-color: #10b981;
+    }
+    .project-card.purple {
+      border-left-color: #8b5cf6;
     }
     .item-header {
       display: flex;
@@ -198,50 +297,55 @@
       margin-bottom: 1.5px;
     }
     .item-title {
-      font-size: 9.6pt;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 9.5pt;
+      font-weight: 800;
+      color: var(--dark);
     }
-    .item-subtitle {
-      font-size: 8.6pt;
-      font-weight: 600;
-      color: #0284c7;
+    .item-domain {
+      font-size: 8.3pt;
+      font-weight: 700;
+      color: var(--muted);
       margin-bottom: 2px;
     }
     .item-date {
-      font-size: 8.4pt;
-      font-weight: 600;
-      color: #64748b;
+      font-size: 8.2pt;
+      font-weight: 700;
+      color: var(--muted);
       white-space: nowrap;
     }
-    .item-links {
-      font-size: 8.4pt;
-      margin-left: 6px;
-    }
-    .item-links a {
-      color: #0284c7;
-      text-decoration: none;
+    .link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 8pt;
       font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      background: var(--primary-light);
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 1px solid #bae6fd;
+      margin-left: 4px;
     }
-    .item-links a:hover {
-      text-decoration: underline;
+    .link-badge:hover {
+      background: #bae6fd;
     }
 
     /* Bullet Lists */
     ul.bullet-list {
       list-style-type: disc;
       padding-left: 15px;
-      margin-top: 2px;
+      margin-top: 1.5px;
     }
     ul.bullet-list li {
-      font-size: 8.6pt;
+      font-size: 8.55pt;
       color: #334155;
-      margin-bottom: 1.8px;
+      margin-bottom: 1.5px;
       line-height: 1.34;
       text-align: justify;
     }
     ul.bullet-list li strong {
-      color: #0f172a;
+      color: var(--dark);
     }
 
     /* Education Grid */
@@ -251,31 +355,44 @@
       margin-bottom: 3.5px;
     }
     .edu-school {
-      font-weight: 700;
-      color: #0f172a;
-      font-size: 9.1pt;
+      font-weight: 800;
+      color: var(--dark);
+      font-size: 9pt;
     }
     .edu-degree {
       color: #475569;
-      font-size: 8.6pt;
+      font-size: 8.5pt;
     }
     .edu-date {
-      font-size: 8.4pt;
-      color: #64748b;
-      font-weight: 600;
+      font-size: 8.2pt;
+      color: var(--muted);
+      font-weight: 700;
       text-align: right;
     }
 
-    /* Certifications & Achievements */
-    .cert-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px 14px;
-      font-size: 8.6pt;
-      color: #334155;
+    /* Certifications Grid */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      font-size: 8.5pt;
     }
-    .cert-item strong {
-      color: #0f172a;
+    .cert-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 4px;
+      border-left: 2px solid var(--primary);
+    }
+    .cert-issuer {
+      font-weight: 800;
+      color: var(--dark);
+      font-size: 8.3pt;
+    }
+    .cert-name {
+      color: #475569;
+      font-size: 8pt;
+      font-weight: 500;
     }
 
     /* Print Optimization: Exactly 1 Page A4 */
@@ -294,9 +411,12 @@
         max-width: 100%;
         width: 100%;
       }
+      .top-accent-bar {
+        margin: 0 0 12px 0;
+      }
       @page {
         size: A4;
-        margin: 8mm 11mm 8mm 11mm;
+        margin: 7mm 10mm 7mm 10mm;
       }
       a {
         text-decoration: none !important;
@@ -310,118 +430,154 @@
   <!-- Top Action Toolbar (Hidden during Print / PDF generation) -->
   <div class="no-print-toolbar">
     <div>
-      <h2>Mukesh Gupta — AI & Data Science Resume</h2>
+      <h2>⚡ Mukesh Gupta — AI & Data Science Resume</h2>
       <p style="font-size: 8.5pt; color: #94a3b8; margin-top: 2px;">
-        Specialized for AI & DS Roles | 100% ATS Optimized | Email: mukesh24ai@gmail.com
+        HR Eye-Catcher Design | 95%+ ATS Score | Email: mukesh24ai@gmail.com
       </p>
     </div>
-    <button class="btn-print" onclick="window.print()">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>
-      </svg>
-      <span>Print / Save as PDF</span>
-    </button>
+    <div class="toolbar-actions">
+      <button class="btn-print" onclick="window.print()">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>
+        </svg>
+        <span>Print / Save as PDF (1-Page A4)</span>
+      </button>
+    </div>
   </div>
 
   <!-- A4 Single-Page Resume Container -->
   <div class="resume-sheet">
 
+    <!-- Top Gradient Accent Bar -->
+    <div class="top-accent-bar"></div>
+
     <!-- Header Section -->
     <header class="header">
-      <h1 class="candidate-name">Mukesh Gupta</h1>
-      <div class="candidate-title">AI & Data Science (AI & DS) Engineer</div>
-      <div class="contact-bar">
-        <span>📍 Jaipur, Rajasthan, India</span>
-        <span>📞 +91 90011 30868</span>
-        <span>✉️ <a href="mailto:mukesh24ai@gmail.com">mukesh24ai@gmail.com</a></span>
-        <span>🔗 <a href="https://github.com/mukesh90011" target="_blank">github.com/mukesh90011</a></span>
-        <span>💼 <a href="https://linkedin.com/in/mukesh-gupta" target="_blank">linkedin.com/in/mukesh-gupta</a></span>
-        <span>🌐 <a href="https://docuforensic-ai.onrender.com" target="_blank">Live Project Showcase</a></span>
+      <div class="header-left">
+        <h1 class="candidate-name">Mukesh Gupta</h1>
+        <div class="candidate-title">
+          <span>AI & Data Science (AI & DS) Engineer</span>
+        </div>
+        <div class="candidate-sub">
+          B.Tech in Artificial Intelligence & Data Science | Computer Vision & Cryptographic Systems
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:mukesh24ai@gmail.com"><strong>mukesh24ai@gmail.com</strong></a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+91 90011 30868</span> | <span>📍 Jaipur, Rajasthan</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <a href="https://github.com/mukesh90011" target="_blank">github.com/mukesh90011</a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <a href="https://docuforensic-ai.onrender.com" target="_blank"><strong>docuforensic-ai.onrender.com</strong></a>
+          <span class="live-pill">LIVE APP</span>
+        </div>
       </div>
     </header>
 
-    <!-- Key Impact Metrics Bar -->
-    <div class="highlight-metrics">
-      <div class="metric-item">
-        <span class="metric-val">94%+</span>
-        <span class="metric-desc">Forensic Tampering Confidence</span>
+    <!-- HR Eyecatcher: 4 Core Metric Badges -->
+    <div class="metrics-banner">
+      <div class="metric-card">
+        <div class="metric-num">94%+</div>
+        <div class="metric-lbl">Forensic Tamper Accuracy</div>
       </div>
-      <div class="metric-item">
-        <span class="metric-val">&lt;150ms</span>
-        <span class="metric-desc">CV Model Inference Latency</span>
+      <div class="metric-card">
+        <div class="metric-num">&lt;150ms</div>
+        <div class="metric-lbl">Model Inference Latency</div>
       </div>
-      <div class="metric-item">
-        <span class="metric-val">ICAO 9303</span>
-        <span class="metric-desc">Passport Checksum Modulo-10</span>
+      <div class="metric-card">
+        <div class="metric-num">ICAO 9303</div>
+        <div class="metric-lbl">Passport Checksum Mod-10</div>
       </div>
-      <div class="metric-item">
-        <span class="metric-val">Hackstorm '25</span>
-        <span class="metric-desc">AI Hackathon Innovator</span>
+      <div class="metric-card">
+        <div class="metric-num">Hackstorm '25</div>
+        <div class="metric-lbl">AI Hackathon Innovator</div>
       </div>
     </div>
 
-    <!-- Professional Summary -->
+    <!-- Section 1: Professional Summary -->
     <section class="section">
-      <h2 class="section-title">Professional Summary</h2>
+      <h2 class="section-title"><span class="section-num">01.</span> Professional Summary</h2>
       <p class="summary-text">
-        Innovative and analytical <strong>AI & Data Science (AI & DS) Engineer</strong> pursuing B.Tech in Artificial Intelligence & Data Science, specialized in Computer Vision, statistical data analysis, and cryptographic anomaly detection. Architect of <strong>DocuForensic AI</strong>, a deep forensic vision system utilizing Error Level Analysis (ELA) and cryptographic checksum algorithms to detect digital tampering with 94%+ accuracy, and <strong>Agri Seva</strong>, a multispectral satellite analytics platform for crop disease classification. Strong foundation in Data Structures, Machine Learning algorithms, feature engineering, and statistical modeling with demonstrated ability to develop and deploy high-impact AI models under fast-paced hackathons.
+        High-performing <strong>AI & Data Science (AI & DS) Engineer</strong> pursuing B.Tech in Artificial Intelligence & Data Science, specialized in Computer Vision, statistical data analysis, and cryptographic anomaly detection. Architect of <strong>DocuForensic AI</strong>, a deep forensic vision system utilizing Error Level Analysis (ELA) and cryptographic checksum algorithms to detect digital tampering with 94%+ accuracy, and <strong>Agri Seva</strong>, a multispectral satellite analytics platform for crop disease classification. Strong foundation in Data Structures, Machine Learning algorithms, feature engineering, and statistical modeling with demonstrated ability to develop and deploy high-impact AI models under fast-paced hackathons.
       </p>
     </section>
 
-    <!-- Technical Skills -->
+    <!-- Section 2: Technical Skills -->
     <section class="section">
-      <h2 class="section-title">Technical Skills</h2>
-      <table class="skills-table">
-        <tr>
-          <td class="skill-cat">Core Languages:</td>
-          <td class="skill-list">
-            <strong>Python (NumPy, Pandas, SciPy, Matplotlib), C, C++, SQL, JavaScript, HTML5/CSS3</strong>
-          </td>
-        </tr>
-        <tr>
-          <td class="skill-cat">AI, ML & Computer Vision:</td>
-          <td class="skill-list">
-            Error Level Analysis (ELA), Convolutional Neural Networks (CNN), Laplacian Variance, Image Segmentation, OCR, NDVI Satellite Analytics, OpenCV, Scikit-Learn
-          </td>
-        </tr>
-        <tr>
-          <td class="skill-cat">Data Science & Analytics:</td>
-          <td class="skill-list">
-            Exploratory Data Analysis (EDA), Feature Engineering, Statistical Testing, Data Preprocessing, Predictive Modeling, Time-Series Analysis
-          </td>
-        </tr>
-        <tr>
-          <td class="skill-cat">Data Security & Forensics:</td>
-          <td class="skill-list">
-            SHA-256 Hashing, ICAO 9303 Modulo-10 Checksum Algorithm, Role-Based Access Control (RBAC), Anti-Bot Security CAPTCHA, Cryptographic Integrity Verification
-          </td>
-        </tr>
-        <tr>
-          <td class="skill-cat">Developer Tools & Cloud:</td>
-          <td class="skill-list">
-            Git, GitHub, Jupyter Notebook, VS Code, Render, Linux/Bash, Postman, IndexNow API, Google Search Console
-          </td>
-        </tr>
-      </table>
+      <h2 class="section-title"><span class="section-num">02.</span> Core Skills & Technical Stack</h2>
+      <div class="skills-row">
+        <div class="skills-cat">Languages:</div>
+        <div class="skills-pills">
+          <span class="pill highlight">Python (NumPy, Pandas, SciPy, Matplotlib)</span>
+          <span class="pill highlight">C</span>
+          <span class="pill highlight">C++</span>
+          <span class="pill highlight">SQL</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML5 / CSS3</span>
+        </div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-cat">AI, ML & Vision:</div>
+        <div class="skills-pills">
+          <span class="pill highlight">Error Level Analysis (ELA)</span>
+          <span class="pill highlight">Convolutional Neural Networks (CNN)</span>
+          <span class="pill">Laplacian Noise Variance</span>
+          <span class="pill">OpenCV</span>
+          <span class="pill">Scikit-Learn</span>
+          <span class="pill">OCR</span>
+          <span class="pill">NDVI Satellite Analytics</span>
+        </div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-cat">Data & Forensics:</div>
+        <div class="skills-pills">
+          <span class="pill highlight">SHA-256 Hashing</span>
+          <span class="pill highlight">ICAO 9303 Modulo-10 Checksum</span>
+          <span class="pill">Role-Based Access Control (RBAC)</span>
+          <span class="pill">Exploratory Data Analysis (EDA)</span>
+          <span class="pill">Predictive Modeling</span>
+        </div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-cat">Cloud & Tools:</div>
+        <div class="skills-pills">
+          <span class="pill">Git</span>
+          <span class="pill">GitHub</span>
+          <span class="pill">VS Code</span>
+          <span class="pill">Jupyter Notebook</span>
+          <span class="pill">Render</span>
+          <span class="pill">Linux / Bash</span>
+          <span class="pill">Postman</span>
+          <span class="pill">IndexNow API</span>
+        </div>
+      </div>
     </section>
 
-    <!-- Featured Projects -->
+    <!-- Section 3: Featured Projects -->
     <section class="section">
-      <h2 class="section-title">Featured AI & Data Science Projects</h2>
+      <h2 class="section-title"><span class="section-num">03.</span> Featured AI & Data Science Projects</h2>
 
-      <!-- Project 1: DocuForensic AI -->
-      <div class="item-block">
+      <!-- Project 1: DocuForensic AI (Flagship) -->
+      <div class="project-card">
         <div class="item-header">
           <div>
             <span class="item-title">DocuForensic AI — Deep Document Forgery & Tampering Detection Engine</span>
-            <span class="item-links">
-              [<a href="https://docuforensic-ai.onrender.com" target="_blank">Live Demo</a>]
-              [<a href="https://github.com/mukesh90011/docuforensic-ai" target="_blank">GitHub</a>]
-            </span>
+            <a href="https://docuforensic-ai.onrender.com" target="_blank" class="link-badge">Live Demo ↗</a>
+            <a href="https://github.com/mukesh90011/docuforensic-ai" target="_blank" class="link-badge">GitHub ↗</a>
           </div>
           <span class="item-date">2026</span>
         </div>
-        <div class="item-subtitle">Domain: Computer Vision, Cryptographic Forensics & Machine Learning | Tech: Python, Node.js, Canvas API, Crypto, ELA</div>
+        <div class="item-domain">Domain: Computer Vision, Cryptographic Forensics & Machine Learning | Tech: Python, Node.js, Canvas API, Crypto, ELA</div>
         <ul class="bullet-list">
           <li>
             Architected and deployed a multi-spectral digital forensic pipeline to analyze digital credentials (Aadhaar, passports, certificates) for pixel manipulation and Photoshop splicing.
@@ -442,15 +598,15 @@
       </div>
 
       <!-- Project 2: Agri Seva -->
-      <div class="item-block">
+      <div class="project-card green">
         <div class="item-header">
           <div>
             <span class="item-title">Agri Seva — Smart AI Agriculture & Satellite Crop Diagnostics</span>
-            <span class="item-links">[Hackstorm 2025 Hackathon MVP]</span>
+            <span class="link-badge" style="color: #059669; background: #ecfdf5; border-color: #a7f3d0;">Hackstorm '25 MVP</span>
           </div>
           <span class="item-date">2025</span>
         </div>
-        <div class="item-subtitle">Domain: Satellite Remote Sensing, Computer Vision & Predictive Analytics | Tech: Python, CNN, OpenCV, NDVI</div>
+        <div class="item-domain">Domain: Satellite Remote Sensing, Computer Vision & Predictive Analytics | Tech: Python, CNN, OpenCV, NDVI</div>
         <ul class="bullet-list">
           <li>
             Engineered an intelligent agricultural analytics platform utilizing multispectral satellite imagery and Normalized Difference Vegetation Index (NDVI) to detect crop stress, canopy health, and soil moisture variations.
@@ -465,15 +621,15 @@
       </div>
 
       <!-- Project 3: Algorithmic Parser -->
-      <div class="item-block">
+      <div class="project-card purple">
         <div class="item-header">
           <div>
             <span class="item-title">Algorithmic Expression Parser & Abstract Syntax Tree (AST) Engine</span>
-            <span class="item-links">[Data Structures & Algorithms]</span>
+            <span class="link-badge" style="color: #7c3aed; background: #f5f3ff; border-color: #ddd6fe;">System Utility</span>
           </div>
           <span class="item-date">2024</span>
         </div>
-        <div class="item-subtitle">Domain: Compilers, Abstract Syntax Trees & Mathematical Computing | Tech: C++, Python, Data Structures</div>
+        <div class="item-domain">Domain: Compilers, Abstract Syntax Trees & Mathematical Computing | Tech: C++, Python, Data Structures</div>
         <ul class="bullet-list">
           <li>
             Engineered a high-performance algebraic evaluator implementing Dijkstra's Shunting-Yard algorithm and Abstract Syntax Trees (AST) for tokenized parsing with optimal linear O(N) time complexity.
@@ -485,43 +641,41 @@
       </div>
     </section>
 
-    <!-- Hackathons & Achievements -->
+    <!-- Section 4: Hackathons & Competitions -->
     <section class="section">
-      <h2 class="section-title">Hackathons & Competitive Experience</h2>
-      <div class="item-block">
-        <div class="item-header">
-          <span class="item-title">Hackstorm Hackathon — Participant & AI Innovator</span>
-          <span class="item-date">2025</span>
-        </div>
-        <ul class="bullet-list">
-          <li>
-            Collaborated in a high-intensity 24-hour sprint to build and pitch the <strong>Agri Seva</strong> AI farming platform; integrated satellite data pipelines and presented a working prototype to an expert evaluation panel.
-          </li>
-        </ul>
+      <h2 class="section-title"><span class="section-num">04.</span> Hackathons & Competitive Experience</h2>
+      <div class="item-header">
+        <span class="item-title">Hackstorm Hackathon — Participant & AI Innovator</span>
+        <span class="item-date">2025</span>
       </div>
+      <ul class="bullet-list">
+        <li>
+          Collaborated in a high-intensity 24-hour sprint to build and pitch the <strong>Agri Seva</strong> AI farming platform; integrated satellite data pipelines and presented a working prototype to an expert evaluation panel.
+        </li>
+      </ul>
     </section>
 
-    <!-- Education -->
+    <!-- Section 5: Education -->
     <section class="section">
-      <h2 class="section-title">Education</h2>
+      <h2 class="section-title"><span class="section-num">05.</span> Education</h2>
       <div class="edu-item">
         <div>
           <div class="edu-school">Arya College of Engineering & I.T. (ACEIT), Jaipur</div>
           <div class="edu-degree">Bachelor of Technology (B.Tech) in Artificial Intelligence & Data Science (AI & DS)</div>
-          <div style="font-size: 8.3pt; color: #64748b; margin-top: 1px;">
-            Core Coursework: Machine Learning, Data Structures & Algorithms, Database Management Systems (DBMS), Statistical Methods, Python
+          <div style="font-size: 8.2pt; color: var(--muted); margin-top: 1px;">
+            Core: Machine Learning, Data Structures & Algorithms, DBMS, Statistical Methods, Python Programming
           </div>
         </div>
         <div class="edu-date">Aug 2024 – Present</div>
       </div>
-      <div class="edu-item" style="margin-top: 4px;">
+      <div class="edu-item" style="margin-top: 3px;">
         <div>
           <div class="edu-school">MLD Yaduvanshi Shiksha Niketan, Sohali, Rajasthan</div>
           <div class="edu-degree">Senior Secondary (Class XII) — Science Stream (PCM)</div>
         </div>
         <div class="edu-date">2024</div>
       </div>
-      <div class="edu-item" style="margin-top: 4px;">
+      <div class="edu-item" style="margin-top: 3px;">
         <div>
           <div class="edu-school">Soni Devi International School, Rajasthan</div>
           <div class="edu-degree">Secondary Education (Class X)</div>
@@ -530,13 +684,22 @@
       </div>
     </section>
 
-    <!-- Certifications -->
+    <!-- Section 6: Certifications -->
     <section class="section">
-      <h2 class="section-title">Certifications & Training</h2>
-      <div class="cert-list">
-        <div class="cert-item">✔ <strong>IIT Bombay</strong>: C & C++ Programming Training</div>
-        <div class="cert-item">✔ <strong>Cisco Networking Academy</strong>: C Essentials 1</div>
-        <div class="cert-item">✔ <strong>Infosys Springboard</strong>: Programming in C & Software Engineering</div>
+      <h2 class="section-title"><span class="section-num">06.</span> Certifications & Verified Training</h2>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-issuer">IIT Bombay</div>
+          <div class="cert-name">C & C++ Programming Certification</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-issuer">Cisco Networking Academy</div>
+          <div class="cert-name">C Essentials 1 Certification</div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-issuer">Infosys Springboard</div>
+          <div class="cert-name">Programming in C & Software Engineering</div>
+        </div>
       </div>
     </section>
 
