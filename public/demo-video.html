@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocuForensic AI — Official Working Video Demo & AI Showcase</title>
+  <link rel="icon" type="image/png" href="./icons/logo.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #030712;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+    }
+    .video-studio-header {
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-title img { width: 36px; height: 36px; border-radius: 6px; }
+    .brand-title h1 { font-size: 1.25rem; color: #00f0ff; letter-spacing: 0.5px; }
+    .brand-title p { font-size: 0.72rem; color: #94a3b8; }
+
+    .header-actions { display: flex; gap: 0.6rem; }
+    .btn-cyber {
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+    .btn-cyber:hover {
+      background: #00f0ff;
+      color: #030712;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+    .btn-record {
+      background: linear-gradient(135deg, #ff0055, #ff3366);
+      border: 1px solid #ff3366;
+      color: #fff;
+    }
+    .btn-record:hover {
+      background: #ff3366;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 51, 102, 0.6);
+    }
+
+    /* Video Player Canvas Box */
+    .video-viewport-wrapper {
+      width: 100%;
+      max-width: 1080px;
+      background: #060d1a;
+      border: 2px solid rgba(0, 240, 255, 0.4);
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #videoCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #030712;
+    }
+
+    /* Subtitle & Narration Overlay */
+    .subtitles-bar {
+      position: absolute;
+      bottom: 55px;
+      left: 3%;
+      right: 3%;
+      background: rgba(3, 7, 18, 0.88);
+      border: 1px solid rgba(0, 255, 204, 0.4);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      z-index: 20;
+      transition: all 0.3s ease;
+    }
+    .subtitle-speaker {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #00ffcc;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.2rem;
+    }
+    .subtitle-text {
+      font-size: 0.95rem;
+      color: #ffffff;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    /* Video Controls Bar */
+    .controls-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(7, 14, 27, 0.95);
+      border-top: 1px solid rgba(0, 240, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 25;
+    }
+    .progress-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00f0ff, #00ffcc);
+      box-shadow: 0 0 10px #00ffcc;
+    }
+    .controls-left, .controls-right { display: flex; align-items: center; gap: 0.85rem; }
+    .ctrl-btn {
+      background: none;
+      border: none;
+      color: #f8fafc;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .ctrl-btn:hover { color: #00f0ff; }
+    .time-badge { font-family: monospace; font-size: 0.78rem; color: #94a3b8; }
+    .scene-badge {
+      font-size: 0.72rem;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Scene Playlist Grid below */
+    .playlist-section {
+      width: 100%;
+      max-width: 1080px;
+      margin-top: 1.5rem;
+    }
+    .playlist-title {
+      font-size: 0.85rem;
+      color: #00ffcc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .scenes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.6rem;
+    }
+    .scene-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 0.6rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .scene-card:hover, .scene-card.active {
+      border-color: #00f0ff;
+      background: rgba(0, 240, 255, 0.12);
+      transform: translateY(-2px);
+    }
+    .scene-card-num { font-size: 0.65rem; color: #00f0ff; font-weight: 700; font-family: monospace; }
+    .scene-card-title { font-size: 0.76rem; font-weight: 600; color: #f8fafc; margin-top: 0.2rem; }
+
+    /* Recording Badge */
+    #recordingIndicator {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 0, 85, 0.9);
+      color: #fff;
+      padding: 0.3rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      animation: pulse 1s infinite alternate;
+      z-index: 30;
+    }
+    @keyframes pulse { from { opacity: 0.7; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- Top Studio Header -->
+  <header class="video-studio-header">
+    <div class="brand-title">
+      <img src="./icons/logo.png" alt="DocuForensic AI Logo">
+      <div>
+        <h1>DocuForensic AI — Working Demonstration</h1>
+        <p>Interactive System Architecture & Forensic Pipeline Showcase</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn-cyber btn-record" id="btnRecordVideo">
+        <span>🔴</span>
+        <span id="recordBtnText">Record & Download Video (.webm)</span>
+      </button>
+      <a href="./index.html" class="btn-cyber">
+        <span>⚡</span> Launch Live App
+      </a>
+    </div>
+  </header>
+
+  <!-- Video Viewport -->
+  <div class="video-viewport-wrapper">
+    <div id="recordingIndicator">
+      <span style="font-size: 0.8rem;">●</span> REC <span id="recTimer">00:00</span>
+    </div>
+    
+    <canvas id="videoCanvas" width="1280" height="720"></canvas>
+
+    <!-- Subtitles / AI Voice Telemetry -->
+    <div class="subtitles-bar">
+      <div class="subtitle-speaker" id="subtitleSpeaker">AI FORENSIC NARRATOR</div>
+      <div class="subtitle-text" id="subtitleText">
+        Initializing DocuForensic AI System Architecture...
+      </div>
+    </div>
+
+    <!-- Controls Bar -->
+    <div class="controls-bar">
+      <div class="progress-container" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="controls-left">
+        <button class="ctrl-btn" id="btnPlayPause" title="Play/Pause">⏸️</button>
+        <button class="ctrl-btn" id="btnPrevScene" title="Previous Scene">⏮️</button>
+        <button class="ctrl-btn" id="btnNextScene" title="Next Scene">⏭️</button>
+        <span class="time-badge" id="timeDisplay">00:00 / 02:20</span>
+        <span class="scene-badge" id="sceneBadge">SCENE 1/7</span>
+      </div>
+      <div class="controls-right">
+        <button class="ctrl-btn" id="btnToggleAudio" title="Toggle AI Voiceover">🔊</button>
+        <button class="ctrl-btn" id="btnFullscreen" title="Full Screen">⛶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scene Playlist -->
+  <section class="playlist-section">
+    <div class="playlist-title">Forensic Demonstration Scenes:</div>
+    <div class="scenes-grid" id="scenesList">
+      <!-- Injected dynamically -->
+    </div>
+  </section>
+
+  <script>
+    // ===================================================================
+    // SCENE TIMELINE & MULTI-SPECTRAL DATA
+    // ===================================================================
+    const SCENES = [
+      {
+        id: 1,
+        title: "Architecture & Cyber UI",
+        duration: 18,
+        speaker: "AI SYSTEM ARCHITECT",
+        narration: "Welcome to DocuForensic AI. An end-to-end forensic document authenticity and tampering detection platform powered by neural image processing and cryptographic verification.",
+        badge: "SYSTEM OVERVIEW",
+        render: (ctx, t, progress) => {
+          // Cyber Matrix Grid & Glowing Core
+          drawCyberGrid(ctx, t);
+          drawShieldEmblem(ctx, 640, 310, t);
+          
+          ctx.fillStyle = "#00f0ff";
+          ctx.font = "bold 38px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("DOCUFORENSIC AI", 640, 160);
+          
+          ctx.fillStyle = "#a0aec0";
+          ctx.font = "16px sans-serif";
+          ctx.fillText("Deep Tampering & Checksum Verification Platform", 640, 200);
+
+          drawTechSpecs(ctx, [
+            "● Multi-Spectral Error Level Analysis (ELA)",
+            "● ICAO 9303 MRZ Modulo-10 Checksum Engine",
+            "● 365nm UV Wood's Lamp & Hologram Dispersion",
+            "● Central Police Crime Database & FIR Linkage",
+            "● SHA-256 Tamper-Proof Audit Certificate"
+          ], 640, 480);
+        }
+      },
+      {
+        id: 2,
+        title: "Clearance Authentication",
+        duration: 20,
+        speaker: "SECURITY GATEWAY",
+        narration: "DocuForensic AI enforces 3 strict clearance portals: Government Issuing Authority, Law Enforcement Police Verifier, and Citizen Document Holder with real Gmail OTP verification.",
+        badge: "ROLE CLEARANCES",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          
+          // Draw 3 Portal Cards
+          drawPortalCard(ctx, 220, 200, 260, 320, "🏛️ GOVT ISSUER", "UIDAI & Consular", "#00ffcc", "Issue Authentic Passports, Degrees & Aadhaar into Central Ledger", t);
+          drawPortalCard(ctx, 510, 200, 260, 320, "👤 CITIZEN HOLDER", "Public Verification", "#00e5ff", "Cross-check personal documents against central registry in seconds", t);
+          drawPortalCard(ctx, 800, 200, 260, 320, "👮 POLICE VERIFIER", "Crime Branch & FIR", "#ff3366", "Cross-reference FIR records, flag fraudulent syndicates & impound IDs", t);
+
+          ctx.fillStyle = "#00ffcc";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("THREE-TIER HIGH-SECURITY CLEARANCE GATEWAY", 640, 130);
+        }
+      },
+      {
+        id: 3,
+        title: "Error Level Analysis (ELA)",
+        duration: 22,
+        speaker: "FORENSIC VISION ANALYZER",
+        narration: "Error Level Analysis detects localized compression differences. Photoshopped text and spliced headshots show high error variance, lighting up in glowing neon heatmap.",
+        badge: "ELA SCANNER",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+          
+          ctx.fillStyle = "#ff0055";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("MULTI-SPECTRAL ERROR LEVEL ANALYSIS (ELA)", 640, 120);
+
+          // Split View: Original vs ELA Heatmap
+          drawDocumentMockup(ctx, 220, 170, 380, 260, "ORIGINAL DOCUMENT", false, t);
+          drawDocumentMockup(ctx, 680, 170, 380, 260, "ELA RESIDUAL HEATMAP", true, t);
+
+          // Scanner Laser Bar
+          const scanY = 170 + ((t * 80) % 260);
+          ctx.strokeStyle = "#ff0055";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(220, scanY);
+          ctx.lineTo(600, scanY);
+          ctx.stroke();
+
+          ctx.fillStyle = "rgba(255, 0, 85, 0.15)";
+          ctx.fillRect(220, scanY - 15, 380, 30);
+
+          drawVerdictBadge(ctx, 640, 480, "CRITICAL FORGERY DETECTED: 94.8% CONFIDENCE", "#ff0055");
+        }
+      },
+      {
+        id: 4,
+        title: "Passport MRZ Checksum",
+        duration: 20,
+        speaker: "CRYPTOGRAPHIC VALIDATOR",
+        narration: "For Passports and National IDs, the system decodes the Machine Readable Zone and validates ICAO 9303 Modulo-10 check digits, exposing manipulated birth dates and fake names.",
+        badge: "ICAO 9303 CHECK",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+
+          ctx.fillStyle = "#00f0ff";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("ICAO 9303 MRZ PASSPORT CHECKSUM VERIFIER", 640, 120);
+
+          drawMrzCard(ctx, 240, 180, 800, 260, t);
+          drawVerdictBadge(ctx, 640, 490, "MRZ MODULO-10 CHECKSUM FAILED // PHOTO SPLICED", "#ff3366");
+        }
+      },
+      {
+        id: 5,
+        title: "365nm UV Lamp & Hologram",
+        duration: 20,
+        speaker: "PHYSICAL SECURITY SIMULATOR",
+        narration: "Testing physical authenticity: The 365nm Wood's Lamp reveals embedded UV phosphor threads, while the Multi-Spectral Foil engine authenticates rainbow dispersion in holographic seals.",
+        badge: "UV & HOLOGRAM",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+
+          ctx.fillStyle = "#00ffcc";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("365nm UV WOOD'S LAMP & RAINBOW DISPERSION", 640, 120);
+
+          drawUvSimulation(ctx, 220, 180, 380, 260, t);
+          drawHologramSimulation(ctx, 680, 180, 380, 260, t);
+
+          drawVerdictBadge(ctx, 640, 490, "GENUINE 365nm PHOSPHOR LUMINESCENCE VERIFIED", "#00ffcc");
+        }
+      },
+      {
+        id: 6,
+        title: "Police Crime DB & FIRs",
+        duration: 20,
+        speaker: "LAW ENFORCEMENT ENGINE",
+        narration: "The Police verification portal scans Central Crime Records. Uploaded document numbers are cross-referenced with active FIR warrants and blacklisted syndicates in real time.",
+        badge: "POLICE CLEARANCE",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+
+          ctx.fillStyle = "#ff6b8b";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("CENTRAL POLICE CRIME & FIR CROSS-REFERENCE", 640, 120);
+
+          drawPoliceScanTable(ctx, 240, 180, 800, 260, t);
+          drawVerdictBadge(ctx, 640, 490, "WARNING: ACTIVE CRIME RECORD // FIR #78/2026 LINKED", "#ff0055");
+        }
+      },
+      {
+        id: 7,
+        title: "SHA-256 Audit Certificate",
+        duration: 18,
+        speaker: "CENTRAL REGISTRY LEDGER",
+        narration: "Every inspection produces a cryptographic SHA-256 audit certificate. Official A4 Forensic PDF reports can be exported instantly with forensic timestamps and digital registrar seals.",
+        badge: "AUDIT CERTIFICATE",
+        render: (ctx, t, progress) => {
+          drawCyberGrid(ctx, t);
+
+          ctx.fillStyle = "#00f0ff";
+          ctx.font = "bold 24px 'Courier New', monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("TAMPER-EVIDENT SHA-256 AUDIT CERTIFICATE & PDF", 640, 120);
+
+          drawCertificateMockup(ctx, 360, 170, 560, 280, t);
+          drawVerdictBadge(ctx, 640, 490, "OFFICIAL VERIFIED LEDGER STAMP ISSUED", "#00ffcc");
+        }
+      }
+    ];
+
+    // ===================================================================
+    // DRAWING HELPER FUNCTIONS
+    // ===================================================================
+    function drawCyberGrid(ctx, t) {
+      ctx.fillStyle = "#030712";
+      ctx.fillRect(0, 0, 1280, 720);
+
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.05)";
+      ctx.lineWidth = 1;
+      const gridSize = 40;
+      const shift = (t * 15) % gridSize;
+
+      for (let x = 0; x <= 1280; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, 720);
+        ctx.stroke();
+      }
+      for (let y = shift; y <= 720; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(1280, y);
+        ctx.stroke();
+      }
+    }
+
+    function drawShieldEmblem(ctx, x, y, t) {
+      ctx.save();
+      ctx.translate(x, y);
+      
+      const glow = Math.sin(t * 3) * 10 + 20;
+      ctx.shadowColor = "#00f0ff";
+      ctx.shadowBlur = glow;
+
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, -60);
+      ctx.lineTo(50, -30);
+      ctx.lineTo(50, 20);
+      ctx.bezierCurveTo(50, 60, 0, 80, 0, 80);
+      ctx.bezierCurveTo(0, 80, -50, 60, -50, 20);
+      ctx.lineTo(-50, -30);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(0, 240, 255, 0.12)";
+      ctx.fill();
+
+      // Lock Icon
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "32px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("🛡️", 0, 12);
+
+      ctx.restore();
+    }
+
+    function drawTechSpecs(ctx, list, x, y) {
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      list.forEach((item, i) => {
+        ctx.fillText(item, x, y + (i * 24));
+      });
+    }
+
+    function drawPortalCard(ctx, x, y, w, h, title, subtitle, color, desc, t) {
+      ctx.fillStyle = "#070e1b";
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      ctx.font = "bold 15px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(title, x + w / 2, y + 36);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px sans-serif";
+      ctx.fillText(subtitle, x + w / 2, y + 56);
+
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.beginPath();
+      ctx.moveTo(x + 20, y + 70);
+      ctx.lineTo(x + w - 20, y + 70);
+      ctx.stroke();
+
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "12px sans-serif";
+      wrapText(ctx, desc, x + 20, y + 105, w - 40, 18);
+
+      // Status indicator
+      ctx.fillStyle = color;
+      ctx.font = "bold 11px monospace";
+      ctx.fillText("● CLEARANCE ACTIVE", x + w / 2, y + h - 25);
+    }
+
+    function drawDocumentMockup(ctx, x, y, w, h, title, isHeatmap, t) {
+      ctx.fillStyle = isHeatmap ? "#110515" : "#0f172a";
+      ctx.strokeStyle = isHeatmap ? "#ff0055" : "rgba(0, 240, 255, 0.4)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = isHeatmap ? "#ff0055" : "#00f0ff";
+      ctx.font = "bold 13px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText(title, x + 15, y + 25);
+
+      // Simulated Document Lines
+      for (let i = 0; i < 5; i++) {
+        ctx.fillStyle = isHeatmap ? "rgba(255, 0, 85, 0.25)" : "rgba(255, 255, 255, 0.2)";
+        ctx.fillRect(x + 15, y + 50 + (i * 22), (i % 2 === 0 ? w - 100 : w - 50), 10);
+      }
+
+      // If Heatmap, draw glowing tampered area (Photoshop edit patch)
+      if (isHeatmap) {
+        const glow = Math.sin(t * 5) * 8 + 12;
+        ctx.shadowColor = "#ff0055";
+        ctx.shadowBlur = glow;
+        ctx.strokeStyle = "#ff0055";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 140, y + 65, 120, 45);
+
+        ctx.fillStyle = "rgba(255, 0, 85, 0.4)";
+        ctx.fillRect(x + 140, y + 65, 120, 45);
+
+        ctx.fillStyle = "#ffeb3b";
+        ctx.font = "bold 11px monospace";
+        ctx.fillText("TAMPERED // SPLICED", x + 142, y + 125);
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    function drawMrzCard(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#060d1a";
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "bold 14px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("ICAO 9303 BIOMETRIC PASSPORT MACHINE READABLE ZONE", x + 25, y + 35);
+
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = "bold 20px 'Courier New', monospace";
+      ctx.fillText("P<INDGUPTA<<MUKESH<<<<<<<<<<<<<<<<<<<<<<<<<<", x + 25, y + 100);
+      ctx.fillText("A984421094IND9805128M3112314<<<<<<<<<<<<<<04", x + 25, y + 140);
+
+      // Tampered checksum highlights
+      ctx.fillStyle = "rgba(255, 0, 85, 0.25)";
+      ctx.strokeStyle = "#ff0055";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x + 170, y + 120, 32, 28);
+      ctx.fillRect(x + 170, y + 120, 32, 28);
+
+      ctx.fillStyle = "#ff6b8b";
+      ctx.font = "12px monospace";
+      ctx.fillText("FAIL: Checksum Digit '4' != Computed '8' (Modulo-10 mismatch)", x + 25, y + 200);
+    }
+
+    function drawUvSimulation(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#160728";
+      ctx.strokeStyle = "#a855f7";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#c084fc";
+      ctx.font = "bold 13px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("365nm ULTRAVIOLET WOOD'S LAMP", x + 15, y + 25);
+
+      // Fluorescent glowing threads
+      ctx.shadowColor = "#00ffcc";
+      ctx.shadowBlur = 12;
+      ctx.strokeStyle = "#00ffcc";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x + 50, y + 60);
+      ctx.bezierCurveTo(x + 120, y + 90, x + 80, y + 160, x + 150, y + 200);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "11px monospace";
+      ctx.fillText("SECURITY THREAD: PHOSPHOR ACTIVE", x + 15, y + 235);
+    }
+
+    function drawHologramSimulation(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#091528";
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "bold 13px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("HOLOGRAM MULTI-SPECTRAL DISPERSION", x + 15, y + 25);
+
+      // Rainbow dispersion wheel
+      const cx = x + w / 2;
+      const cy = y + h / 2 - 10;
+      const grad = ctx.createConicGradient(t * 2, cx, cy);
+      grad.addColorStop(0, "#ff0055");
+      grad.addColorStop(0.2, "#ffb703");
+      grad.addColorStop(0.4, "#00ffcc");
+      grad.addColorStop(0.6, "#00f0ff");
+      grad.addColorStop(0.8, "#a855f7");
+      grad.addColorStop(1, "#ff0055");
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 55, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 11px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("RAINBOW FOIL VERIFIED", cx, y + 235);
+    }
+
+    function drawPoliceScanTable(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#18060d";
+      ctx.strokeStyle = "#ff3366";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#ff6b8b";
+      ctx.font = "bold 14px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("CENTRAL CRIME INVESTIGATION & FIR DATABASE", x + 25, y + 35);
+
+      const rows = [
+        { id: "A98442109", name: "Marcus Vance", fir: "FIR #78/2026", status: "WARRANT ACTIVE (FORGERY)" },
+        { id: "AADHAAR-9021", name: "Mukesh Gupta", fir: "NONE", status: "CLEAN RECORD (AUTHENTIC)" },
+        { id: "CERT-AI-991", name: "Mukesh Gupta", fir: "NONE", status: "CLEAN RECORD (ACTIVE)" }
+      ];
+
+      rows.forEach((r, idx) => {
+        const ry = y + 75 + (idx * 45);
+        ctx.fillStyle = idx === 0 ? "rgba(255, 0, 85, 0.2)" : "rgba(0, 255, 204, 0.08)";
+        ctx.fillRect(x + 20, ry, w - 40, 36);
+
+        ctx.fillStyle = idx === 0 ? "#ff3366" : "#00ffcc";
+        ctx.font = "bold 13px monospace";
+        ctx.fillText(r.id, x + 35, ry + 22);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "13px sans-serif";
+        ctx.fillText(r.name, x + 220, ry + 22);
+
+        ctx.fillStyle = idx === 0 ? "#ff3366" : "#a0aec0";
+        ctx.font = "bold 12px monospace";
+        ctx.fillText(r.status, x + 440, ry + 22);
+      });
+    }
+
+    function drawCertificateMockup(ctx, x, y, w, h, t) {
+      ctx.fillStyle = "#070e1b";
+      ctx.strokeStyle = "#00ffcc";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "bold 15px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("DIGITAL FORENSIC AUDIT CERTIFICATE", x + w / 2, y + 35);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "12px monospace";
+      ctx.fillText("HASH: 7e9b4c02f1a8d5e6...c98124b89a (SHA-256)", x + w / 2, y + 80);
+      ctx.fillText("VERDICT: OFFICIAL VERIFICATION CONFIRMED", x + w / 2, y + 115);
+      ctx.fillText("ISSUED BY: DOCUFORENSIC AI AUTONOMOUS LEDGER", x + w / 2, y + 150);
+
+      // Digital Seal
+      ctx.strokeStyle = "#00ffcc";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x + w / 2, y + 215, 35, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = "24px sans-serif";
+      ctx.fillText("⚖️", x + w / 2, y + 222);
+    }
+
+    function drawVerdictBadge(ctx, x, y, text, color) {
+      ctx.fillStyle = "rgba(3, 7, 18, 0.9)";
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x - 260, y - 20, 520, 42, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      ctx.font = "bold 14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(text, x, y + 6);
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(" ");
+      let line = "";
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n] + " ";
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+    }
+
+    // ===================================================================
+    // VIDEO PLAYER & ANIMATION ENGINE
+    // ===================================================================
+    const canvas = document.getElementById("videoCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let currentSceneIndex = 0;
+    let sceneStartTime = 0;
+    let isPlaying = true;
+    let isMuted = false;
+    let animationFrameId = null;
+
+    const totalVideoDuration = SCENES.reduce((acc, s) => acc + s.duration, 0);
+
+    const subtitleSpeaker = document.getElementById("subtitleSpeaker");
+    const subtitleText = document.getElementById("subtitleText");
+    const progressFill = document.getElementById("progressFill");
+    const timeDisplay = document.getElementById("timeDisplay");
+    const sceneBadge = document.getElementById("sceneBadge");
+    const btnPlayPause = document.getElementById("btnPlayPause");
+    const btnPrevScene = document.getElementById("btnPrevScene");
+    const btnNextScene = document.getElementById("btnNextScene");
+    const btnToggleAudio = document.getElementById("btnToggleAudio");
+    const scenesListEl = document.getElementById("scenesList");
+
+    // Render Scene List
+    SCENES.forEach((scene, idx) => {
+      const card = document.createElement("div");
+      card.className = "scene-card" + (idx === 0 ? " active" : "");
+      card.innerHTML = `
+        <div class="scene-card-num">SCENE 0${scene.id}</div>
+        <div class="scene-card-title">${scene.title}</div>
+      `;
+      card.onclick = () => jumpToScene(idx);
+      scenesListEl.appendChild(card);
+    });
+
+    function jumpToScene(idx) {
+      currentSceneIndex = Math.max(0, Math.min(idx, SCENES.length - 1));
+      sceneStartTime = performance.now();
+      updateSceneUI();
+      speakSceneNarration();
+    }
+
+    function updateSceneUI() {
+      const scene = SCENES[currentSceneIndex];
+      subtitleSpeaker.textContent = scene.speaker;
+      subtitleText.textContent = scene.narration;
+      sceneBadge.textContent = `SCENE ${scene.id}/${SCENES.length}`;
+
+      document.querySelectorAll(".scene-card").forEach((c, i) => {
+        c.classList.toggle("active", i === currentSceneIndex);
+      });
+    }
+
+    // AI Speech Narration via Web Speech Synthesis
+    function speakSceneNarration() {
+      if (isMuted || !("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+
+      const scene = SCENES[currentSceneIndex];
+      const utterance = new SpeechSynthesisUtterance(scene.narration);
+      utterance.rate = 1.0;
+      utterance.pitch = 0.95; // Slightly robotic/deep cyber AI voice
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Audio Cyber Beep Synth
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playCyberBeep(freq = 600, duration = 0.08) {
+      if (isMuted) return;
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        osc.type = "sine";
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    // Main 60 FPS Render Loop
+    function renderLoop(now) {
+      if (!sceneStartTime) sceneStartTime = now;
+      const elapsedScene = (now - sceneStartTime) / 1000;
+      const currentScene = SCENES[currentSceneIndex];
+
+      // Auto advance to next scene
+      if (elapsedScene >= currentScene.duration) {
+        if (currentSceneIndex < SCENES.length - 1) {
+          currentSceneIndex++;
+          sceneStartTime = now;
+          updateSceneUI();
+          speakSceneNarration();
+          playCyberBeep(880, 0.12);
+        } else {
+          // Loop or stop
+          currentSceneIndex = 0;
+          sceneStartTime = now;
+          updateSceneUI();
+          speakSceneNarration();
+        }
+      }
+
+      // Render Current Scene Graphics
+      const sceneProgress = Math.min(elapsedScene / currentScene.duration, 1.0);
+      currentScene.render(ctx, elapsedScene, sceneProgress);
+
+      // Calculate Total Time
+      let elapsedTotal = 0;
+      for (let i = 0; i < currentSceneIndex; i++) elapsedTotal += SCENES[i].duration;
+      elapsedTotal += elapsedScene;
+
+      // Update Time & Progress
+      const curM = Math.floor(elapsedTotal / 60);
+      const curS = Math.floor(elapsedTotal % 60);
+      const totM = Math.floor(totalVideoDuration / 60);
+      const totS = Math.floor(totalVideoDuration % 60);
+
+      timeDisplay.textContent = `${String(curM).padStart(2, "0")}:${String(curS).padStart(2, "0")} / ${String(totM).padStart(2, "0")}:${String(totS).padStart(2, "0")}`;
+      progressFill.style.width = `${(elapsedTotal / totalVideoDuration) * 100}%`;
+
+      if (isPlaying) {
+        animationFrameId = requestAnimationFrame(renderLoop);
+      }
+    }
+
+    // Play / Pause Toggle
+    btnPlayPause.onclick = () => {
+      isPlaying = !isPlaying;
+      btnPlayPause.textContent = isPlaying ? "⏸️" : "▶️";
+      if (isPlaying) {
+        sceneStartTime = performance.now();
+        animationFrameId = requestAnimationFrame(renderLoop);
+        speakSceneNarration();
+      } else {
+        cancelAnimationFrame(animationFrameId);
+        window.speechSynthesis.cancel();
+      }
+    };
+
+    btnPrevScene.onclick = () => {
+      jumpToScene(currentSceneIndex - 1);
+      playCyberBeep(520, 0.1);
+    };
+    btnNextScene.onclick = () => {
+      jumpToScene(currentSceneIndex + 1);
+      playCyberBeep(740, 0.1);
+    };
+
+    btnToggleAudio.onclick = () => {
+      isMuted = !isMuted;
+      btnToggleAudio.textContent = isMuted ? "🔇" : "🔊";
+      if (isMuted) window.speechSynthesis.cancel();
+      else speakSceneNarration();
+    };
+
+    // Fullscreen
+    document.getElementById("btnFullscreen").onclick = () => {
+      const elem = document.querySelector(".video-viewport-wrapper");
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen();
+      }
+    };
+
+    // ===================================================================
+    // 1-CLICK VIDEO RECORDER & DOWNLOADER (Canvas to .webm / .mp4)
+    // ===================================================================
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let isRecording = false;
+
+    const btnRecord = document.getElementById("btnRecordVideo");
+    const recordBtnText = document.getElementById("recordBtnText");
+    const recIndicator = document.getElementById("recordingIndicator");
+    const recTimer = document.getElementById("recTimer");
+    let recStartSec = 0;
+    let recTimerInterval = null;
+
+    btnRecord.onclick = () => {
+      if (!isRecording) {
+        startRecording();
+      } else {
+        stopRecording();
+      }
+    };
+
+    function startRecording() {
+      recordedChunks = [];
+      const stream = canvas.captureStream(30); // 30 FPS HD
+
+      try {
+        mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+      } catch (e) {
+        try {
+          mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+        } catch (err) {
+          alert("MediaRecorder is not supported in this browser.");
+          return;
+        }
+      }
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "DocuForensic_AI_Working_Demo.webm";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      };
+
+      mediaRecorder.start();
+      isRecording = true;
+      recordBtnText.textContent = "⏹️ Stop & Save Video File";
+      recIndicator.style.display = "flex";
+
+      recStartSec = 0;
+      recTimerInterval = setInterval(() => {
+        recStartSec++;
+        const m = String(Math.floor(recStartSec / 60)).padStart(2, "0");
+        const s = String(recStartSec % 60).padStart(2, "0");
+        recTimer.textContent = `${m}:${s}`;
+      }, 1000);
+
+      // Jump to beginning
+      jumpToScene(0);
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        isRecording = false;
+        recordBtnText.textContent = "Record & Download Video (.webm)";
+        recIndicator.style.display = "none";
+        clearInterval(recTimerInterval);
+      }
+    }
+
+    // Initial Start
+    window.onload = () => {
+      updateSceneUI();
+      animationFrameId = requestAnimationFrame(renderLoop);
+      speakSceneNarration();
+    };
+  </script>
+</body>
+</html>
