@@ -152,38 +152,39 @@
         <form id="cyberLoginForm">
           <div class="cyber-form-group">
             <label class="cyber-form-label" style="display: flex; justify-content: space-between;">
-              <span id="loginEmailLabel">Official Authority Gmail</span>
-              <span style="font-size: 0.66rem; color: var(--text-muted);">Official Authorized Email</span>
+              <span id="loginEmailLabel">Account Email</span>
+              <span style="font-size: 0.66rem; color: var(--text-muted);">Registered Email</span>
             </label>
             <div class="cyber-input-wrapper">
-              <span class="cyber-input-icon" id="loginEmailIcon">🏛️</span>
-              <input type="email" id="loginEmail" class="cyber-input" value="uidai.issuing.authority@gmail.com" placeholder="e.g. uidai.issuing.authority@gmail.com" required autocomplete="username">
+              <span class="cyber-input-icon" id="loginEmailIcon">✉️</span>
+              <input type="email" id="loginEmail" class="cyber-input" value="" placeholder="Enter your registered email address" required autocomplete="username">
             </div>
           </div>
 
           <div class="cyber-form-group">
             <div class="cyber-form-label" style="display: flex; justify-content: space-between; align-items: center;">
-              <span>Clearance Password / Key</span>
-              <button type="button" id="btnFillDemoKey" style="background: none; border: none; font-size: 0.7rem; color: #00ffcc; font-weight: 700; cursor: pointer; padding: 0;" title="Click to fill key">
-                🔑 Key: <u id="demoKeyText">admin</u> (Click to fill)
-              </button>
+              <span>Clearance Password</span>
+              <span style="font-size: 0.66rem; color: var(--text-muted);">Registered Password</span>
             </div>
             <div class="cyber-input-wrapper">
               <span class="cyber-input-icon">🔒</span>
-              <input type="password" id="loginPassword" class="cyber-input" placeholder="Enter authority password" required autocomplete="current-password" style="padding-right: 2.8rem;">
+              <input type="password" id="loginPassword" class="cyber-input" placeholder="Enter your registered password" required autocomplete="current-password" style="padding-right: 2.8rem;">
               <button type="button" class="btn-toggle-eye" id="toggleLoginPasswordBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
                 👁️
               </button>
             </div>
-            <div style="display: flex; justify-content: flex-end; margin-top: 0.35rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.35rem;">
               <button type="button" class="btn-show-pass-text" id="toggleLoginPassText">
                 👁️ Show Password
+              </button>
+              <button type="button" class="btn-forgot-pass-link" id="btnForgotPassLogin" style="background: none; border: none; color: #ff6b8b; font-size: 0.72rem; cursor: pointer; text-decoration: underline; font-weight: 600;">
+                Forgot Password?
               </button>
             </div>
           </div>
 
           <button type="submit" class="cyber-submit-btn" id="btnLoginSubmit" style="background: linear-gradient(135deg, #00ffcc, #0066ff); color: #070a13; font-weight: 700;">
-            <span id="btnLoginSubmitText">⚡ Authenticate as Issuing Authority</span>
+            <span id="btnLoginSubmitText">⚡ Authenticate & Enter Portal</span>
           </button>
         </form>
 
@@ -1279,36 +1280,20 @@ P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&
         <button class="modal-close-btn" id="closeLoginModalBtn">&times;</button>
       </div>
 
-      <!-- Quick 1-Click Demo Logins -->
-      <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem;">
-        <div style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; margin-bottom: 0.6rem;">Quick Demo Profiles (1-Click Switch):</div>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <button type="button" class="btn btn-secondary" id="quickLoginAuditorBtn" style="justify-content: flex-start; padding: 0.5rem 0.75rem; font-size: 0.82rem; text-align: left;">
-            <span style="font-size: 1.1rem; margin-right: 0.4rem;">🛡️</span>
-            <div>
-              <div style="font-weight: 700; color: #fff;">Forensic Auditor (Inspector Marcus Vance)</div>
-              <div style="font-size: 0.7rem; color: var(--accent-cyan);">Full inspection tools, stamp verdicts, review vault</div>
-            </div>
-          </button>
-          <button type="button" class="btn btn-secondary" id="quickLoginUploaderBtn" style="justify-content: flex-start; padding: 0.5rem 0.75rem; font-size: 0.82rem; text-align: left;">
-            <span style="font-size: 1.1rem; margin-right: 0.4rem;">👤</span>
-            <div>
-              <div style="font-weight: 700; color: #fff;">Document Submitter (Sarah Jenkins)</div>
-              <div style="font-size: 0.7rem; color: var(--accent-emerald);">Upload credentials, track submissions & certificates</div>
-            </div>
-          </button>
-        </div>
-      </div>
-
       <!-- Credentials Form -->
       <form id="loginForm" style="display: flex; flex-direction: column; gap: 0.85rem;">
         <div>
           <label style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.3rem;">Email Address</label>
-          <input type="email" id="loginEmailInput" placeholder="auditor@forensic.gov" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+          <input type="email" id="loginEmailInput" placeholder="Enter your registered email" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
         </div>
 
         <div>
-          <label style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.3rem;">Password</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+            <label style="font-size: 0.78rem; color: var(--text-secondary);">Password</label>
+            <button type="button" class="btn-forgot-pass-link" id="btnForgotPassModal" style="background: none; border: none; color: #ff6b8b; font-size: 0.7rem; font-weight: 600; cursor: pointer; text-decoration: underline;">
+              Forgot Password?
+            </button>
+          </div>
           <input type="password" id="loginPasswordInput" placeholder="••••••••" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
         </div>
 
@@ -1340,7 +1325,7 @@ P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&
           RESTRICTED PROTOCOL // CLEARANCE VERIFICATION
         </div>
         <p id="gateNoticeText" style="font-size: 0.78rem; color: #cbd5e0; line-height: 1.4;">
-          This official action requires authenticated Government or Law Enforcement clearance. Please enter the authorized email and clearance key.
+          This official action requires authenticated Government or Law Enforcement clearance. Please enter the authorized email and registered clearance password.
         </p>
       </div>
 
@@ -1350,19 +1335,19 @@ P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&
         <div>
           <label id="gateEmailLabel" style="display: block; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.3rem;">Official Authority Email</label>
           <div style="position: relative;">
-            <input type="email" id="gateEmailInput" placeholder="official.authority@gov.in" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+            <input type="email" id="gateEmailInput" placeholder="Enter your registered authority email" required style="width: 100%; padding: 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
           </div>
         </div>
 
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
-            <label style="font-size: 0.78rem; color: var(--text-secondary);">Clearance Password / Key</label>
-            <button type="button" id="gateAutoFillKeyBtn" style="background: none; border: none; color: #00ffcc; font-size: 0.7rem; font-weight: 700; cursor: pointer;">
-              🔑 Auto-Fill Key (<span id="gateKeyHintText">admin</span>)
+            <label style="font-size: 0.78rem; color: var(--text-secondary);">Clearance Password</label>
+            <button type="button" id="btnGateForgotPass" style="background: none; border: none; color: #ff6b8b; font-size: 0.7rem; font-weight: 600; cursor: pointer; text-decoration: underline;">
+              Forgot Password?
             </button>
           </div>
           <div style="position: relative;">
-            <input type="password" id="gatePasswordInput" placeholder="Enter clearance key" required style="width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+            <input type="password" id="gatePasswordInput" placeholder="Enter your registered authority password" required style="width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.85rem; background: #070e1b; border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
             <button type="button" id="toggleGatePasswordBtn" style="position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">
               👁️
             </button>
@@ -1373,6 +1358,121 @@ P&lt;UTOVANCE&lt;&lt;ELIZABETH&lt;CLARA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&
           <button type="button" class="btn btn-secondary" id="cancelAuthorityClearanceBtn">Cancel</button>
           <button type="submit" class="btn btn-primary" id="gateSubmitBtn" style="font-weight: 700;">
             <span id="gateSubmitText">⚡ Verify Clearance & Unlock</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Forgot Password & Reset Modal with Interactive Cyber CAPTCHA -->
+  <div class="modal-overlay" id="forgotPasswordModal">
+    <div class="modal-dialog" style="max-width: 480px; border-color: #ff3366; box-shadow: 0 0 40px rgba(255, 51, 102, 0.25);">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.5rem;">🔐</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">Reset Clearance Password</h3>
+            <div style="font-size: 0.74rem; color: #ff6b8b;">Recover access to your registered DocuForensic account</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeForgotModalBtn">&times;</button>
+      </div>
+
+      <!-- Alert Box -->
+      <div id="forgotAlertBox" class="cyber-alert-box hidden" style="margin-bottom: 1rem;"></div>
+
+      <!-- STEP 1: Enter Registered Email & Solve CAPTCHA -->
+      <form id="forgotStep1Form" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div class="cyber-form-group">
+          <label class="cyber-form-label">
+            <span>Registered Account Email <span style="color: #ff3366;">*</span></span>
+          </label>
+          <div class="cyber-input-wrapper">
+            <span class="cyber-input-icon">✉️</span>
+            <input type="email" id="forgotEmailInput" class="cyber-input" placeholder="e.g. yourname@gmail.com" required>
+          </div>
+        </div>
+
+        <!-- Interactive Cyber Security CAPTCHA -->
+        <div class="cyber-form-group">
+          <div class="cyber-form-label" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Security CAPTCHA <span style="color: #ff3366;">*</span></span>
+            <button type="button" id="btnRefreshCaptcha" style="background: none; border: none; color: #00ffcc; font-size: 0.72rem; cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
+              🔄 Refresh Code
+            </button>
+          </div>
+          
+          <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.4rem;">
+            <!-- CAPTCHA Canvas Badge -->
+            <div style="background: #030712; border: 1px solid rgba(0, 255, 204, 0.4); border-radius: 6px; padding: 3px 6px; display: inline-flex; align-items: center; justify-content: center;">
+              <canvas id="forgotCaptchaCanvas" width="130" height="38" style="border-radius: 4px; display: block;"></canvas>
+            </div>
+            
+            <!-- CAPTCHA Text Input -->
+            <div class="cyber-input-wrapper" style="flex: 1;">
+              <input type="text" id="forgotCaptchaInput" class="cyber-input" placeholder="Enter CAPTCHA" maxlength="6" required style="letter-spacing: 2px; font-weight: 700; text-transform: uppercase;">
+            </div>
+          </div>
+          <div style="font-size: 0.68rem; color: var(--text-muted);">
+            Type the security characters shown in the box above to verify identity.
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.85rem;">
+          <button type="button" class="btn btn-secondary" id="cancelForgotBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSendResetLink" style="background: linear-gradient(135deg, #ff3366, #ff0055); border-color: #ff3366; font-weight: 700;">
+            📧 Send Password Reset Code & Link
+          </button>
+        </div>
+      </form>
+
+      <!-- STEP 2: Enter PIN and Set New Password (Hidden until step 1 complete or opened via link) -->
+      <form id="forgotStep2Form" class="hidden" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div style="padding: 0.65rem 0.85rem; background: rgba(0, 255, 204, 0.08); border: 1px dashed rgba(0, 255, 204, 0.4); border-radius: 6px; font-size: 0.76rem; color: #00ffcc; line-height: 1.4;">
+          📧 <strong>Reset Code Sent!</strong> Check your Gmail inbox for the 6-digit PIN (or click the direct reset link received in your email).
+        </div>
+
+        <div class="cyber-form-group">
+          <label class="cyber-form-label">
+            <span>6-Digit Reset PIN Received in Email <span style="color: #00ffcc;">*</span></span>
+          </label>
+          <div class="cyber-input-wrapper">
+            <span class="cyber-input-icon">🔢</span>
+            <input type="text" id="forgotResetPinInput" class="cyber-input" placeholder="______" maxlength="6" required style="font-family: monospace; letter-spacing: 4px; font-weight: 700; font-size: 1.1rem; color: #00ffcc;">
+          </div>
+        </div>
+
+        <div class="cyber-form-group">
+          <div class="cyber-form-label" style="display: flex; justify-content: space-between;">
+            <span>New Password (Must be Hard) <span style="color: #ff3366;">*</span></span>
+            <span id="forgotPassStrengthLabel" style="font-size: 0.72rem; font-weight: 700; color: #ff3366;">Weak</span>
+          </div>
+          <div class="cyber-input-wrapper">
+            <span class="cyber-input-icon">🔒</span>
+            <input type="password" id="forgotNewPasswordInput" class="cyber-input" placeholder="Min 8 chars, uppercase, lowercase, number, symbol" required style="padding-right: 2.8rem;">
+            <button type="button" class="btn-toggle-eye" id="toggleForgotNewPassBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div class="cyber-form-group">
+          <label class="cyber-form-label">
+            <span>Confirm New Password <span style="color: #ff3366;">*</span></span>
+          </label>
+          <div class="cyber-input-wrapper">
+            <span class="cyber-input-icon">🔑</span>
+            <input type="password" id="forgotConfirmPasswordInput" class="cyber-input" placeholder="Re-enter identical new password" required style="padding-right: 2.8rem;">
+            <button type="button" class="btn-toggle-eye" id="toggleForgotConfirmPassBtn" title="Show/Hide Password" aria-label="Toggle Password Visibility">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.85rem;">
+          <button type="button" class="btn btn-secondary" id="backToStep1Btn">← Back</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveNewPassword" style="background: linear-gradient(135deg, #00ffcc, #0066ff); font-weight: 700;">
+            🔐 Save New Password & Login
           </button>
         </div>
       </form>

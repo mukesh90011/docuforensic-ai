@@ -386,12 +386,18 @@ app.post('/api/set-tunnel', (req, res) => {
   res.json({ success: true, tunnelUrl: activeTunnelUrl });
 });
 
+// In-Memory Registration OTP Store
+const registrationOtps = new Map();
+
 // API: Send Verification Code to Gmail
 app.post('/api/send-otp', async (req, res) => {
   const { email, code } = req.body;
   if (!email || !code) {
     return res.status(400).json({ success: false, error: 'Email and OTP code are required' });
   }
+
+  const cleanEmail = email.trim().toLowerCase();
+  registrationOtps.set(cleanEmail, { code: String(code).trim(), expiresAt: Date.now() + 15 * 60 * 1000 });
 
   const timestamp = new Date().toLocaleTimeString();
   console.log('\n====================================================');
@@ -401,6 +407,12 @@ app.post('/api/send-otp', async (req, res) => {
   console.log(`----------------------------------------------------`);
   console.log(`🔐 VERIFICATION CODE: [ ${code} ]`);
   console.log('====================================================\n');
+
+  // Global reset tokens storage
+  const host = req.get('host') || 'docuforensic-ai.onrender.com';
+  const protocol = req.protocol === 'https' || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
+  const baseUrl = `${protocol}://${host}`;
+  const verifyLink = `${baseUrl}/?verify_email=${encodeURIComponent(email)}&verify_code=${code}`;
 
   // Attempt real email dispatch via Gmail SMTP with fallback credentials for Render production
   const emailUser = process.env.EMAIL_USER || 'mukesh24aiaryacollege.in@gmail.com';
@@ -413,9 +425,9 @@ app.post('/api/send-otp', async (req, res) => {
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
-        connectionTimeout: 4000,
-        greetingTimeout: 4000,
-        socketTimeout: 6000,
+        connectionTimeout: 6000,
+        greetingTimeout: 6000,
+        socketTimeout: 8000,
         auth: {
           user: emailUser,
           pass: emailPass
@@ -428,15 +440,26 @@ app.post('/api/send-otp', async (req, res) => {
       await transporter.sendMail({
         from: `"DocuForensic AI" <${emailUser}>`,
         to: email,
-        subject: `🔐 DocuForensic AI — Your Verification Code: ${code}`,
-        text: `Your DocuForensic AI verification code is: ${code}\nThis code will expire in 10 minutes.`,
+        subject: `🔐 DocuForensic AI — Your Registration Verification Code: ${code}`,
+        text: `Your DocuForensic AI verification code is: ${code}\nOr click this link to verify directly: ${verifyLink}\nThis code and link expire in 10 minutes.`,
         html: `
-          <div style="background: #0b0f19; color: #ffffff; padding: 25px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; border-radius: 8px; border: 1px solid #00f0ff; max-width: 500px;">
-            <h2 style="color: #00f0ff; margin-top: 0; font-family: monospace;">🛡️ DocuForensic AI Gateway</h2>
-            <p style="font-size: 14px; color: #a0aec0;">Use the following 6-digit verification code to complete your security registration:</p>
+          <div style="background: #0b0f19; color: #ffffff; padding: 25px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; border-radius: 8px; border: 1px solid #00f0ff; max-width: 520px;">
+            <h2 style="color: #00f0ff; margin-top: 0; font-family: monospace;">🛡️ DocuForensic AI Registration Gateway</h2>
+            <p style="font-size: 14px; color: #a0aec0;">Use the following 6-digit verification code or click the direct link below to verify your account:</p>
+            
             <div style="font-size: 34px; font-weight: bold; letter-spacing: 6px; color: #00ffcc; background: rgba(0, 240, 255, 0.08); padding: 16px; border-radius: 6px; text-align: center; border: 1px dashed #00ffcc; margin: 18px 0; font-family: monospace;">
               ${code}
             </div>
+
+            <div style="text-align: center; margin: 20px 0;">
+              <a href="${verifyLink}" style="display: inline-block; background: linear-gradient(135deg, #00f0ff, #0066ff); color: #070a13; font-weight: 800; font-size: 14px; padding: 12px 24px; border-radius: 6px; text-decoration: none; letter-spacing: 0.5px;">
+                👉 Click to Verify Registration & Continue
+              </a>
+            </div>
+
+            <p style="font-size: 11px; color: #718096; word-break: break-all;">
+              Direct link: <a href="${verifyLink}" style="color: #00f0ff;">${verifyLink}</a>
+            </p>
             <p style="font-size: 12px; color: #718096; margin-bottom: 0;">This code expires in 10 minutes. If you did not request this verification, ignore this message.</p>
           </div>
         `
@@ -446,7 +469,7 @@ app.post('/api/send-otp', async (req, res) => {
       return res.json({
         success: true,
         delivered: true,
-        message: `Real verification code sent to ${email}. Please check your Gmail inbox.`
+        message: `Real verification code & link sent to ${email}. Please check your Gmail inbox.`
       });
     } catch (mailErr) {
       console.warn(`⚠️ [Nodemailer SMTP Notice]: ${mailErr.message}`);
@@ -459,6 +482,156 @@ app.post('/api/send-otp', async (req, res) => {
     delivered: false,
     message: `Unable to dispatch verification email to ${email} via SMTP. Please try again later.`
   });
+});
+
+// API: Verify Registration OTP
+app.post('/api/verify-otp', (req, res) => {
+  const { email, code } = req.body;
+  if (!email || !code) {
+    return res.status(400).json({ success: false, error: 'Email and verification code are required' });
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+  const record = registrationOtps.get(cleanEmail);
+
+  if (!record) {
+    return res.status(400).json({ success: false, error: 'No verification code requested for this email or session expired.' });
+  }
+
+  if (Date.now() > record.expiresAt) {
+    registrationOtps.delete(cleanEmail);
+    return res.status(400).json({ success: false, error: 'Verification code has expired. Please request a new one.' });
+  }
+
+  if (record.code !== String(code).trim()) {
+    return res.status(400).json({ success: false, error: 'Incorrect 6-digit verification code. Please check your email.' });
+  }
+
+  return res.json({ success: true, verified: true, email: cleanEmail });
+});
+
+// Centralized In-Memory Password Reset Storage
+const passwordResetTokens = new Map(); // email -> { resetCode, expiresAt }
+
+// API: Request Password Reset
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ success: false, error: 'Registered Email address is required.' });
+  }
+
+  const db = getDb();
+  const cleanEmail = email.trim().toLowerCase();
+  const user = (db.users || []).find(u => u.email.toLowerCase() === cleanEmail);
+  if (!user) {
+    return res.status(404).json({ success: false, error: 'No account registered with this email address. Please register first.' });
+  }
+
+  const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiresAt = Date.now() + 15 * 60 * 1000; // 15 mins
+  passwordResetTokens.set(cleanEmail, { resetCode, expiresAt });
+
+  const host = req.get('host') || 'docuforensic-ai.onrender.com';
+  const protocol = req.protocol === 'https' || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
+  const baseUrl = `${protocol}://${host}`;
+  const resetLink = `${baseUrl}/?reset_email=${encodeURIComponent(cleanEmail)}&reset_code=${resetCode}`;
+
+  console.log(`🔐 [Password Reset]: Generated PIN for ${cleanEmail}: ${resetCode}`);
+
+  const emailUser = process.env.EMAIL_USER || 'mukesh24aiaryacollege.in@gmail.com';
+  const emailPass = process.env.EMAIL_PASS || 'skgbhspruscyoynn';
+
+  if (emailUser && emailPass) {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        connectionTimeout: 6000,
+        greetingTimeout: 6000,
+        socketTimeout: 8000,
+        auth: { user: emailUser, pass: emailPass },
+        tls: { rejectUnauthorized: false }
+      });
+
+      await transporter.sendMail({
+        from: `"DocuForensic AI Security" <${emailUser}>`,
+        to: cleanEmail,
+        subject: `🔐 DocuForensic AI — Password Reset PIN: ${resetCode}`,
+        text: `Your DocuForensic AI password reset PIN is: ${resetCode}\nOr click this link to reset password directly: ${resetLink}\nThis PIN expires in 15 minutes.`,
+        html: `
+          <div style="background: #0b0f19; color: #ffffff; padding: 25px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; border-radius: 8px; border: 1px solid #ff3366; max-width: 520px;">
+            <h2 style="color: #ff3366; margin-top: 0; font-family: monospace;">🔐 DocuForensic AI Password Reset</h2>
+            <p style="font-size: 14px; color: #cbd5e0;">A request was received to reset the password for account <strong>${cleanEmail}</strong>.</p>
+            
+            <div style="font-size: 34px; font-weight: bold; letter-spacing: 6px; color: #ff3366; background: rgba(255, 51, 102, 0.08); padding: 16px; border-radius: 6px; text-align: center; border: 1px dashed #ff3366; margin: 18px 0; font-family: monospace;">
+              ${resetCode}
+            </div>
+
+            <div style="text-align: center; margin: 20px 0;">
+              <a href="${resetLink}" style="display: inline-block; background: linear-gradient(135deg, #ff3366, #ff0055); color: #ffffff; font-weight: 800; font-size: 14px; padding: 12px 24px; border-radius: 6px; text-decoration: none; letter-spacing: 0.5px;">
+                👉 Click Here to Reset Password Directly
+              </a>
+            </div>
+
+            <p style="font-size: 11px; color: #718096; word-break: break-all;">
+              Direct reset link: <a href="${resetLink}" style="color: #ff3366;">${resetLink}</a>
+            </p>
+            <p style="font-size: 12px; color: #718096; margin-bottom: 0;">This code expires in 15 minutes. If you did not request this, your existing password remains safe.</p>
+          </div>
+        `
+      });
+
+      console.log(`✅ [Password Reset Email Delivered to ${cleanEmail}]`);
+      return res.json({
+        success: true,
+        delivered: true,
+        message: `Password reset instructions and link dispatched to ${cleanEmail}. Please check your Gmail inbox.`
+      });
+    } catch (e) {
+      console.warn('SMTP Error during reset email:', e.message);
+    }
+  }
+
+  return res.json({
+    success: false,
+    delivered: false,
+    message: 'Could not send reset email via SMTP. Please try again later.'
+  });
+});
+
+// API: Complete Password Reset
+app.post('/api/auth/reset-password', (req, res) => {
+  const { email, resetCode, newPassword } = req.body;
+  if (!email || !resetCode || !newPassword) {
+    return res.status(400).json({ success: false, error: 'Email, reset PIN, and new password are required.' });
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+  const tokenRecord = passwordResetTokens.get(cleanEmail);
+
+  if (!tokenRecord || tokenRecord.resetCode !== resetCode.trim()) {
+    return res.status(400).json({ success: false, error: 'Invalid or incorrect Reset PIN. Please check your email.' });
+  }
+
+  if (Date.now() > tokenRecord.expiresAt) {
+    passwordResetTokens.delete(cleanEmail);
+    return res.status(400).json({ success: false, error: 'Reset PIN has expired. Please request a new one.' });
+  }
+
+  const db = getDb();
+  const user = (db.users || []).find(u => u.email.toLowerCase() === cleanEmail);
+  if (!user) {
+    return res.status(404).json({ success: false, error: 'User account not found.' });
+  }
+
+  user.password = newPassword;
+  saveDb(db);
+  passwordResetTokens.delete(cleanEmail);
+
+  console.log(`✅ [Password Reset Success]: User ${cleanEmail} password updated in Central DB.`);
+  res.json({ success: true, message: 'Password has been successfully updated! You can now login with your new password.' });
 });
 
 // API: MRZ Validation

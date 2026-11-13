@@ -446,46 +446,68 @@ class AuthManager {
   /**
    * Verifies the 6-digit OTP code against the entered Gmail
    */
-  static verifyOtp(email, code) {
-    const stored = sessionStorage.getItem(this.OTP_KEY);
-    if (!stored) {
-      return { success: false, error: 'No verification code was requested. Click "Send Verification Code" first.' };
+  static async verifyOtp(email, code) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanCode = (code || '').trim();
+
+    // 1. Try local session verification first
+    const stored = sessionStorage.getItem(this.OTP_KEY) || localStorage.getItem(this.OTP_KEY);
+    if (stored) {
+      try {
+        const otpData = JSON.parse(stored);
+        if (otpData.email.toLowerCase() === cleanEmail && otpData.code === cleanCode) {
+          if (Date.now() <= otpData.expiresAt) {
+            otpData.verified = true;
+            sessionStorage.setItem(this.OTP_KEY, JSON.stringify(otpData));
+            localStorage.setItem(this.OTP_KEY, JSON.stringify(otpData));
+            return { success: true, message: 'Gmail verified successfully!' };
+          }
+        }
+      } catch (e) {}
     }
 
-    let otpData;
+    // 2. Fallback to Central Backend OTP Verification
     try {
-      otpData = JSON.parse(stored);
-    } catch (e) {
-      return { success: false, error: 'Corrupted OTP session. Please request a new code.' };
+      const resp = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail, code: cleanCode })
+      });
+      const data = await resp.json();
+      if (data && data.success) {
+        this.markEmailVerified(cleanEmail);
+        return { success: true, message: 'Gmail verified successfully via Central Gateway!' };
+      }
+      return { success: false, error: data.error || 'Incorrect verification code.' };
+    } catch (err) {
+      return { success: false, error: 'Incorrect 6-digit verification code. Please check your Gmail.' };
     }
-
-    if (otpData.email.toLowerCase() !== email.trim().toLowerCase()) {
-      return { success: false, error: 'The email does not match the address where the code was issued.' };
-    }
-
-    if (Date.now() > otpData.expiresAt) {
-      return { success: false, error: 'Verification code has expired. Please request a new one.' };
-    }
-
-    if (otpData.code !== (code || '').trim()) {
-      return { success: false, error: 'Incorrect 6-digit verification code. Please check and try again.' };
-    }
-
-    otpData.verified = true;
-    sessionStorage.setItem(this.OTP_KEY, JSON.stringify(otpData));
-
-    return { success: true, message: 'Gmail verified successfully!' };
   }
 
   /**
-   * Checks if an email has already been verified via OTP
+   * Marks email as verified directly (used by 1-click email link)
+   */
+  static markEmailVerified(email) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const otpData = {
+      email: cleanEmail,
+      verified: true,
+      expiresAt: Date.now() + 60 * 60 * 1000
+    };
+    sessionStorage.setItem(this.OTP_KEY, JSON.stringify(otpData));
+    localStorage.setItem(this.OTP_KEY, JSON.stringify(otpData));
+  }
+
+  /**
+   * Checks if an email has already been verified via OTP or link
    */
   static isEmailOtpVerified(email) {
-    const stored = sessionStorage.getItem(this.OTP_KEY);
+    const clean = (email || '').trim().toLowerCase();
+    const stored = sessionStorage.getItem(this.OTP_KEY) || localStorage.getItem(this.OTP_KEY);
     if (!stored) return false;
     try {
       const data = JSON.parse(stored);
-      return data.verified && data.email.toLowerCase() === (email || '').trim().toLowerCase();
+      return data.verified && data.email.toLowerCase() === clean;
     } catch (e) {
       return false;
     }

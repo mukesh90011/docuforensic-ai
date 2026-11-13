@@ -1288,7 +1288,7 @@ function initAuthUI() {
 
   // 2. Confirm OTP Code
   if (btnVerifyOtp) {
-    btnVerifyOtp.addEventListener('click', () => {
+    btnVerifyOtp.addEventListener('click', async () => {
       hideCyberAlert(regAlertBox);
       const email = (regEmailInput.value || '').trim();
       const code = (regOtpInput.value || '').trim();
@@ -1298,7 +1298,13 @@ function initAuthUI() {
         return;
       }
 
-      const res = AuthManager.verifyOtp(email, code);
+      btnVerifyOtp.disabled = true;
+      btnVerifyOtp.textContent = '⏳ Verifying...';
+
+      const res = await AuthManager.verifyOtp(email, code);
+      btnVerifyOtp.disabled = false;
+      btnVerifyOtp.textContent = 'Confirm Code';
+
       if (!res.success) {
         showCyberAlert(regAlertBox, res.error, 'danger');
         showToast(res.error, 'danger');
@@ -1429,8 +1435,6 @@ function initAuthUI() {
   const authorityBannerSub = document.getElementById('authorityBannerSub');
   const loginEmailLabel = document.getElementById('loginEmailLabel');
   const loginEmailIcon = document.getElementById('loginEmailIcon');
-  const demoKeyText = document.getElementById('demoKeyText');
-  const btnFillDemoKey = document.getElementById('btnFillDemoKey');
   const btnLoginSubmit = document.getElementById('btnLoginSubmit');
   const btnLoginSubmitText = document.getElementById('btnLoginSubmitText');
 
@@ -1455,18 +1459,17 @@ function initAuthUI() {
     if (authorityBannerSub) authorityBannerSub.textContent = cfg.sub;
 
     const emailInput = document.getElementById('loginEmail');
-    if (emailInput) emailInput.value = cfg.email;
+    if (emailInput) {
+      emailInput.placeholder = `Enter your registered ${role === 'police' ? 'Police' : (role === 'issuer' ? 'Govt' : 'Citizen')} email`;
+    }
     if (loginEmailLabel) loginEmailLabel.textContent = `${cfg.icon} Official ${role === 'police' ? 'Police' : (role === 'issuer' ? 'Govt' : 'Citizen')} Email`;
     if (loginEmailIcon) loginEmailIcon.textContent = cfg.icon;
-    if (demoKeyText) demoKeyText.textContent = cfg.key;
-    if (btnFillDemoKey) btnFillDemoKey.style.color = cfg.color;
-    if (btnLoginSubmitText) btnLoginSubmitText.textContent = cfg.btnText;
+    if (btnLoginSubmitText) btnLoginSubmitText.textContent = `⚡ Authenticate as ${cfg.name}`;
     if (btnLoginSubmit) btnLoginSubmit.style.background = `linear-gradient(135deg, ${cfg.color}, #0066ff)`;
 
     const passInput = document.getElementById('loginPassword');
     if (passInput) {
       passInput.value = '';
-      passInput.focus();
     }
 
     if (window.DynamicBackground) window.DynamicBackground.setTheme(role);
@@ -1475,17 +1478,6 @@ function initAuthUI() {
   if (authTabIssuer) authTabIssuer.addEventListener('click', () => selectAuthorityRole('issuer'));
   if (authTabPolice) authTabPolice.addEventListener('click', () => selectAuthorityRole('police'));
   if (authTabCitizen) authTabCitizen.addEventListener('click', () => selectAuthorityRole('citizen'));
-
-  if (btnFillDemoKey) {
-    btnFillDemoKey.addEventListener('click', () => {
-      const cfg = AUTHORITY_CONFIGS[activeAuthorityRole];
-      const passInput = document.getElementById('loginPassword');
-      if (passInput && cfg) {
-        passInput.value = cfg.key;
-        showToast(`Filled ${cfg.icon} clearance key: ${cfg.key}`, 'info');
-      }
-    });
-  }
 
   // Login Form Submit (Requires Email + Password validation)
   if (cyberLoginForm) {
@@ -1497,7 +1489,7 @@ function initAuthUI() {
       const pass = document.getElementById('loginPassword').value;
 
       if (!email || !pass) {
-        showCyberAlert(loginAlertBox, 'Please enter your official Email and clearance Password to authenticate.', 'danger');
+        showCyberAlert(loginAlertBox, 'Please enter your registered Email and Password to authenticate.', 'danger');
         return;
       }
 
@@ -1567,14 +1559,13 @@ function initAuthUI() {
     const gateNoticeText = document.getElementById('gateNoticeText');
     const gateEmailInput = document.getElementById('gateEmailInput');
     const gatePasswordInput = document.getElementById('gatePasswordInput');
-    const gateKeyHintText = document.getElementById('gateKeyHintText');
     const gateSubmitText = document.getElementById('gateSubmitText');
     const gateAlertBox = document.getElementById('gateAlertBox');
     const gateForm = document.getElementById('authorityClearanceForm');
     const gateCloseBtn = document.getElementById('closeAuthorityClearanceModalBtn');
     const gateCancelBtn = document.getElementById('cancelAuthorityClearanceBtn');
-    const gateAutoFillKeyBtn = document.getElementById('gateAutoFillKeyBtn');
     const toggleGatePasswordBtn = document.getElementById('toggleGatePasswordBtn');
+    const btnGateForgotPass = document.getElementById('btnGateForgotPass');
 
     if (!gateModal) return;
 
@@ -1587,10 +1578,17 @@ function initAuthUI() {
     gateTitle.textContent = `${cfg.name} Clearance`;
     gateTitle.style.color = cfg.color;
     gateSubtitle.textContent = `Official identity & clearance verification required`;
-    gateNoticeText.textContent = `This restricted action requires authenticated ${cfg.name} clearance. Please enter the official department email and clearance password.`;
-    gateEmailInput.value = cfg.email;
-    gateKeyHintText.textContent = cfg.key;
+    gateNoticeText.textContent = `This restricted action requires authenticated ${cfg.name} clearance. Please enter your official department email and clearance password.`;
+    gateEmailInput.placeholder = `Enter your registered ${cfg.name} email`;
     gateSubmitText.textContent = `⚡ Verify & Unlock ${cfg.icon}`;
+
+    // Auto-fill logged in email if matching role
+    const activeUser = AuthManager.getCurrentUser();
+    if (activeUser && activeUser.role === targetRole) {
+      gateEmailInput.value = activeUser.email;
+    } else {
+      gateEmailInput.value = '';
+    }
 
     gateModal.classList.remove('hidden');
     gateModal.classList.add('open');
@@ -1605,10 +1603,10 @@ function initAuthUI() {
     if (gateCloseBtn) gateCloseBtn.onclick = closeGate;
     if (gateCancelBtn) gateCancelBtn.onclick = closeGate;
 
-    if (gateAutoFillKeyBtn) {
-      gateAutoFillKeyBtn.onclick = () => {
-        gatePasswordInput.value = cfg.key;
-        showToast(`Filled clearance key: ${cfg.key}`, 'info');
+    if (btnGateForgotPass) {
+      btnGateForgotPass.onclick = () => {
+        closeGate();
+        openForgotPasswordModal(gateEmailInput.value.trim());
       };
     }
 
@@ -1626,7 +1624,7 @@ function initAuthUI() {
       const pass = gatePasswordInput.value;
 
       if (!email || !pass) {
-        showCyberAlert(gateAlertBox, 'Please enter both Email and Password.', 'danger');
+        showCyberAlert(gateAlertBox, 'Please enter your registered Email and clearance Password.', 'danger');
         return;
       }
 
@@ -1657,6 +1655,339 @@ function initAuthUI() {
     };
   }
   window.openAuthorityClearanceGate = openAuthorityClearanceGate;
+
+  // ===================================================================
+  // FORGOT PASSWORD & RECOVERY CONTROLLER (With Security CAPTCHA)
+  // ===================================================================
+  const forgotModal = document.getElementById('forgotPasswordModal');
+  const closeForgotModalBtn = document.getElementById('closeForgotModalBtn');
+  const cancelForgotBtn = document.getElementById('cancelForgotBtn');
+  const forgotStep1Form = document.getElementById('forgotStep1Form');
+  const forgotStep2Form = document.getElementById('forgotStep2Form');
+  const forgotEmailInput = document.getElementById('forgotEmailInput');
+  const forgotCaptchaInput = document.getElementById('forgotCaptchaInput');
+  const forgotCaptchaCanvas = document.getElementById('forgotCaptchaCanvas');
+  const btnRefreshCaptcha = document.getElementById('btnRefreshCaptcha');
+  const btnSendResetLink = document.getElementById('btnSendResetLink');
+  const forgotResetPinInput = document.getElementById('forgotResetPinInput');
+  const forgotNewPasswordInput = document.getElementById('forgotNewPasswordInput');
+  const forgotConfirmPasswordInput = document.getElementById('forgotConfirmPasswordInput');
+  const btnSaveNewPassword = document.getElementById('btnSaveNewPassword');
+  const backToStep1Btn = document.getElementById('backToStep1Btn');
+  const forgotAlertBox = document.getElementById('forgotAlertBox');
+  const forgotPassStrengthLabel = document.getElementById('forgotPassStrengthLabel');
+  const toggleForgotNewPassBtn = document.getElementById('toggleForgotNewPassBtn');
+  const toggleForgotConfirmPassBtn = document.getElementById('toggleForgotConfirmPassBtn');
+
+  let activeCaptchaCode = '';
+
+  function generateCyberCaptcha() {
+    if (!forgotCaptchaCanvas) return;
+    const ctx = forgotCaptchaCanvas.getContext('2d');
+    const width = forgotCaptchaCanvas.width;
+    const height = forgotCaptchaCanvas.height;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Deep cyber canvas background
+    ctx.fillStyle = '#060d1a';
+    ctx.fillRect(0, 0, width, height);
+
+    // Security interference lines
+    for (let i = 0; i < 4; i++) {
+      ctx.strokeStyle = ['rgba(0, 255, 204, 0.35)', 'rgba(255, 51, 102, 0.35)', 'rgba(0, 240, 255, 0.35)'][i % 3];
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * width, Math.random() * height);
+      ctx.lineTo(Math.random() * width, Math.random() * height);
+      ctx.stroke();
+    }
+
+    // Generate 5 random security characters
+    const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    activeCaptchaCode = '';
+    for (let i = 0; i < 5; i++) {
+      activeCaptchaCode += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    }
+
+    // Render characters with distortion & rotation
+    ctx.font = 'bold 20px "Courier New", monospace';
+    const colors = ['#00ffcc', '#00f0ff', '#ff6b8b', '#ffb703', '#38bdf8'];
+
+    for (let i = 0; i < activeCaptchaCode.length; i++) {
+      ctx.fillStyle = colors[i % colors.length];
+      const charX = 14 + i * 22;
+      const charY = 26 + (Math.random() * 4 - 2);
+
+      ctx.save();
+      ctx.translate(charX, charY);
+      ctx.rotate((Math.random() * 0.35 - 0.17));
+      ctx.fillText(activeCaptchaCode[i], 0, 0);
+      ctx.restore();
+    }
+
+    // Noise dots
+    for (let i = 0; i < 30; i++) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.fillRect(Math.random() * width, Math.random() * height, 1.5, 1.5);
+    }
+
+    if (forgotCaptchaInput) forgotCaptchaInput.value = '';
+  }
+
+  function openForgotPasswordModal(prefilledEmail = '') {
+    if (!forgotModal) return;
+    hideCyberAlert(forgotAlertBox);
+    if (forgotStep1Form) forgotStep1Form.classList.remove('hidden');
+    if (forgotStep2Form) forgotStep2Form.classList.add('hidden');
+    if (forgotEmailInput) {
+      forgotEmailInput.value = prefilledEmail || '';
+      forgotEmailInput.focus();
+    }
+    generateCyberCaptcha();
+    forgotModal.classList.remove('hidden');
+    forgotModal.classList.add('open');
+    if (window.DynamicBackground) window.DynamicBackground.setTheme('threat');
+  }
+
+  function closeForgotPasswordModal() {
+    if (!forgotModal) return;
+    forgotModal.classList.remove('open');
+    forgotModal.classList.add('hidden');
+    if (window.DynamicBackground) window.DynamicBackground.revertToCurrentState();
+  }
+
+  if (closeForgotModalBtn) closeForgotModalBtn.onclick = closeForgotPasswordModal;
+  if (cancelForgotBtn) cancelForgotBtn.onclick = closeForgotPasswordModal;
+  if (btnRefreshCaptcha) btnRefreshCaptcha.onclick = generateCyberCaptcha;
+
+  const btnForgotPassLogin = document.getElementById('btnForgotPassLogin');
+  if (btnForgotPassLogin) {
+    btnForgotPassLogin.addEventListener('click', () => {
+      const emailVal = document.getElementById('loginEmail')?.value || '';
+      openForgotPasswordModal(emailVal);
+    });
+  }
+
+  const btnForgotPassModal = document.getElementById('btnForgotPassModal');
+  if (btnForgotPassModal) {
+    btnForgotPassModal.addEventListener('click', () => {
+      const emailVal = document.getElementById('loginEmailInput')?.value || '';
+      openForgotPasswordModal(emailVal);
+    });
+  }
+
+  // Toggle eye buttons in Forgot Password Step 2
+  if (toggleForgotNewPassBtn && forgotNewPasswordInput) {
+    toggleForgotNewPassBtn.onclick = () => {
+      forgotNewPasswordInput.type = forgotNewPasswordInput.type === 'password' ? 'text' : 'password';
+    };
+  }
+  if (toggleForgotConfirmPassBtn && forgotConfirmPasswordInput) {
+    toggleForgotConfirmPassBtn.onclick = () => {
+      forgotConfirmPasswordInput.type = forgotConfirmPasswordInput.type === 'password' ? 'text' : 'password';
+    };
+  }
+
+  // Real-time strength check for new password in recovery
+  if (forgotNewPasswordInput) {
+    forgotNewPasswordInput.addEventListener('input', () => {
+      const st = AuthManager.checkPasswordStrength(forgotNewPasswordInput.value);
+      if (forgotPassStrengthLabel) {
+        forgotPassStrengthLabel.textContent = st.label;
+        forgotPassStrengthLabel.style.color = st.color;
+      }
+    });
+  }
+
+  // Step 1: Submit email & CAPTCHA to request Reset Code
+  if (forgotStep1Form) {
+    forgotStep1Form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideCyberAlert(forgotAlertBox);
+
+      const email = (forgotEmailInput?.value || '').trim();
+      const enteredCaptcha = (forgotCaptchaInput?.value || '').trim().toUpperCase();
+
+      if (!email) {
+        showCyberAlert(forgotAlertBox, 'Please enter your registered account email.', 'warning');
+        return;
+      }
+
+      if (enteredCaptcha !== activeCaptchaCode) {
+        showCyberAlert(forgotAlertBox, 'Incorrect Security CAPTCHA code. Please enter the characters shown in the box.', 'danger');
+        generateCyberCaptcha();
+        if (forgotCaptchaInput) forgotCaptchaInput.focus();
+        return;
+      }
+
+      btnSendResetLink.disabled = true;
+      btnSendResetLink.textContent = '⏳ Sending to Gmail...';
+
+      try {
+        const resp = await fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await resp.json();
+
+        btnSendResetLink.disabled = false;
+        btnSendResetLink.textContent = '📧 Send Password Reset Code & Link';
+
+        if (!data.success) {
+          showCyberAlert(forgotAlertBox, data.error || 'Failed to dispatch reset email.', 'danger');
+          showToast(data.error || 'Email dispatch failed', 'danger');
+          return;
+        }
+
+        // Transition to Step 2
+        forgotStep1Form.classList.add('hidden');
+        forgotStep2Form.classList.remove('hidden');
+        showCyberAlert(forgotAlertBox, `📧 Verification email sent to <strong>${email}</strong>! Please enter the 6-digit PIN below or click the direct link in your email.`, 'success');
+        showToast(`Reset PIN dispatched to ${email}!`, 'success');
+        if (forgotResetPinInput) forgotResetPinInput.focus();
+      } catch (err) {
+        btnSendResetLink.disabled = false;
+        btnSendResetLink.textContent = '📧 Send Password Reset Code & Link';
+        showCyberAlert(forgotAlertBox, 'Network error. Please try again.', 'danger');
+      }
+    });
+  }
+
+  // Step 2: Back button
+  if (backToStep1Btn) {
+    backToStep1Btn.onclick = () => {
+      forgotStep2Form.classList.add('hidden');
+      forgotStep1Form.classList.remove('hidden');
+      hideCyberAlert(forgotAlertBox);
+      generateCyberCaptcha();
+    };
+  }
+
+  // Step 2: Submit Reset PIN & New Hard Password
+  if (forgotStep2Form) {
+    forgotStep2Form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideCyberAlert(forgotAlertBox);
+
+      const email = (forgotEmailInput?.value || '').trim();
+      const resetCode = (forgotResetPinInput?.value || '').trim();
+      const newPassword = (forgotNewPasswordInput?.value || '');
+      const confirmPassword = (forgotConfirmPasswordInput?.value || '');
+
+      if (!resetCode || resetCode.length !== 6) {
+        showCyberAlert(forgotAlertBox, 'Please enter the 6-digit Reset PIN received in your email.', 'warning');
+        return;
+      }
+
+      const strength = AuthManager.checkPasswordStrength(newPassword);
+      if (!strength.valid) {
+        showCyberAlert(forgotAlertBox, 'Password must be HARD & SECURE: minimum 8 characters, uppercase, lowercase, number, and symbol.', 'danger');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showCyberAlert(forgotAlertBox, 'Passwords do not match. Please ensure both fields are identical.', 'warning');
+        return;
+      }
+
+      btnSaveNewPassword.disabled = true;
+      btnSaveNewPassword.textContent = '⏳ Updating Password...';
+
+      try {
+        const resp = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, resetCode, newPassword })
+        });
+        const data = await resp.json();
+
+        btnSaveNewPassword.disabled = false;
+        btnSaveNewPassword.textContent = '🔐 Save New Password & Login';
+
+        if (!data.success) {
+          showCyberAlert(forgotAlertBox, data.error || 'Failed to update password.', 'danger');
+          showToast(data.error || 'Password update failed', 'danger');
+          return;
+        }
+
+        // Also update in client-side AuthManager users list
+        const users = JSON.parse(localStorage.getItem(AuthManager.USERS_KEY)) || [];
+        const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
+        if (u) {
+          u.password = newPassword;
+          localStorage.setItem(AuthManager.USERS_KEY, JSON.stringify(users));
+        }
+
+        closeForgotPasswordModal();
+        showToast('🎉 Password reset successfully! You can now log in.', 'success');
+
+        // Fill email in login form
+        const loginEmailEl = document.getElementById('loginEmail');
+        const loginPassEl = document.getElementById('loginPassword');
+        if (loginEmailEl) loginEmailEl.value = email;
+        if (loginPassEl) {
+          loginPassEl.value = newPassword;
+          loginPassEl.focus();
+        }
+      } catch (err) {
+        btnSaveNewPassword.disabled = false;
+        btnSaveNewPassword.textContent = '🔐 Save New Password & Login';
+        showCyberAlert(forgotAlertBox, 'Server error updating password. Please try again.', 'danger');
+      }
+    });
+  }
+
+  // ===================================================================
+  // DIRECT 1-CLICK EMAIL LINK LISTENER (Verification & Reset via URL)
+  // ===================================================================
+  (async function handleDirectEmailLinks() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyEmail = urlParams.get('verify_email');
+      const verifyCode = urlParams.get('verify_code');
+      const resetEmail = urlParams.get('reset_email');
+      const resetCode = urlParams.get('reset_code');
+
+      // 1. Direct Email Registration Verification Link
+      if (verifyEmail && verifyCode) {
+        if (tabRegister) tabRegister.click();
+        if (regEmailInput) regEmailInput.value = verifyEmail;
+        if (regOtpInput) regOtpInput.value = verifyCode;
+
+        const res = await AuthManager.verifyOtp(verifyEmail, verifyCode);
+        if (res.success) {
+          unlockStep2();
+          regEmailInput.classList.add('is-valid');
+          regEmailInput.readOnly = true;
+          if (btnSendOtp) btnSendOtp.style.display = 'none';
+          if (otpBox) {
+            otpBox.classList.remove('hidden');
+            otpBox.innerHTML = `
+              <div style="color: var(--accent-emerald); font-weight: 700; font-size: 0.82rem; text-align: center; padding: 0.5rem; border: 1px solid rgba(0, 245, 155, 0.3); border-radius: 6px; background: rgba(0, 245, 155, 0.08);">
+                ✅ GMAIL VERIFIED FROM LINK: ${verifyEmail}
+              </div>
+            `;
+          }
+          showToast(`🎉 Registration verified via direct Gmail link! Set your hard password below.`, 'success');
+          showCyberAlert(regAlertBox, `Email <strong>${verifyEmail}</strong> verified via direct Gmail link! You can now complete your hard password below.`, 'success');
+          if (regPasswordInput) regPasswordInput.focus();
+        }
+      }
+
+      // 2. Direct Password Reset Link
+      if (resetEmail && resetCode) {
+        openForgotPasswordModal(resetEmail);
+        if (forgotStep1Form) forgotStep1Form.classList.add('hidden');
+        if (forgotStep2Form) forgotStep2Form.classList.remove('hidden');
+        if (forgotResetPinInput) forgotResetPinInput.value = resetCode;
+        showToast('🔐 Password reset link confirmed! Enter your new password.', 'info');
+      }
+    } catch (e) {
+      console.warn('URL action parser warning:', e);
+    }
+  })();
 
   // 3-Portal Role Switchers in Dropdown (Enforcing Authority Clearance Authentication)
   const switchIssuerBtn = document.getElementById('switchIssuerBtn');
