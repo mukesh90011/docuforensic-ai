@@ -22,11 +22,14 @@
     <a href="https://docuforensic-ai.onrender.com" target="_blank">
       <img src="https://img.shields.io/badge/LIVE%20APP-DocuForensic%20AI-00f0ff?style=for-the-badge&logo=render&logoColor=black" alt="DocuForensic AI" />
     </a>
-    <a href="https://linkedin.com/in/" target="_blank">
+    <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank">
       <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
     </a>
     <a href="mailto:mukesh24ai@gmail.com">
       <img src="https://img.shields.io/badge/Gmail-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+    </a>
+    <a href="https://instagram.com/kahana_rj18" target="_blank">
+      <img src="https://img.shields.io/badge/Instagram-kahana__rj18-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
     </a>
     <a href="https://github.com/mukesh90011?tab=repositories">
       <img src="https://img.shields.io/badge/Repositories-Browse%20Work-181717?style=for-the-badge&logo=github&logoColor=white" alt="Repos" />
@@ -180,8 +183,11 @@ Certifications :
     <a href="mailto:mukesh24ai@gmail.com">
       <img src="https://img.shields.io/badge/Email-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
     </a>
-    <a href="https://linkedin.com/in/">
+    <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank">
       <img src="https://img.shields.io/badge/LinkedIn-Mukesh-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
+    </a>
+    <a href="https://instagram.com/kahana_rj18" target="_blank">
+      <img src="https://img.shields.io/badge/Instagram-kahana__rj18-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
     </a>
     <a href="https://docuforensic-ai.onrender.com" target="_blank">
       <img src="https://img.shields.io/badge/Portfolio-DocuForensic%20AI-00f0ff?style=for-the-badge&logo=render&logoColor=black" />
@@ -193,3 +199,4 @@ Certifications :
   </p>
 
 </div>
+
