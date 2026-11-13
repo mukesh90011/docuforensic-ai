@@ -120,6 +120,19 @@ function initKeepAliveHeartbeat() {
 // Start keep-alive worker
 initKeepAliveHeartbeat();
 
+// Universal Search Engine Submission & IndexNow Broadcast (Google, Bing, Yahoo, DuckDuckGo, Brave, Yandex)
+try {
+  const { runUniversalSearchBroadcast } = require('./scripts/submit-search-engines');
+  setTimeout(() => {
+    runUniversalSearchBroadcast().catch(() => {});
+  }, 10000);
+  setInterval(() => {
+    runUniversalSearchBroadcast().catch(() => {});
+  }, 24 * 60 * 60 * 1000);
+} catch (e) {
+  console.warn('Search broadcaster notice:', e.message);
+}
+
 // ===================================================================
 // CENTRAL MULTI-DEVICE DATABASE API (Real-Time Sync Across Phones & PCs)
 // ===================================================================
