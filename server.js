@@ -95,6 +95,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// API: Raw GitHub Profile README
+app.get('/api/raw-github-readme', (req, res) => {
+  const readmePath = path.join(__dirname, 'github-profile', 'README.md');
+  if (fs.existsSync(readmePath)) {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.sendFile(readmePath);
+  }
+  res.status(404).send('README not found');
+});
+
 // 24/7 Autonomous Keep-Alive Heartbeat (Prevents Render Sleep Mode)
 const KEEP_ALIVE_URL = process.env.KEEP_ALIVE_URL || 'https://docuforensic-ai.onrender.com/api/health';
 const KEEP_ALIVE_INTERVAL = 10 * 60 * 1000; // Ping every 10 minutes (Render sleeps at 15 mins)
