@@ -382,11 +382,18 @@ class AuthManager {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: valResult.email, code })
       });
-      if (resp.ok) {
-        backendResult = await resp.json();
-      }
+      backendResult = await resp.json().catch(() => null);
     } catch (e) {
       console.warn('Backend /api/send-otp offline or running in standalone file mode');
+    }
+
+    if (backendResult && (!backendResult.success || !backendResult.delivered)) {
+      return {
+        success: false,
+        email: valResult.email,
+        delivered: false,
+        error: backendResult.error || backendResult.message || 'Unable to deliver verification code to your Gmail inbox. Please try again in a few seconds.'
+      };
     }
 
     return {

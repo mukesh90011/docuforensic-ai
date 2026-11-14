@@ -21,6 +21,60 @@ const HOST = '0.0.0.0';
 // Global tunnel URL store
 let activeTunnelUrl = 'https://clear-dancers-wonder.loca.lt';
 
+// ==========================================
+// Centralized Robust Gmail SMTP Dispatch Engine
+// ==========================================
+const emailUser = process.env.EMAIL_USER || 'mukesh24aiaryacollege.in@gmail.com';
+const emailPass = process.env.EMAIL_PASS || 'skgbhspruscyoynn';
+
+// Transporter 1: Port 465 (Direct SSL) with pooling and 25s timeout for cold-start wakeups
+const transporterSSL = nodemailer.createTransport({
+  pool: true,
+  maxConnections: 3,
+  maxMessages: 100,
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  connectionTimeout: 25000,
+  greetingTimeout: 20000,
+  socketTimeout: 30000,
+  auth: { user: emailUser, pass: emailPass },
+  tls: { rejectUnauthorized: false }
+});
+
+// Transporter 2: Port 587 (STARTTLS) fallback for cloud hosting / ISP port blocks
+const transporterSTARTTLS = nodemailer.createTransport({
+  pool: true,
+  maxConnections: 3,
+  maxMessages: 100,
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  connectionTimeout: 25000,
+  greetingTimeout: 20000,
+  socketTimeout: 30000,
+  auth: { user: emailUser, pass: emailPass },
+  tls: { rejectUnauthorized: false }
+});
+
+async function sendMailWithDualFallback(mailOptions) {
+  try {
+    const info = await transporterSSL.sendMail(mailOptions);
+    console.log(`✅ [Real Email Dispatched via Port 465 SSL]: ${info.messageId}`);
+    return { success: true, port: 465, messageId: info.messageId };
+  } catch (err465) {
+    console.warn(`⚠️ [Port 465 SSL failed/timed out (${err465.message})]. Immediately retrying via Port 587 STARTTLS...`);
+    try {
+      const info = await transporterSTARTTLS.sendMail(mailOptions);
+      console.log(`✅ [Real Email Dispatched via Port 587 STARTTLS]: ${info.messageId}`);
+      return { success: true, port: 587, messageId: info.messageId };
+    } catch (err587) {
+      console.error(`❌ [Both SMTP Ports Failed]: Port 465: ${err465.message} | Port 587: ${err587.message}`);
+      throw new Error(`SMTP Delivery Failed: ${err587.message || err465.message}`);
+    }
+  }
+}
+
 // Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
@@ -443,24 +497,7 @@ app.post('/api/send-otp', async (req, res) => {
 
   if (emailUser && emailPass) {
     try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        connectionTimeout: 6000,
-        greetingTimeout: 6000,
-        socketTimeout: 8000,
-        auth: {
-          user: emailUser,
-          pass: emailPass
-        },
-        tls: {
-          rejectUnauthorized: false
-        }
-      });
-
-      await transporter.sendMail({
+      await sendMailWithDualFallback({
         from: `"DocuForensic AI" <${emailUser}>`,
         to: email,
         subject: `🔐 DocuForensic AI — Your Registration Verification Code: ${code}`,
@@ -496,14 +533,19 @@ app.post('/api/send-otp', async (req, res) => {
       });
     } catch (mailErr) {
       console.warn(`⚠️ [Nodemailer SMTP Notice]: ${mailErr.message}`);
+      return res.status(500).json({
+        success: false,
+        delivered: false,
+        error: `Unable to dispatch verification email: ${mailErr.message}. Please click Resend in a few seconds.`
+      });
     }
   }
 
-  // If SMTP dispatch fails (or is blocked by cloud hosting firewall)
-  return res.json({
+  // If SMTP credentials not provided
+  return res.status(500).json({
     success: false,
     delivered: false,
-    message: `Unable to dispatch verification email to ${email} via SMTP. Please try again later.`
+    error: `Email service is temporarily offline. Please contact administrator.`
   });
 });
 
@@ -566,19 +608,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
   if (emailUser && emailPass) {
     try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        connectionTimeout: 6000,
-        greetingTimeout: 6000,
-        socketTimeout: 8000,
-        auth: { user: emailUser, pass: emailPass },
-        tls: { rejectUnauthorized: false }
-      });
-
-      await transporter.sendMail({
+      await sendMailWithDualFallback({
         from: `"DocuForensic AI Security" <${emailUser}>`,
         to: cleanEmail,
         subject: `🔐 DocuForensic AI — Password Reset PIN: ${resetCode}`,
@@ -614,13 +644,18 @@ app.post('/api/auth/forgot-password', async (req, res) => {
       });
     } catch (e) {
       console.warn('SMTP Error during reset email:', e.message);
+      return res.status(500).json({
+        success: false,
+        delivered: false,
+        error: `Could not send reset email: ${e.message}. Please try again.`
+      });
     }
   }
 
-  return res.json({
+  return res.status(500).json({
     success: false,
     delivered: false,
-    message: 'Could not send reset email via SMTP. Please try again later.'
+    error: 'Could not send reset email via SMTP. Please try again later.'
   });
 });
 
