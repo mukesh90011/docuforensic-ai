@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mukesh — AI & Data Science (AI & DS) Engineer | Official Portfolio</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Mukesh — AI & Data Science (AI & DS) Engineer | Official Portfolio">
+  <meta name="description" content="Official Engineering Portfolio of Mukesh. Creator of DocuForensic AI, AI & Data Science Engineer, Computer Vision and Deep Learning Specialist. Available for Engineering Roles.">
+  <meta name="keywords" content="Mukesh, Mukesh Gupta, AI Engineer, Data Science, DocuForensic AI, Computer Vision, Deep Learning, Arya College ACEIT, PyTorch, Python, Portfolio">
+  <meta name="author" content="Mukesh">
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://docuforensic-ai.onrender.com/portfolio">
+  <meta property="og:title" content="Mukesh — AI & Data Science Engineer | Portfolio">
+  <meta property="og:description" content="Portfolio of Mukesh: Creator of DocuForensic AI, Computer Vision & Deep Learning Specialist. Explore live projects, CV, and tech stack.">
+  <meta property="og:image" content="https://github.com/mukesh90011.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://docuforensic-ai.onrender.com/portfolio">
+  <meta property="twitter:title" content="Mukesh — AI & Data Science Engineer | Portfolio">
+  <meta property="twitter:description" content="Official Portfolio: DocuForensic AI Creator, AI & DS Engineer. Explore live systems, resume, and credentials.">
+  <meta property="twitter:image" content="https://github.com/mukesh90011.png">
+
+  <link rel="icon" type="image/png" href="./icons/logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       GLOBAL CYBER-PROFESSIONAL THEME (TAILORED FOR HR EXCELLENCE)
+       ============================================================ */
+    :root {
+      --bg: #060911;
+      --bg-surface: #0a0f1d;
+      --bg-card: #0f172a;
+      --bg-card-hover: #131d35;
+      --border: rgba(0, 240, 255, 0.18);
+      --border-bright: #00f0ff;
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.35);
+      --blue: #3b82f6;
+      --magenta: #ff0055;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
+    }
+
+    /* Ambient cyber grid line */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       NAVIGATION BAR
+       ============================================================ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(6, 9, 17, 0.85);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 0;
+      transition: all 0.3s;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .nav-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1.5px solid var(--cyan);
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+    }
+    .brand-title span { color: var(--cyan); }
+    .brand-role {
+      font-size: 0.72rem;
+      color: var(--emerald);
+      font-family: var(--font-mono);
+      display: block;
+      line-height: 1.1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .btn-resume-nav {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #030712;
+      text-decoration: none;
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 0 15px var(--cyan-glow);
+      transition: all 0.2s;
+    }
+    .btn-resume-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero-section {
+      padding: 4.5rem 0 3rem 0;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .availability-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--emerald);
+      font-weight: 700;
+      font-family: var(--font-mono);
+      margin-bottom: 1.25rem;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      background: var(--emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-size: 3.25rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+      margin-bottom: 0.75rem;
+    }
+    .hero-title .gradient-name {
+      background: linear-gradient(135deg, #ffffff 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 1.25rem;
+      font-family: var(--font-mono);
+    }
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 580px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #030712;
+      text-decoration: none;
+      padding: 0.75rem 1.6rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 0 20px var(--cyan-glow);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+    }
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 0.75rem 1.6rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Card / Visual */
+    .hero-card-wrap {
+      position: relative;
+    }
+    .hero-card {
+      background: linear-gradient(180deg, #0f172a 0%, #080d19 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 35px rgba(0, 240, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--emerald), var(--blue));
+    }
+    .avatar-frame {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+    .hero-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 30px var(--cyan-glow);
+      object-fit: cover;
+    }
+    .avatar-badge {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: #030712;
+      border: 1.5px solid var(--cyan);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .card-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+    .card-title {
+      font-size: 0.85rem;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      margin-bottom: 0.75rem;
+    }
+    .card-college {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .card-social-pills {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .pill-link {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .pill-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.1);
+    }
+
+    /* ============================================================
+       IMPACT METRICS STRIP
+       ============================================================ */
+    .metrics-section {
+      padding: 1.5rem 0 3.5rem 0;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.25rem;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--cyan);
+    }
+    .metric-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      background: linear-gradient(135deg, #ffffff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ============================================================
+       SECTION HEADINGS
+       ============================================================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--cyan);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 0.75rem;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 0.98rem;
+    }
+
+    /* ============================================================
+       "WHY HIRE MUKESH" (HR RECRUITER PITCH)
+       ============================================================ */
+    .why-hire-section {
+      padding: 3.5rem 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%);
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .why-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .why-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cyan);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+    }
+    .why-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .why-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: #ffffff;
+    }
+    .why-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       FEATURED PROJECTS SHOWCASE
+       ============================================================ */
+    .projects-section {
+      padding: 4rem 0;
+    }
+    .project-card-main {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 2.25rem;
+      margin-bottom: 2rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card-main:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 15px 40px rgba(0, 240, 255, 0.15);
+    }
+    .project-card-main::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(180deg, var(--cyan), var(--blue));
+    }
+    .project-badge-strip {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .badge-tag {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    .badge-tag.emerald {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--emerald);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+    .badge-tag.magenta {
+      background: rgba(255, 0, 85, 0.1);
+      color: var(--magenta);
+      border-color: rgba(255, 0, 85, 0.3);
+    }
+
+    .project-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .project-heading {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn-project-live {
+      background: var(--cyan);
+      color: #030712;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 0 12px var(--cyan-glow);
+      transition: all 0.2s;
+    }
+    .btn-project-live:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+    }
+    .btn-project-code {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-project-code:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .project-summary {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-feature-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.86rem;
+      color: #cbd5e1;
+    }
+    .feature-check {
+      color: var(--cyan);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .tech-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .tech-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* Sub Project Grid */
+    .sub-projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .sub-project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: all 0.2s;
+    }
+    .sub-project-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-3px);
+    }
+    .sub-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ============================================================
+       TECHNICAL SKILLS ARSENAL
+       ============================================================ */
+    .skills-section {
+      padding: 4rem 0;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .skill-category-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+    }
+    .skill-cat-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--cyan);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+    .skills-tag-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(0, 240, 255, 0.15);
+      color: #e2e8f0;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+    }
+
+    /* ============================================================
+       EDUCATION & CREDENTIALS
+       ============================================================ */
+    .edu-section {
+      padding: 3rem 0;
+    }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .edu-main {
+      flex: 1;
+    }
+    .edu-badge {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 0.6rem;
+    }
+    .edu-degree {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+    .edu-inst {
+      font-size: 0.95rem;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+    .edu-details {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       CONTACT & HR INVITATION
+       ============================================================ */
+    .contact-section {
+      padding: 4.5rem 0 3rem 0;
+    }
+    .contact-box {
+      background: linear-gradient(135deg, #0f172a 0%, #060911 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.1);
+    }
+    .contact-box::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--magenta));
+    }
+    .contact-box h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 0.75rem;
+    }
+    .contact-box p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      font-size: 1.05rem;
+    }
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    /* Copy toast notification */
+    #copyToast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #00ffcc;
+      color: #030712;
+      padding: 0.75rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 0 5px 25px rgba(0, 255, 204, 0.5);
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2rem 0;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ============================================================
+       RESPONSIVENESS
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-title { font-size: 2.5rem; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .sub-projects-grid { grid-template-columns: 1fr; }
+      .project-feature-list { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       STICKY NAVIGATION BAR
+       ============================================================ -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-brand">
+        <img src="./icons/logo.png" alt="Logo" class="nav-logo">
+        <div>
+          <div class="brand-title">MUKESH<span>.AI</span></div>
+          <span class="brand-role">AI & DATA SCIENCE ENGINEER</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Flagship Projects</a></li>
+        <li><a href="#why-hire">Why Hire Me</a></li>
+        <li><a href="#skills">Tech Stack</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/resume" target="_blank" class="btn-resume-nav">
+          <span>📄</span>
+          <span>Resume (A4 PDF)</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="hero-section" id="hero">
+    <div class="container hero-grid">
+      
+      <!-- Left Column: Pitch & Actions -->
+      <div>
+        <div class="availability-pill">
+          <span class="status-dot"></span>
+          <span>OPEN FOR AI/ML & SWE ROLES • 2026</span>
+        </div>
+
+        <h1 class="hero-title">
+          Hey, I'm <span class="gradient-name">Mukesh</span>.
+        </h1>
+        <div class="hero-subtitle">
+          AI & Data Science (AI & DS) Engineer
+        </div>
+        <p class="hero-desc">
+          I build production-grade Computer Vision models, neural networks, and cryptographic verification suites. Creator of <strong>DocuForensic AI</strong> — an end-to-end multi-engine document forgery and tamper detection platform protecting institutional credentials.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary">
+            <span>🚀</span>
+            <span>Explore Flagship Work</span>
+          </a>
+          <a href="/resume" target="_blank" class="btn-secondary">
+            <span>📄</span>
+            <span>Download 1-Page Resume</span>
+          </a>
+          <a href="#contact" class="btn-secondary">
+            <span>✉️</span>
+            <span>Get In Touch</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Glowing Profile Card -->
+      <div class="hero-card-wrap" id="about">
+        <div class="hero-card">
+          <div class="avatar-frame">
+            <img src="https://github.com/mukesh90011.png" alt="Mukesh" class="hero-avatar">
+            <div class="avatar-badge">⚡</div>
+          </div>
+          <h2 class="card-name">MUKESH</h2>
+          <div class="card-title">AI & DS ENGINEER // ACEIT JAIPUR</div>
+          <p class="card-college">
+            Arya College of Engineering & I.T. (RTU)<br>
+            B.Tech in Artificial Intelligence & Data Science (2024 - 2028)
+          </p>
+
+          <div class="card-social-pills">
+            <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank" class="pill-link">
+              <span>💼</span> LinkedIn
+            </a>
+            <a href="https://github.com/mukesh90011" target="_blank" class="pill-link">
+              <span>🐙</span> GitHub
+            </a>
+            <a href="https://instagram.com/the__muki" target="_blank" class="pill-link">
+              <span>📸</span> @the__muki
+            </a>
+            <a href="mailto:mukesh24ai@gmail.com" class="pill-link">
+              <span>✉️</span> Email
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IMPACT METRICS STRIP
+       ============================================================ -->
+  <section class="metrics-section">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">94%+</div>
+          <div class="metric-label">Forensic Splicing Accuracy</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">&lt;150ms</div>
+          <div class="metric-label">Real-Time CV Inference</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">15+</div>
+          <div class="metric-label">Production Algorithms</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">'25</div>
+          <div class="metric-label">Hackstorm Top Innovator</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY HIRE MUKESH (RECRUITER & HR VALUE PROPOSITION)
+       ============================================================ */
+  -->
+  <section class="why-hire-section" id="why-hire">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">EXECUTIVE VALUE PROPOSITION</span>
+        <h2 class="section-title">Why Recruiters & Engineering Teams Choose Me</h2>
+        <p class="section-subtitle">
+          Bridging the gap between deep mathematical algorithms and resilient, production-ready web deployments.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🏗️</div>
+          <h3 class="why-title">Production-Ready Engineering</h3>
+          <p class="why-text">
+            I don't stop at Jupyter Notebook prototypes. I architect end-to-end full-stack systems with Node.js, Express, REST APIs, responsive UIs, rate limiting, and real-time inference deployed on cloud infrastructure.
+          </p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">🔬</div>
+          <h3 class="why-title">Deep Math & Computer Vision</h3>
+          <p class="why-text">
+            From implementing 2D Laplacian kernels, Error Level Analysis (ELA), and high-frequency noise variance to ICAO 9303 Modulo-10 checksum validation, I understand algorithms down to the raw pixels and byte streams.
+          </p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">⚡</div>
+          <h3 class="why-title">High-Velocity Execution</h3>
+          <p class="why-text">
+            Proven ability to ideate, prototype, and ship complex systems under strict deadlines — including shipping full hackathon MVPs (Agri Seva at Hackstorm '25) and maintaining 99.9% uptime on live production software.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED PROJECTS SHOWCASE
+       ============================================================ -->
+  <section class="projects-section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">ENGINEERING PORTFOLIO</span>
+        <h2 class="section-title">Featured Flagship Systems</h2>
+        <p class="section-subtitle">
+          Live applications and intelligent systems engineered for real-world impact.
+        </p>
+      </div>
+
+      <!-- MAIN FLAGSHIP: DOCUFORENSIC AI -->
+      <div class="project-card-main">
+        <div class="project-badge-strip">
+          <span class="badge-tag">FLAGSHIP PRODUCTION APP</span>
+          <span class="badge-tag emerald">LIVE ON RENDER</span>
+          <span class="badge-tag magenta">INDEXED ON GOOGLE & BING</span>
+        </div>
+
+        <div class="project-header-row">
+          <div>
+            <h3 class="project-heading">🛡️ DocuForensic AI — Multi-Engine Document Forgery Detection Suite</h3>
+          </div>
+          <div class="project-links">
+            <a href="https://docuforensic-ai.onrender.com" target="_blank" class="btn-project-live">
+              <span>🚀</span> Live Production App
+            </a>
+            <a href="https://github.com/mukesh90011/docuforensic-ai" target="_blank" class="btn-project-code">
+              <span>🐙</span> GitHub Repository
+            </a>
+          </div>
+        </div>
+
+        <p class="project-summary">
+          An enterprise-grade document forensics and anti-fraud verification suite engineered to inspect Passports, National IDs (Aadhaar), Certificates, and Invoices. Identifies digital manipulation, Photoshop footprints, font alterations, and clone-stamp splicing before fraudulent records enter official systems.
+        </p>
+
+        <div class="project-feature-list">
+          <div class="feature-item">
+            <span class="feature-check">✔</span>
+            <span><strong>Multi-Spectral Error Level Analysis (ELA):</strong> Detects differential JPEG compression ratios to locate edited patches with 94%+ accuracy.</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-check">✔</span>
+            <span><strong>High-Frequency Laplacian Variance:</strong> Analyzes background texture and noise uniformity to flag spliced photos and pasted text blocks.</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-check">✔</span>
+            <span><strong>ICAO 9303 Checksum Engine:</strong> Recalculates Machine Readable Zone (MRZ) check-digits via Modulo-10 (7-3-1 weighting) for passport validation.</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-check">✔</span>
+            <span><strong>3-Tier RBAC Access Gateway:</strong> Dedicated portals for Issuing Authorities, Police FIR/Crime Verifiers, and Citizen Holders with Gmail OTP verification.</span>
+          </div>
+        </div>
+
+        <div class="tech-pill-list">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">OpenCV</span>
+          <span class="tech-pill">Node.js</span>
+          <span class="tech-pill">Express</span>
+          <span class="tech-pill">JavaScript ES6+</span>
+          <span class="tech-pill">Error Level Analysis</span>
+          <span class="tech-pill">SHA-256</span>
+          <span class="tech-pill">PWA</span>
+          <span class="tech-pill">Cloud Deployment</span>
+        </div>
+      </div>
+
+      <!-- SUB PROJECTS GRID -->
+      <div class="sub-projects-grid">
+        
+        <!-- PROJECT 2: AGRI SEVA -->
+        <div class="sub-project-card">
+          <div class="project-badge-strip">
+            <span class="badge-tag emerald">HACKSTORM '25 MVP</span>
+            <span class="badge-tag">REMOTE SENSING & CNN</span>
+          </div>
+          <h3 class="sub-title">🌾 Agri Seva — Smart Satellite & Crop Diagnostics</h3>
+          <p class="project-summary">
+            Intelligent agricultural analytics platform developed during a high-intensity 24-hour hackathon. Utilizes satellite NDVI multispectral indices and mobile Computer Vision to detect crop stress and identify foliar pathogens in real time.
+          </p>
+          <div class="feature-item" style="margin-bottom: 0.5rem;">
+            <span class="feature-check">✔</span>
+            <span>NDVI vegetation health computation from multispectral imagery.</span>
+          </div>
+          <div class="feature-item" style="margin-bottom: 1.25rem;">
+            <span class="feature-check">✔</span>
+            <span>Lightweight PyTorch CNN classifier for offline on-device leaf disease diagnosis.</span>
+          </div>
+          <div class="tech-pill-list">
+            <span class="tech-pill">PyTorch</span>
+            <span class="tech-pill">Satellite NDVI</span>
+            <span class="tech-pill">Computer Vision</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">NumPy</span>
+          </div>
+        </div>
+
+        <!-- PROJECT 3: RESILIENT MFA & AUTH GATEWAY -->
+        <div class="sub-project-card">
+          <div class="project-badge-strip">
+            <span class="badge-tag">CYBER SECURITY</span>
+            <span class="badge-tag magenta">DUAL-PORT SMTP</span>
+          </div>
+          <h3 class="sub-title">🔐 Resilient Auth Gateway & Dual-Port SMTP Engine</h3>
+          <p class="project-summary">
+            High-resilience multi-factor authentication engine engineered to eliminate cold-start delivery failures. Features automatic dual-port fallback (Port 465 SSL ➔ Port 587 STARTTLS) with connection pooling and cryptographic anti-bot CAPTCHA protection.
+          </p>
+          <div class="feature-item" style="margin-bottom: 0.5rem;">
+            <span class="feature-check">✔</span>
+            <span>Automated failover protocol between SSL (465) and STARTTLS (587).</span>
+          </div>
+          <div class="feature-item" style="margin-bottom: 1.25rem;">
+            <span class="feature-check">✔</span>
+            <span>Session-based OTP expiry, rate limiting, and zero hardcoded secret leakage.</span>
+          </div>
+          <div class="tech-pill-list">
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">Nodemailer</span>
+            <span class="tech-pill">SMTP Handshake</span>
+            <span class="tech-pill">Connection Pooling</span>
+            <span class="tech-pill">Cyber Security</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TECHNICAL SKILLS ARSENAL
+       ============================================================ -->
+  <section class="skills-section" id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">CORE COMPETENCIES</span>
+        <h2 class="section-title">Technical Skills Arsenal</h2>
+        <p class="section-subtitle">
+          Tools, frameworks, and technologies leveraged across AI models, backend infrastructure, and cloud environments.
+        </p>
+      </div>
+
+      <div class="skills-grid">
+        
+        <!-- Category 1 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>🧠</span> AI, Deep Learning & Vision
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">Python (Advanced)</span>
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">TensorFlow</span>
+            <span class="skill-tag">OpenCV</span>
+            <span class="skill-tag">Error Level Analysis (ELA)</span>
+            <span class="skill-tag">Scikit-Learn</span>
+            <span class="skill-tag">Convolutional Neural Nets (CNN)</span>
+            <span class="skill-tag">Image Forensics</span>
+            <span class="skill-tag">NDVI Remote Sensing</span>
+          </div>
+        </div>
+
+        <!-- Category 2 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>📊</span> Data Science & Analytics
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">NumPy</span>
+            <span class="skill-tag">Pandas</span>
+            <span class="skill-tag">Data Cleaning & Wrangling</span>
+            <span class="skill-tag">Feature Engineering</span>
+            <span class="skill-tag">Matplotlib & Seaborn</span>
+            <span class="skill-tag">SQL & Relational DBs</span>
+            <span class="skill-tag">Statistical Modeling</span>
+            <span class="skill-tag">Model Validation</span>
+          </div>
+        </div>
+
+        <!-- Category 3 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>🌐</span> Full-Stack & Backend Systems
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Express.js</span>
+            <span class="skill-tag">RESTful API Design</span>
+            <span class="skill-tag">JavaScript (ES6+)</span>
+            <span class="skill-tag">HTML5 / Semantic CSS3</span>
+            <span class="skill-tag">Responsive UI Architecture</span>
+            <span class="skill-tag">Progressive Web Apps (PWA)</span>
+            <span class="skill-tag">Client-Side Canvas APIs</span>
+          </div>
+        </div>
+
+        <!-- Category 4 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>🔐</span> Security & Cryptography
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">SHA-256 Hashing</span>
+            <span class="skill-tag">ICAO 9303 MRZ Mod-10</span>
+            <span class="skill-tag">ISO 7064 Mod-97</span>
+            <span class="skill-tag">Role-Based Access Control (RBAC)</span>
+            <span class="skill-tag">Multi-Factor OTP Auth</span>
+            <span class="skill-tag">Anti-Bot CAPTCHA</span>
+            <span class="skill-tag">Payload Integrity Checks</span>
+          </div>
+        </div>
+
+        <!-- Category 5 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>☁️</span> Cloud, DevOps & Tooling
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">Git & GitHub</span>
+            <span class="skill-tag">Docker Containerization</span>
+            <span class="skill-tag">Google Cloud Platform (GCP)</span>
+            <span class="skill-tag">Render Cloud Hosting</span>
+            <span class="skill-tag">Linux (Ubuntu / WSL)</span>
+            <span class="skill-tag">Bash / PowerShell</span>
+            <span class="skill-tag">VS Code</span>
+            <span class="skill-tag">Postman API Testing</span>
+          </div>
+        </div>
+
+        <!-- Category 6 -->
+        <div class="skill-category-card">
+          <div class="skill-cat-title">
+            <span>🎯</span> Engineering Soft Skills
+          </div>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag">Rapid Prototyping</span>
+            <span class="skill-tag">Technical Architecture</span>
+            <span class="skill-tag">Root Cause Analysis (RCA)</span>
+            <span class="skill-tag">Hackathon Sprinting</span>
+            <span class="skill-tag">Cross-functional Teamwork</span>
+            <span class="skill-tag">Clear Technical Communication</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EDUCATION & CREDENTIALS
+       ============================================================ -->
+  <section class="edu-section" id="education">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">ACADEMIC BACKGROUND</span>
+        <h2 class="section-title">Education & Credentials</h2>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-main">
+          <span class="edu-badge">2024 — 2028 (IN PROGRESS)</span>
+          <h3 class="edu-degree">Bachelor of Technology (B.Tech) in Artificial Intelligence & Data Science</h3>
+          <div class="edu-inst">Arya College of Engineering & Information Technology (ACEIT), Jaipur (RTU)</div>
+          <p class="edu-details">
+            Rigorous 4-year engineering curriculum focused on Machine Learning, Deep Learning Architectures, Computer Vision, Advanced Data Structures & Algorithms, Database Management Systems, and Statistical Inference.
+          </p>
+        </div>
+        <div>
+          <a href="/resume" target="_blank" class="btn-secondary">
+            <span>📄</span>
+            <span>View Full Academic Profile</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT & HR FAST TRACK
+       ============================================================ -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="contact-box">
+        <span class="section-tag">RECRUITER & HR FAST-TRACK</span>
+        <h2>Let's Build Something High-Impact Together</h2>
+        <p>
+          I am actively seeking <strong>AI/ML Engineering, Computer Vision, and Software Engineering Internships & Roles</strong>. Whether you have an open requisition, a challenging technical problem, or would like to schedule an introductory interview, I'd love to connect!
+        </p>
+
+        <div class="contact-actions">
+          <a href="mailto:mukesh24ai@gmail.com" class="btn-primary">
+            <span>✉️</span>
+            <span>Send Direct Email (mukesh24ai@gmail.com)</span>
+          </a>
+          <button class="btn-secondary" id="btnCopyEmail">
+            <span>📋</span>
+            <span>Copy Email Address</span>
+          </button>
+          <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank" class="btn-secondary">
+            <span>💼</span>
+            <span>Connect on LinkedIn</span>
+          </a>
+          <a href="https://instagram.com/the__muki" target="_blank" class="btn-secondary">
+            <span>📸</span>
+            <span>Instagram (@the__muki)</span>
+          </a>
+        </div>
+
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0;">
+          📍 Location: Jaipur, Rajasthan, India • Open to Relocation & Remote Roles Worldwide
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast notification -->
+  <div id="copyToast">
+    <span>✔</span> Email address copied to clipboard (mukesh24ai@gmail.com)!
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        © 2026 <strong>Mukesh</strong>. Engineered with modern AI & web technologies.
+      </div>
+      <div>
+        <a href="https://docuforensic-ai.onrender.com" style="color: var(--cyan); text-decoration: none;">DocuForensic AI</a> •
+        <a href="/resume" style="color: var(--text-muted); text-decoration: none;">Resume (PDF)</a> •
+        <a href="https://github.com/mukesh90011" target="_blank" style="color: var(--text-muted); text-decoration: none;">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Copy Email Functionality
+    const btnCopyEmail = document.getElementById('btnCopyEmail');
+    const toast = document.getElementById('copyToast');
+
+    if (btnCopyEmail) {
+      btnCopyEmail.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText('mukesh24ai@gmail.com');
+          showToast();
+        } catch (e) {
+          const input = document.createElement('input');
+          input.value = 'mukesh24ai@gmail.com';
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+          showToast();
+        }
+      });
+    }
+
+    function showToast() {
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

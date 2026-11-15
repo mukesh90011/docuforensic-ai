@@ -754,6 +754,15 @@ app.post('/api/analyze-file', upload.single('document'), (req, res) => {
   }
 });
 
+// Dedicated Professional Routes: Portfolio & Resume
+app.get('/portfolio', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'portfolio.html'));
+});
+
+app.get('/resume', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'resume.html'));
+});
+
 // Fallback to index.html for single-page app / PWA routing
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
