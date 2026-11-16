@@ -32,7 +32,7 @@
           <a href="https://docuforensic-ai.onrender.com" target="_blank">
             <img src="https://img.shields.io/badge/Explore%20Work%20→-00f0ff?style=for-the-badge&logoColor=black" />
           </a>
-          <a href="mailto:mukesh24ai@gmail.com">
+          <a href="mailto:mukesh098@gmail.com">
             <img src="https://img.shields.io/badge/Let's%20Connect%20⚡-ff0055?style=for-the-badge" />
           </a>
         </p>
@@ -57,8 +57,8 @@
     <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank">
       <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
     </a>
-    <a href="mailto:mukesh24ai@gmail.com">
-      <img src="https://img.shields.io/badge/Gmail-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+    <a href="mailto:mukesh098@gmail.com">
+      <img src="https://img.shields.io/badge/Gmail-mukesh098%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
     </a>
     <a href="https://instagram.com/the__muki" target="_blank">
       <img src="https://img.shields.io/badge/Instagram-the____muki-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
@@ -93,7 +93,7 @@ Focus      : Computer Vision, Error Level Analysis (ELA), Cryptographic Checksum
 Projects   : DocuForensic AI (Tampering Detection), Agri Seva (Satellite Analytics)
 Status     : 🚀 Building High-Impact ML Systems & Scalable Production Apps
 Location   : Jaipur, Rajasthan, India
-Contact    : mukesh24ai@gmail.com
+Contact    : mukesh098@gmail.com
 ```
 
 > "Transforming complex computer vision, neural models, and cryptographic algorithms into resilient, production-ready systems that solve real-world forensic and agricultural challenges."
@@ -244,8 +244,8 @@ Contact    : mukesh24ai@gmail.com
           I'm always open to AI/ML engineering internships, research collaborations, and interesting high-impact projects. Feel free to reach out!
         </p>
         <p align="left" style="margin: 0;">
-          <a href="mailto:mukesh24ai@gmail.com">
-            <img src="https://img.shields.io/badge/Email-mukesh24ai%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
+          <a href="mailto:mukesh098@gmail.com">
+            <img src="https://img.shields.io/badge/Email-mukesh098%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
           </a>
           <a href="https://www.linkedin.com/in/mukesh-gupta-898751326/" target="_blank">
             <img src="https://img.shields.io/badge/LinkedIn-Mukesh-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />

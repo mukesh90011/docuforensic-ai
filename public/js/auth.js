@@ -42,7 +42,7 @@ class AuthManager {
       firstName: 'Mukesh',
       surname: 'Gupta',
       name: 'Mukesh Gupta (Citizen)',
-      email: 'kahanagupta84@gmail.com',
+      email: 'mukesh098@gmail.com',
       password: 'user',
       role: 'citizen',
       title: 'Citizen Document Holder',

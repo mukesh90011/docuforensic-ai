@@ -1414,7 +1414,7 @@ function initAuthUI() {
     },
     citizen: {
       name: 'Citizen Document Holder Portal',
-      email: 'kahanagupta84@gmail.com',
+      email: 'mukesh098@gmail.com',
       key: 'user',
       icon: '👤',
       color: '#00e5ff',

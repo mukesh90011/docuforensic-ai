@@ -1,6 +1,6 @@
 # MUKESH
 **AI & Data Science (AI & DS) Engineer | B.Tech in Artificial Intelligence & Data Science**  
-📍 Jaipur, Rajasthan, India | 📞 +91 90011 30868 | ✉️ [mukesh24ai@gmail.com](mailto:mukesh24ai@gmail.com)  
+📍 Jaipur, Rajasthan, India | 📞 +91 90011 30868 | ✉️ [mukesh098@gmail.com](mailto:mukesh098@gmail.com)  
 🔗 [GitHub: mukesh90011](https://github.com/mukesh90011) | 💼 [LinkedIn: Mukesh](https://linkedin.com/in/) | 🌐 [Live Project Showcase](https://docuforensic-ai.onrender.com)
 
 ---
