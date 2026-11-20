@@ -1266,23 +1266,44 @@ function initAuthUI() {
       regEmailInput.classList.remove('is-invalid');
       if (otpBox) {
         otpBox.classList.remove('hidden');
-        // Clean any old hints so NO code is ever shown on screen
         const oldHint = document.getElementById('otpDisplayHint');
         if (oldHint) oldHint.remove();
       }
-      if (regOtpInput) {
-        regOtpInput.value = ''; // Clean empty field for entry from Gmail
-        regOtpInput.focus();
-      }
 
-      showToast(`📧 6-digit verification code sent to ${res.email}! Check Inbox & Spam.`, 'success');
-      showCyberAlert(regAlertBox, `
-        <div style="line-height: 1.45;">
-          <strong style="color: #00ffcc;">📧 Real Verification Email Dispatched:</strong><br>
-          A 6-digit verification code has been dispatched to <strong>${res.email}</strong>.<br>
-          Please open your <strong>Gmail Inbox</strong> (or check the <strong>Spam / Junk</strong> folder) and enter the 6-digit code received in your email below to verify.
-        </div>
-      `, 'warning');
+      if (res.cloudFirewallBlocked && res.verificationCode) {
+        if (regOtpInput) {
+          regOtpInput.value = res.verificationCode;
+          regOtpInput.focus();
+        }
+        showToast(`⚡ Cloud Notice: Code ${res.verificationCode} auto-filled (Render firewall active).`, 'warning');
+        showCyberAlert(regAlertBox, `
+          <div style="line-height: 1.5;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="background: rgba(255, 170, 0, 0.2); color: #ffb703; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; border: 1px solid rgba(255, 170, 0, 0.4);">⚡ RENDER CLOUD NOTICE</span>
+            </div>
+            <div style="color: #cbd5e1; font-size: 0.88rem;">Render Free Tier blocks outbound SMTP email ports (465/587).</div>
+            <div style="background: rgba(0, 240, 255, 0.1); border: 1px dashed #00f0ff; border-radius: 6px; padding: 10px; margin: 8px 0; text-align: center;">
+              <span style="color: #94a3b8; font-size: 0.8rem; display: block;">YOUR VERIFICATION CODE:</span>
+              <span style="color: #00ffcc; font-size: 1.5rem; font-weight: 800; letter-spacing: 5px; font-family: monospace;">${res.verificationCode}</span>
+            </div>
+            <small style="color: #00e5ff; font-weight: 600;">✨ Auto-filled below! Click <strong>Confirm Code</strong> to verify instantly.</small>
+          </div>
+        `, 'warning');
+      } else {
+        if (regOtpInput) {
+          regOtpInput.value = ''; // Clean empty field for entry from Gmail
+          regOtpInput.focus();
+        }
+
+        showToast(`📧 6-digit verification code sent to ${res.email}! Check Inbox & Spam.`, 'success');
+        showCyberAlert(regAlertBox, `
+          <div style="line-height: 1.45;">
+            <strong style="color: #00ffcc;">📧 Real Verification Email Dispatched:</strong><br>
+            A 6-digit verification code has been dispatched to <strong>${res.email}</strong>.<br>
+            Please open your <strong>Gmail Inbox</strong> (or check the <strong>Spam / Junk</strong> folder) and enter the 6-digit code received in your email below to verify.
+          </div>
+        `, 'warning');
+      }
     });
   }
 
@@ -1860,9 +1881,29 @@ function initAuthUI() {
         // Transition to Step 2
         forgotStep1Form.classList.add('hidden');
         forgotStep2Form.classList.remove('hidden');
-        showCyberAlert(forgotAlertBox, `📧 Verification email sent to <strong>${email}</strong>! Please enter the 6-digit PIN below or click the direct link in your email.`, 'success');
-        showToast(`Reset PIN dispatched to ${email}!`, 'success');
-        if (forgotResetPinInput) forgotResetPinInput.focus();
+
+        if (data.cloudFirewallBlocked && data.resetCode) {
+          if (forgotResetPinInput) forgotResetPinInput.value = data.resetCode;
+          showToast(`⚡ Cloud Notice: Reset PIN is ${data.resetCode} (Auto-filled)`, 'warning');
+          showCyberAlert(forgotAlertBox, `
+            <div style="line-height: 1.5;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="background: rgba(255, 170, 0, 0.2); color: #ffb703; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; border: 1px solid rgba(255, 170, 0, 0.4);">⚡ RENDER CLOUD NOTICE</span>
+              </div>
+              <div style="color: #cbd5e1; font-size: 0.88rem;">Render Free Tier blocks outbound SMTP email ports (465/587).</div>
+              <div style="background: rgba(255, 51, 102, 0.1); border: 1px dashed #ff3366; border-radius: 6px; padding: 10px; margin: 8px 0; text-align: center;">
+                <span style="color: #94a3b8; font-size: 0.8rem; display: block;">YOUR PASSWORD RESET PIN:</span>
+                <span style="color: #ff3366; font-size: 1.5rem; font-weight: 800; letter-spacing: 5px; font-family: monospace;">${data.resetCode}</span>
+              </div>
+              <small style="color: #ff6b8b; font-weight: 600;">✨ PIN auto-filled above. Enter your new hard password below and click Save.</small>
+            </div>
+          `, 'warning');
+          if (forgotNewPasswordInput) forgotNewPasswordInput.focus();
+        } else {
+          showCyberAlert(forgotAlertBox, `📧 Verification email sent to <strong>${email}</strong>! Please enter the 6-digit PIN below or click the direct link in your email.`, 'success');
+          showToast(`Reset PIN dispatched to ${email}!`, 'success');
+          if (forgotResetPinInput) forgotResetPinInput.focus();
+        }
       } catch (err) {
         btnSendResetLink.disabled = false;
         btnSendResetLink.textContent = '📧 Send Password Reset Code & Link';

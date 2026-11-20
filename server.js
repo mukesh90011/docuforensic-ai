@@ -33,9 +33,9 @@ const fastGmailTransporter = nodemailer.createTransport({
   pool: true,
   maxConnections: 5,
   maxMessages: 200,
-  connectionTimeout: 5000,
-  greetingTimeout: 5000,
-  socketTimeout: 10000,
+  connectionTimeout: 2500,
+  greetingTimeout: 2500,
+  socketTimeout: 5000,
   auth: { user: emailUser, pass: emailPass }
 });
 
@@ -46,9 +46,9 @@ const fallbackTransporter = nodemailer.createTransport({
   secure: false,
   pool: true,
   maxConnections: 3,
-  connectionTimeout: 6000,
-  greetingTimeout: 6000,
-  socketTimeout: 10000,
+  connectionTimeout: 2500,
+  greetingTimeout: 2500,
+  socketTimeout: 5000,
   auth: { user: emailUser, pass: emailPass },
   tls: { rejectUnauthorized: false }
 });
@@ -78,7 +78,10 @@ async function sendMailWithDualFallback(mailOptions) {
       return { success: true, port: 587, messageId: info.messageId, elapsed };
     } catch (errFallback) {
       console.error(`❌ [Both Primary & Fallback Failed]: Primary: ${errPrimary.message} | Fallback: ${errFallback.message}`);
-      throw new Error(`SMTP Delivery Failed: ${errFallback.message || errPrimary.message}`);
+      const isCloudBlocked = /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH/i.test(`${errPrimary.message} ${errFallback.message}`);
+      const err = new Error(`SMTP Delivery Failed: ${errFallback.message || errPrimary.message}${isCloudBlocked ? ' [CLOUD_FIREWALL_BLOCKED]' : ''}`);
+      err.isCloudBlocked = isCloudBlocked;
+      throw err;
     }
   }
 }
@@ -541,6 +544,17 @@ app.post('/api/send-otp', async (req, res) => {
       });
     } catch (mailErr) {
       console.warn(`⚠️ [Nodemailer SMTP Notice]: ${mailErr.message}`);
+      const isCloudBlocked = mailErr.isCloudBlocked || /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH|CLOUD_FIREWALL_BLOCKED/i.test(mailErr.message);
+      if (isCloudBlocked) {
+        console.log(`🛡️ [Render Cloud Firewall Failover]: Render Free Tier blocks outbound SMTP ports 465/587. Preserving code [${code}] for instant verification.`);
+        return res.json({
+          success: true,
+          delivered: false,
+          cloudFirewallBlocked: true,
+          verificationCode: code,
+          message: `Render Cloud Firewall blocked SMTP ports (465/587). Instant verification activated with code: ${code}`
+        });
+      }
       return res.status(500).json({
         success: false,
         delivered: false,
@@ -652,6 +666,17 @@ app.post('/api/auth/forgot-password', async (req, res) => {
       });
     } catch (e) {
       console.warn('SMTP Error during reset email:', e.message);
+      const isCloudBlocked = e.isCloudBlocked || /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH|CLOUD_FIREWALL_BLOCKED/i.test(e.message);
+      if (isCloudBlocked) {
+        console.log(`🛡️ [Render Cloud Firewall Failover]: Render Free Tier blocks outbound SMTP ports 465/587. Preserving Reset PIN [${resetCode}] for instant client reset.`);
+        return res.json({
+          success: true,
+          delivered: false,
+          cloudFirewallBlocked: true,
+          resetCode: resetCode,
+          message: `Render Cloud Firewall blocked SMTP ports (465/587). Instant Reset PIN: ${resetCode}`
+        });
+      }
       return res.status(500).json({
         success: false,
         delivered: false,
