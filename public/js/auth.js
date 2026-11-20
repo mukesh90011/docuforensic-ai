@@ -387,17 +387,7 @@ class AuthManager {
       console.warn('Backend /api/send-otp offline or running in standalone file mode');
     }
 
-    if (backendResult && backendResult.success) {
-      if (backendResult.cloudFirewallBlocked) {
-        return {
-          success: true,
-          email: valResult.email,
-          delivered: false,
-          cloudFirewallBlocked: true,
-          verificationCode: backendResult.verificationCode || code,
-          message: backendResult.message
-        };
-      }
+    if (backendResult && backendResult.success && backendResult.delivered) {
       return {
         success: true,
         email: valResult.email,
@@ -410,7 +400,7 @@ class AuthManager {
       success: false,
       email: valResult.email,
       delivered: false,
-      error: (backendResult && (backendResult.error || backendResult.message)) || 'Unable to deliver verification code to your Gmail inbox. Please make sure server is running and try again in a few seconds.'
+      error: (backendResult && (backendResult.error || backendResult.message)) || 'Unable to deliver verification code to your Gmail inbox. Please check spam folder or try again in a few seconds.'
     };
   }
 

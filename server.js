@@ -22,10 +22,13 @@ const HOST = '0.0.0.0';
 let activeTunnelUrl = 'https://clear-dancers-wonder.loca.lt';
 
 // ==========================================
-// Centralized Lightning-Fast Gmail SMTP Dispatch Engine
+// Centralized Multi-Transport Email Dispatch Engine (HTTPS REST + SMTP)
 // ==========================================
 const emailUser = process.env.EMAIL_USER || 'mukesh24aiaryacollege.in@gmail.com';
 const emailPass = process.env.EMAIL_PASS || 'skgbhspruscyoynn';
+const brevoApiKey = process.env.BREVO_API_KEY || '';
+const gmailWebhookUrl = process.env.GMAIL_WEBHOOK_URL || process.env.GOOGLE_SCRIPT_URL || '';
+const resendApiKey = process.env.RESEND_API_KEY || '';
 
 // Primary Transporter: Google-Optimized Cluster Transport with Connection Pooling (Sub-2s response)
 const fastGmailTransporter = nodemailer.createTransport({
@@ -62,29 +65,117 @@ fastGmailTransporter.verify((err) => {
   }
 });
 
-async function sendMailWithDualFallback(mailOptions) {
+// Universal Dispatcher: Prioritizes HTTPS Port 443 on Cloud (Render) to bypass SMTP port blocking
+async function sendUniversalEmail(mailOptions) {
   const startTime = Date.now();
+
+  // 1. Brevo API (Over Port 443 HTTPS - 100% unblocked on Render)
+  if (brevoApiKey) {
+    try {
+      const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': brevoApiKey,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: { name: 'DocuForensic AI', email: emailUser },
+          to: [{ email: mailOptions.to }],
+          subject: mailOptions.subject,
+          htmlContent: mailOptions.html,
+          textContent: mailOptions.text
+        })
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok) {
+        const elapsed = Date.now() - startTime;
+        console.log(`⚡ [Email Dispatched in ${elapsed}ms via Brevo HTTPS API]:`, data.messageId || 'OK');
+        return { success: true, via: 'https:brevo', elapsed };
+      }
+      console.warn('⚠️ [Brevo API notice]:', data);
+    } catch (e) {
+      console.warn('⚠️ [Brevo HTTP request failed]:', e.message);
+    }
+  }
+
+  // 2. Google Apps Script Webhook (Over Port 443 HTTPS from personal Gmail)
+  if (gmailWebhookUrl) {
+    try {
+      const resp = await fetch(gmailWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: mailOptions.to,
+          subject: mailOptions.subject,
+          text: mailOptions.text,
+          html: mailOptions.html
+        })
+      });
+      if (resp.ok) {
+        const elapsed = Date.now() - startTime;
+        console.log(`⚡ [Email Dispatched in ${elapsed}ms via Google Apps Script HTTPS Webhook]`);
+        return { success: true, via: 'https:google-apps-script', elapsed };
+      }
+    } catch (e) {
+      console.warn('⚠️ [Google Apps Script HTTP failed]:', e.message);
+    }
+  }
+
+  // 3. Resend API (Over Port 443 HTTPS)
+  if (resendApiKey) {
+    try {
+      const resp = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'DocuForensic AI <onboarding@resend.dev>',
+          to: [mailOptions.to],
+          subject: mailOptions.subject,
+          html: mailOptions.html,
+          text: mailOptions.text
+        })
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok && data.id) {
+        const elapsed = Date.now() - startTime;
+        console.log(`⚡ [Email Dispatched in ${elapsed}ms via Resend HTTPS API]:`, data.id);
+        return { success: true, via: 'https:resend', elapsed };
+      }
+    } catch (e) {
+      console.warn('⚠️ [Resend HTTP failed]:', e.message);
+    }
+  }
+
+  // 4. Standard Nodemailer SMTP (Sub-2s on Localhost & unblocked hosting)
   try {
     const info = await fastGmailTransporter.sendMail(mailOptions);
     const elapsed = Date.now() - startTime;
-    console.log(`⚡ [Lightning Email Dispatched in ${elapsed}ms via Gmail Cluster]: ${info.messageId}`);
-    return { success: true, port: 'service:gmail', messageId: info.messageId, elapsed };
+    console.log(`⚡ [Email Dispatched in ${elapsed}ms via Gmail SMTP]: ${info.messageId}`);
+    return { success: true, via: 'smtp:gmail', elapsed };
   } catch (errPrimary) {
-    console.warn(`⚠️ [Primary Gmail Cluster notice (${errPrimary.message})]. Immediately falling back to Port 587 STARTTLS...`);
+    console.warn(`⚠️ [Primary SMTP notice: ${errPrimary.message}]. Trying fallback Port 587...`);
     try {
       const info = await fallbackTransporter.sendMail(mailOptions);
       const elapsed = Date.now() - startTime;
       console.log(`✅ [Email Dispatched in ${elapsed}ms via Fallback Port 587]: ${info.messageId}`);
-      return { success: true, port: 587, messageId: info.messageId, elapsed };
+      return { success: true, via: 'smtp:fallback-587', elapsed };
     } catch (errFallback) {
-      console.error(`❌ [Both Primary & Fallback Failed]: Primary: ${errPrimary.message} | Fallback: ${errFallback.message}`);
+      console.error(`❌ [SMTP Failed]: Primary: ${errPrimary.message} | Fallback: ${errFallback.message}`);
       const isCloudBlocked = /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH/i.test(`${errPrimary.message} ${errFallback.message}`);
-      const err = new Error(`SMTP Delivery Failed: ${errFallback.message || errPrimary.message}${isCloudBlocked ? ' [CLOUD_FIREWALL_BLOCKED]' : ''}`);
-      err.isCloudBlocked = isCloudBlocked;
-      throw err;
+      if (isCloudBlocked) {
+        throw new Error('Render Free Tier blocks outbound SMTP email ports (465/587). Please configure BREVO_API_KEY or GMAIL_WEBHOOK_URL to send emails over Port 443.');
+      }
+      throw new Error(`SMTP Delivery Failed: ${errFallback.message || errPrimary.message}`);
     }
   }
 }
+
+// Backward compatibility alias
+const sendMailWithDualFallback = sendUniversalEmail;
 
 // Enable CORS and JSON parsing
 app.use(cors());
@@ -543,22 +634,11 @@ app.post('/api/send-otp', async (req, res) => {
         message: `Real verification code & link sent to ${email}. Please check your Gmail inbox.`
       });
     } catch (mailErr) {
-      console.warn(`⚠️ [Nodemailer SMTP Notice]: ${mailErr.message}`);
-      const isCloudBlocked = mailErr.isCloudBlocked || /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH|CLOUD_FIREWALL_BLOCKED/i.test(mailErr.message);
-      if (isCloudBlocked) {
-        console.log(`🛡️ [Render Cloud Firewall Failover]: Render Free Tier blocks outbound SMTP ports 465/587. Preserving code [${code}] for instant verification.`);
-        return res.json({
-          success: true,
-          delivered: false,
-          cloudFirewallBlocked: true,
-          verificationCode: code,
-          message: `Render Cloud Firewall blocked SMTP ports (465/587). Instant verification activated with code: ${code}`
-        });
-      }
+      console.warn(`⚠️ [Email Dispatch Notice]: ${mailErr.message}`);
       return res.status(500).json({
         success: false,
         delivered: false,
-        error: `Unable to dispatch verification email: ${mailErr.message}. Please click Resend in a few seconds.`
+        error: `Unable to dispatch verification email to your Gmail: ${mailErr.message}.`
       });
     }
   }
@@ -665,22 +745,11 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         message: `Password reset instructions and link dispatched to ${cleanEmail}. Please check your Gmail inbox.`
       });
     } catch (e) {
-      console.warn('SMTP Error during reset email:', e.message);
-      const isCloudBlocked = e.isCloudBlocked || /timeout|ETIMEDOUT|ECONNREFUSED|ENETUNREACH|EHOSTUNREACH|CLOUD_FIREWALL_BLOCKED/i.test(e.message);
-      if (isCloudBlocked) {
-        console.log(`🛡️ [Render Cloud Firewall Failover]: Render Free Tier blocks outbound SMTP ports 465/587. Preserving Reset PIN [${resetCode}] for instant client reset.`);
-        return res.json({
-          success: true,
-          delivered: false,
-          cloudFirewallBlocked: true,
-          resetCode: resetCode,
-          message: `Render Cloud Firewall blocked SMTP ports (465/587). Instant Reset PIN: ${resetCode}`
-        });
-      }
+      console.warn('⚠️ [Email Dispatch Notice during reset email]:', e.message);
       return res.status(500).json({
         success: false,
         delivered: false,
-        error: `Could not send reset email: ${e.message}. Please try again.`
+        error: `Could not send reset email to your Gmail: ${e.message}. Please try again.`
       });
     }
   }
