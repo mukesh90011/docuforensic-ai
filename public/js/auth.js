@@ -387,20 +387,20 @@ class AuthManager {
       console.warn('Backend /api/send-otp offline or running in standalone file mode');
     }
 
-    if (backendResult && (!backendResult.success || !backendResult.delivered)) {
+    if (!backendResult || !backendResult.success || !backendResult.delivered) {
       return {
         success: false,
         email: valResult.email,
         delivered: false,
-        error: backendResult.error || backendResult.message || 'Unable to deliver verification code to your Gmail inbox. Please try again in a few seconds.'
+        error: (backendResult && (backendResult.error || backendResult.message)) || 'Unable to deliver verification code to your Gmail inbox. Please make sure server is running and try again in a few seconds.'
       };
     }
 
     return {
       success: true,
       email: valResult.email,
-      delivered: backendResult ? !!backendResult.delivered : false,
-      message: backendResult && backendResult.message ? backendResult.message : `Verification code sent to ${valResult.email}.`
+      delivered: true,
+      message: backendResult.message || `Verification code sent to ${valResult.email}.`
     };
   }
 
